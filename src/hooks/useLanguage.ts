@@ -25,12 +25,21 @@ export function useLanguage() {
     // Dil değiştiğinde dictionary'yi yükle
     dictionaries[language]().then(dict => {
       setDictionary(dict);
+    }).catch(error => {
+      console.log('Dictionary yükleme hatası:', error);
+      // Hata durumunda boş dictionary ayarla
+      setDictionary({});
     });
   }, [language]);
 
   const changeLanguage = (newLanguage: Language) => {
+    console.log('Dil değişti:', newLanguage.toUpperCase());
     setLanguage(newLanguage);
-    localStorage.setItem('lux-convert-language', newLanguage);
+    try {
+      localStorage.setItem('lux-convert-language', newLanguage);
+    } catch (error) {
+      console.log('LocalStorage hatası:', error);
+    }
   };
 
   const t = (key: string) => {
