@@ -28,7 +28,7 @@ export default function Guvenlik() {
       <main className="container mx-auto px-4 py-16 flex flex-col items-center">
         <div className="text-center mb-16 space-y-6">
           <h2 className="text-6xl font-black tracking-tighter text-gray-900 drop-shadow-sm uppercase">
-            Güvenlik ve Gizlilik
+            Gizlilik ve Güvenlik
           </h2>
           <p className="text-xl text-gray-600 font-bold max-w-3xl mx-auto leading-relaxed">
             Dosyalarınızın güvenliği bizim bir numaralı önceliğimizdir. LuxConvert nasıl çalışır ve verilerinizi nasıl korur?
@@ -95,6 +95,191 @@ export default function Guvenlik() {
             <div className="space-y-2">
               <div className="text-3xl font-black text-primary">Sınırsız</div>
               <div className="text-xs font-black text-gray-400 uppercase tracking-widest">Gizlilik</div>
+            </div>
+          </div>
+        </section>
+
+        {/* Kapsamlı Gizlilik ve Güvenlik Politikası Section */}
+        <section className="mt-20 max-w-4xl w-full">
+          <div className="glass p-12 rounded-[3rem] space-y-8">
+            <h3 className="text-3xl font-black uppercase tracking-tighter text-center mb-8">Gizlilik ve Güvenlik Politikası</h3>
+            
+            <div className="space-y-6 text-left">
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">1. Tanımlar ve Kapsam</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Bu Gizlilik ve Güvenlik Politikası ("Politika"), Lux Convert web sitesi ve hizmetleri ("Hizmet") 
+                  üzerinden toplanan, işlenen ve korunan kişisel verilerinize ilişkin uygulamalarımızı açıklamaktadır. 
+                  Hizmet'i kullanarak bu Politika'ya uymuş sayılırsınız.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">2. Toplanan Bilgiler</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Lux Convert olarak aşağıdaki bilgileri toplamaktayız:
+                </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+                  <li><strong>Teknik Bilgiler:</strong> IP adresi, tarayıcı türü, işletim sistemi, ziyaret süresi</li>
+                  <li><strong>Kullanım Verileri:</strong> Sayfa görüntüleme sayısı, ziyaret edilen sayfalar, tıklama desenleri</li>
+                  <li><strong>Çerez Verileri:</strong> Oturum bilgileri, kullanıcı tercihleri, reklam kişiselleştirme verileri</li>
+                  <li><strong>Dosya Bilgileri:</strong> Yalnızca tarayıcıda işlenen dosya formatları ve boyutları (sunucuya yüklenmez)</li>
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">3. Çerez Kullanımı (Cookies)</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Web sitemiz, kullanıcı deneyimini iyileştirmek ve Hizmet'i kişiselleştirmek için çerezler kullanmaktadır. 
+                  Çerezler, cihazınızda küçük metin dosyaları olarak saklanır ve web sitesi kullanımınız hakkında bilgi toplarlar.
+                </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+                  <li><strong>Zorunlu Çerezler:</strong> Hizmet'in temel işlevleri için gerekli</li>
+                  <li><strong>Performans Çerezleri:</strong> Site performansını izlemek ve iyileştirmek için</li>
+                  <li><strong>Reklam Çerezleri:</strong> Kişiselleştirilmiş reklamlar göstermek için</li>
+                  <li><strong>Analitik Çerezler:</strong> Kullanıcı davranışlarını analiz etmek için</li>
+                </ul>
+                <p className="text-gray-600 leading-relaxed">
+                  Tarayıcı ayarlarınızdan çerezleri reddedebilir veya silebilirsiniz. Ancak bu durumda bazı Hizmet özellikleri çalışmayabilir.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">4. Google AdSense ve DoubleClick DART Çerezleri</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Lux Convert, Google AdSense reklam programını kullanarak gelir elde etmektedir. 
+                  Google, Hizmet'te reklamlar göstermek için DoubleClick DART çerezlerini kullanabilir:
+                </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+                  <li>İlgi alanlarınıza dayalı reklamlar göstermek</li>
+                  <li>Reklam performansını ölçmek ve optimize etmek</li>
+                  <li>Dolandırıcılığı önlemek ve güvenliği sağlamak</li>
+                </ul>
+                <p className="text-gray-600 leading-relaxed">
+                  Google'ın reklam çerezleri hakkında daha fazla bilgi için 
+                  <a href="https://policies.google.com/technologies/ads" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Google Reklam ve Gizlilik Politikası</a> 
+                  ve <a href="https://www.google.com/settings/ads" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Reklam Ayarları</a> sayfalarını ziyaret edebilirsiniz.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">5. Üçüncü Taraf Hizmetler ve Reklam Verenler</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Hizmet'te aşağıdaki üçüncü taraf hizmetleri kullanılmaktadır:
+                </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+                  <li><strong>Google AdSense:</strong> Reklam gösterimi ve gelir elde etme</li>
+                  <li><strong>Google Analytics:</strong> Web sitesi trafiği analiz ve optimizasyon</li>
+                  <li><strong>Cloudflare:</strong> CDN hizmetleri ve güvenlik koruması</li>
+                  <li><strong>Vercel:</strong> Hosting ve altyapı hizmetleri</li>
+                </ul>
+                <p className="text-gray-600 leading-relaxed">
+                  Bu üçüncü taraf sağlayıcılar, kendi gizlilik politikalarına göre verilerinizi işleyebilir. 
+                  Bu sağlayıcıların gizlilik politikalarını incelemenizi öneririz.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">6. Veri Güvenliği ve Korunması</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Lux Convert, veri güvenliğine büyük önem vermektedir:
+                </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+                  <li><strong>Client-Side İşleme:</strong> Dosya dönüştürme işlemleri tamamen tarayıcıda gerçekleşir</li>
+                  <li><strong>Sunucu Yükleme Yok:</strong> Dosyalarınız hiçbir zaman sunucularımıza yüklenmez</li>
+                  <li><strong>SSL Şifreleme:</strong> Tüm veri transferleri HTTPS ile şifrelenir</li>
+                  <li><strong>Veri Saklama:</strong> Kişisel verileriniz asla kaydedilmez veya saklanmaz</li>
+                  <li><strong>Otomatik Temizlik:</strong> Oturum sonunda tüm geçici veriler silinir</li>
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">7. Kullanıcı Hakları (KVKK)</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Kişisel Verilerin Korunması Kanunu kapsamında aşağıdaki haklara sahipsiniz:
+                </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+                  <li><strong>Bilgilendirme Hakkı:</strong> Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
+                  <li><strong>Bilgi Talep Hakkı:</strong> Kişisel verileriniz hakkında bilgi talep etme</li>
+                  <li><strong>Erişim Hakkı:</strong> Kişisel verilerinize erişme ve bunları öğrenme</li>
+                  <li><strong>Düzeltme Hakkı:</strong> Yanlış veya eksik verilerinizi düzeltme</li>
+                  <li><strong>Silme Hakkı:</strong> Kişisel verilerinizin silinmesini veya yok edilmesini isteme</li>
+                  <li><strong>İtiraz Hakkı:</strong> Kişisel verilerinizin işlenmesine itiraz etme</li>
+                  <li><strong>Çerez Kontrol Hakkı:</strong> Çerezleri reddetme veya yönetme</li>
+                  <li><strong>Reklam Kişiselleştirme Hakkı:</strong> Reklam kişiselleştirmesini devre dışı bırakma</li>
+                </ul>
+                <p className="text-gray-600 leading-relaxed">
+                  Bu haklarınızı kullanmak için web sitemizdeki iletişim formunu kullanarak bizimle iletişime geçebilirsiniz.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">8. Veri İşleme Amaçları</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Kişisel verileriniz aşağıdaki amaçlarla işlenmektedir:
+                </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+                  <li>Hizmet sunumu ve dosya dönüştürme işlemlerinin gerçekleştirilmesi</li>
+                  <li>Web sitesi performansının iyileştirilmesi ve kullanıcı deneyiminin kişiselleştirilmesi</li>
+                  <li>Reklam gösterimi ve gelir elde etme</li>
+                  <li>İstatistiksel analiz ve raporlama</li>
+                  <li>Güvenlik önlemlerinin uygulanması</li>
+                  <li>Yasal yükümlülüklerin yerine getirilmesi</li>
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">9. Uluslararası Veri Transferi</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Hizmet'imizde kullanılan bazı üçüncü taraf hizmetler (Google, Cloudflare vb.) 
+                  Türkiye dışında sunucular kullanabilir. Bu transferler, ilgili yasal düzenlemelere uygun olarak gerçekleştirilmektedir.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">10. Çocukların Gizliliği</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Lux Convert, 13 yaşın altındaki çocuklardan bilerek kişisel bilgi toplamaz. 
+                  Eğer çocuğunuzun kişisel bilgi sağladığını fark ederseniz, 
+                  lütfen derhal bizimle iletişime geçerek bu bilgilerin silinmesini talep edin.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">11. Politika Değişiklikleri</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Bu Politika, yasal düzenlemeler veya Hizmet'teki değişiklikler nedeniyle güncellenebilir. 
+                  Önemli değişiklikler web sitemizde duyurulacaktır. 
+                  Politikamızı düzenli olarak gözden geçirmenizi öneririz.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">12. İletişim Bilgileri</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Bu Gizlilik ve Güvenlik Politikası hakkında sorularınız, talepleriniz veya endişeleriniz varsa:
+                </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+                  <li>Web sitemizdeki iletişim formunu kullanabilirsiniz</li>
+                  <li>KVKK kapsamındaki taleplerinizi yazılı olarak iletebilirsiniz</li>
+                  <li>Talepleriniz 30 gün içinde yanıtlanacaktır</li>
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-gray-800">13. Yürürlük</h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Bu Politika, 2 Mart 2026 tarihinde yürürlüğe girmiş olup, 
+                  Türk mevzuatı ve uluslararası veri koruma standartlarına uygundur.
+                </p>
+              </div>
+            </div>
+
+            <div className="text-center pt-6 border-t border-gray-200">
+              <p className="text-sm text-gray-500">
+                <strong>Son Güncelleme: 2 Mart 2026</strong><br/>
+                <span className="text-xs">Bu Politika 6698 Sayılı Kişisel Verilerin Korunması Kanunu ve GDPR uyumludur.</span>
+              </p>
             </div>
           </div>
         </section>
