@@ -3,7 +3,7 @@
 import { Globe, ChevronDown, Zap, Minimize2, Image as ImageIcon, Music } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
-// import { useLanguage, Language } from '../../src/hooks/useLanguage';
+import { useLanguage, Language } from '../src/hooks/useLanguage';
 
 export type AppMode = 'convert' | 'compress' | 'music';
 
@@ -14,15 +14,9 @@ interface HeaderProps {
 }
 
 export default function Header({ mode, onModeChange, activeType }: HeaderProps) {
-  // const { language, changeLanguage, t, isLoading } = useLanguage();
-  const [language, setLanguage] = useState<'tr' | 'en'>('tr');
+  const { language, changeLanguage, t, isLoading } = useLanguage();
   const [isLangOpen, setIsLangOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement | null>(null);
-
-  const changeLanguage = (lang: 'tr' | 'en') => {
-    setLanguage(lang);
-    localStorage.setItem('lux-convert-language', lang);
-  };
 
   useEffect(() => {
     if (!isLangOpen) return;
@@ -129,6 +123,7 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
                 <button
                   type="button"
                   onClick={() => {
+                    console.log('Türkçe butonuna tıklandı');
                     changeLanguage('tr');
                     setIsLangOpen(false);
                   }}
@@ -139,6 +134,7 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
                 <button
                   type="button"
                   onClick={() => {
+                    console.log('English butonuna tıklandı');
                     changeLanguage('en');
                     setIsLangOpen(false);
                   }}
