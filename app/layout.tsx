@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "google-site-verification-code",
+    google: "m8Qku4ZAge2z-ESCrA2FNKstuJvy4i5P3dM6_7v_DWw",
   },
   other: {
     "theme-color": "#9333ea",
