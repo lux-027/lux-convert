@@ -1,0 +1,330 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --primary: #7c3aed;
+  --primary-hover: #6d28d9;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+}
+
+body {
+  background: #f8fafc; /* Very light gray/white background */
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+@keyframes purple-gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulse-wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-pulse-wave {
+  animation: pulse-wave 8s linear infinite;
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translate(0px, 0px) scale(1); 
+  }
+  25% { 
+    transform: translate(15px, -15px) scale(1.05); 
+  }
+  50% { 
+    transform: translate(-10px, 10px) scale(0.95); 
+  }
+  75% { 
+    transform: translate(-15px, -5px) scale(1.02); 
+  }
+}
+
+.animate-float {
+  animation: float 50s infinite ease-in-out;
+}
+
+@keyframes float-slow {
+  0%, 100% { 
+    transform: translate(0px, 0px) scale(1) rotate(0deg); 
+  }
+  25% { 
+    transform: translate(30px, -40px) scale(1.1) rotate(5deg); 
+  }
+  50% { 
+    transform: translate(-20px, 30px) scale(0.9) rotate(-3deg); 
+  }
+  75% { 
+    transform: translate(-35px, -20px) scale(1.05) rotate(4deg); 
+  }
+}
+
+@keyframes float-medium {
+  0%, 100% { 
+    transform: translate(0px, 0px) scale(1) rotate(0deg); 
+  }
+  33% { 
+    transform: translate(-25px, 35px) scale(1.08) rotate(-4deg); 
+  }
+  66% { 
+    transform: translate(20px, -25px) scale(0.92) rotate(3deg); 
+  }
+}
+
+@keyframes float-fast {
+  0%, 100% { 
+    transform: translate(0px, 0px) scale(1) rotate(0deg); 
+  }
+  20% { 
+    transform: translate(40px, 30px) scale(1.12) rotate(6deg); 
+  }
+  40% { 
+    transform: translate(-30px, -35px) scale(0.88) rotate(-5deg); 
+  }
+  60% { 
+    transform: translate(25px, -20px) scale(1.05) rotate(3deg); 
+  }
+  80% { 
+    transform: translate(-35px, 25px) scale(0.95) rotate(-4deg); 
+  }
+}
+
+@keyframes breathe {
+  0%, 100% { 
+    opacity: 0.2;
+    transform: translateY(0px) scale(1);
+  }
+  50% { 
+    opacity: 0.6;
+    transform: translateY(-10px) scale(1.05);
+  }
+}
+
+.animation-delay-1000 {
+  animation-delay: 1s;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-3000 {
+  animation-delay: 3s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Glass Droplet Effects */
+.glass-droplet {
+  background:
+    radial-gradient(120% 160% at 18% 8%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06) 45%, rgba(255, 255, 255, 0.00) 72%),
+    linear-gradient(135deg, rgba(148, 163, 184, 0.22), rgba(15, 23, 42, 0.22)),
+    rgba(15, 23, 42, 0.22);
+  backdrop-filter: blur(36px) saturate(175%);
+  -webkit-backdrop-filter: blur(36px) saturate(175%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 28px 78px -34px rgba(0, 0, 0, 0.44),
+    0 12px 28px -20px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20),
+    inset 0 -20px 50px rgba(0, 0, 0, 0.18),
+    inset 0 0 60px rgba(255, 255, 255, 0.06);
+}
+
+.glass-droplet-inner {
+  background:
+    radial-gradient(120% 140% at 22% 10%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05) 55%, rgba(255, 255, 255, 0.00) 75%),
+    linear-gradient(180deg, rgba(148, 163, 184, 0.14), rgba(15, 23, 42, 0.16)),
+    rgba(15, 23, 42, 0.16);
+  backdrop-filter: blur(30px) saturate(165%);
+  -webkit-backdrop-filter: blur(30px) saturate(165%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 18px 46px -30px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -14px 34px rgba(0, 0, 0, 0.16),
+    inset 0 0 44px rgba(255, 255, 255, 0.06);
+}
+
+.glass-droplet-footer {
+  background: linear-gradient(
+    110deg,
+    rgba(192, 38, 211, 0.90),
+    rgba(147, 51, 234, 0.90),
+    rgba(79, 70, 229, 0.90)
+  );
+  background-size: 220% 220%;
+  animation: purple-gradient-shift 10s ease-in-out infinite;
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.20),
+    inset 0 0 50px rgba(255, 255, 255, 0.08),
+    0 -14px 34px -26px rgba(0, 0, 0, 0.22);
+}
+
+.purple-themed-card {
+  background: linear-gradient(
+    110deg,
+    rgba(192, 38, 211, 0.92),
+    rgba(147, 51, 234, 0.90),
+    rgba(79, 70, 229, 0.88)
+  );
+  background-size: 220% 220%;
+  animation: purple-gradient-shift 12s ease-in-out infinite;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 18px 50px -28px rgba(88, 28, 135, 0.30),
+    0 10px 24px -18px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 0 40px rgba(255, 255, 255, 0.08);
+}
+
+.glass-reflect-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid #8a2be2;
+  box-shadow: 0 8px 32px rgba(138, 43, 226, 0.15);
+}
+
+.glass-droplet-card {
+  background:
+    radial-gradient(120% 160% at 18% 10%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.07) 55%, rgba(255, 255, 255, 0.00) 78%),
+    linear-gradient(135deg, rgba(241, 245, 249, 0.14), rgba(148, 163, 184, 0.12)),
+    rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(34px) saturate(175%);
+  -webkit-backdrop-filter: blur(34px) saturate(175%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 18px 46px -30px rgba(0, 0, 0, 0.28),
+    0 8px 18px -18px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -14px 34px rgba(0, 0, 0, 0.10),
+    inset 0 0 34px rgba(255, 255, 255, 0.08);
+}
+
+.glass-droplet-icon {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.9), rgba(99, 102, 241, 0.9));
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  box-shadow: 
+    0 10px 25px -8px rgba(124, 58, 237, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.glass-droplet-icon-green {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(16, 185, 129, 0.9));
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  box-shadow: 
+    0 10px 25px -8px rgba(34, 197, 94, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.glass-droplet-icon-blue {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(6, 182, 212, 0.9));
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  box-shadow: 
+    0 10px 25px -8px rgba(59, 130, 246, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.glass-droplet-icon-orange {
+  background: linear-gradient(135deg, rgba(251, 146, 60, 0.9), rgba(239, 68, 68, 0.9));
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  box-shadow: 
+    0 10px 25px -8px rgba(251, 146, 60, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.glass-droplet-icon-pink {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.9), rgba(236, 72, 153, 0.9));
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  box-shadow: 
+    0 10px 25px -8px rgba(168, 85, 247, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.glass-droplet-icon-indigo {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(139, 92, 246, 0.9));
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  box-shadow: 
+    0 10px 25px -8px rgba(99, 102, 241, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.glass-gray {
+  background: rgba(148, 163, 184, 0.45); /* Much darker and more opaque slate gray */
+  backdrop-filter: blur(100px) saturate(200%); /* Extreme blur for "frosted glass" effect */
+  -webkit-backdrop-filter: blur(100px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.45); /* Brighter border for contrast */
+  box-shadow: 
+    0 20px 60px -10px rgba(0, 0, 0, 0.15),
+    inset 0 0 30px rgba(255, 255, 255, 0.1); /* Stronger inner glow */
+}
+
+.glass-header {
+  background: rgba(30, 41, 59, 0.25); /* Darker gray but LOWER opacity */
+  backdrop-filter: blur(120px) saturate(180%); /* Even more blur for better transparency feel */
+  -webkit-backdrop-filter: blur(120px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.15);
+}
+
+.glass-nav {
+  background: rgba(15, 23, 42, 0.15); /* Even darker slate but VERY transparent */
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.glass-dark {
+  background: rgba(30, 30, 30, 0.7);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+.convertio-shadow {
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
