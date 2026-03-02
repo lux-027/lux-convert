@@ -8,17 +8,42 @@ export default function Footer() {
   const [stats, setStats] = useState({ count: 0, size: 0 });
 
   useEffect(() => {
+    // localStorage'dan mevcut istatistikleri yükle
+    const loadStats = () => {
+      try {
+        const savedStats = localStorage.getItem('lux-convert-global-stats');
+        if (savedStats) {
+          const parsed = JSON.parse(savedStats);
+          setStats({ count: parsed.count || 0, size: parsed.size || 0 });
+        }
+      } catch (error) {
+        console.log('Stats yükleme hatası:', error);
+      }
+    };
+
+    loadStats();
+
     // Listen for conversion events to update footer stats
     const handleUpdateStats = (event: any) => {
-      setStats(prev => ({
-        count: prev.count + 1,
-        size: prev.size + event.detail.size
-      }));
+      const newStats = {
+        count: stats.count + 1,
+        size: stats.size + event.detail.size
+      };
+      
+      // State'i güncelle
+      setStats(newStats);
+      
+      // localStorage'a kaydet
+      try {
+        localStorage.setItem('lux-convert-global-stats', JSON.stringify(newStats));
+      } catch (error) {
+        console.log('Stats kaydetme hatası:', error);
+      }
     };
 
     window.addEventListener('conversion-complete', handleUpdateStats);
     return () => window.removeEventListener('conversion-complete', handleUpdateStats);
-  }, []);
+  }, [stats.count, stats.size]);
 
   return (
     <footer className="relative mt-24">
@@ -29,7 +54,7 @@ export default function Footer() {
             <div className="relative">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 <div className="lg:col-span-5">
-                  <p className="text-xs font-black uppercase tracking-[0.32em] text-slate-500">Dönüştürülmüş Dosyalar</p>
+                  <p className="text-xs font-black uppercase tracking-[0.32em] text-slate-500">Tüm Zamanlar</p>
                   <div className="mt-4 flex items-baseline gap-4">
                     <span className="text-4xl md:text-5xl font-semibold text-slate-900 tracking-tight">
                       {stats.count.toLocaleString()}
