@@ -3,6 +3,7 @@
 import { Globe, ChevronDown, Zap, Minimize2, Image as ImageIcon, Music } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
+import { useLanguage, Language } from '@/hooks/useLanguage';
 
 export type AppMode = 'convert' | 'compress' | 'music';
 
@@ -13,7 +14,7 @@ interface HeaderProps {
 }
 
 export default function Header({ mode, onModeChange, activeType }: HeaderProps) {
-  const [language, setLanguage] = useState<'tr' | 'en'>('tr');
+  const { language, changeLanguage, t, isLoading } = useLanguage();
   const [isLangOpen, setIsLangOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement | null>(null);
 
@@ -122,22 +123,22 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
                 <button
                   type="button"
                   onClick={() => {
-                    setLanguage('tr');
+                    changeLanguage('tr');
                     setIsLangOpen(false);
                   }}
                   className="w-full px-4 py-3 text-left text-xs font-black text-gray-900 transition-colors hover:bg-purple-600/10"
                 >
-                  Türkçe (TR)
+                  Türkçe
                 </button>
                 <button
                   type="button"
                   onClick={() => {
-                    setLanguage('en');
+                    changeLanguage('en');
                     setIsLangOpen(false);
                   }}
                   className="w-full px-4 py-3 text-left text-xs font-black text-gray-900 transition-colors hover:bg-indigo-600/10"
                 >
-                  English (EN)
+                  English
                 </button>
               </div>
             )}
