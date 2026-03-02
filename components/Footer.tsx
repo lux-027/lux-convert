@@ -62,7 +62,7 @@ export default function Footer() {
                     <div className="space-y-4">
                       <p className="text-xs font-black uppercase tracking-[0.32em] text-slate-500">Bağlantılar</p>
                       <Link href="/hakkimizda" className="block text-sm font-bold text-slate-800 hover:text-purple-700 transition-colors">Hakkımızda</Link>
-                      <Link href="/guvenlik" className="block text-sm font-bold text-slate-800 hover:text-purple-700 transition-colors">Güvenlik</Link>
+                      <Link href="/guvenlik" className="block text-sm font-bold text-slate-800 hover:text-purple-700 transition-colors">Gizlilik ve Güvenlik</Link>
                     </div>
 
                     <div className="space-y-4">
