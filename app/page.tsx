@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Header, { AppMode } from '@/components/Header';
 import Dropzone from '@/components/Dropzone';
 import FileItem, { FileState } from '@/components/FileItem';
+import FileCounter from '@/components/FileCounter';
+import LimitToast from '@/components/LimitToast';
 import Footer from '@/components/Footer';
 import { processImage, FileFormat } from '@/lib/imageUtils';
 import { Plus, Zap, Trash2, Download, UploadCloud, SlidersHorizontal, Music, Minimize2, Image as ImageIcon, ChevronDown, Search } from 'lucide-react';
@@ -12,6 +14,22 @@ export default function Home() {
   const [mode, setMode] = useState<AppMode>('convert');
   const [files, setFiles] = useState<FileState[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showLimitToast, setShowLimitToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
+  // Toast event listener
+  useEffect(() => {
+    const handleShowLimitToast = (event: CustomEvent) => {
+      setToastMessage(event.detail.message);
+      setShowLimitToast(true);
+    };
+
+    window.addEventListener('show-limit-toast', handleShowLimitToast as EventListener);
+    
+    return () => {
+      window.removeEventListener('show-limit-toast', handleShowLimitToast as EventListener);
+    };
+  }, []);
 
   // Dosya türüne göre aktif modu belirle
   const [activeType, setActiveType] = useState<'image' | 'music' | null>(null);
@@ -34,6 +52,27 @@ export default function Home() {
       return; // İşlemi durdur
     }
     
+    // Dosya limiti kontrolü - maksimum 10 dosya
+    const currentFileCount = files.length;
+    const maxFiles = 10;
+    const remainingSlots = maxFiles - currentFileCount;
+    
+    if (currentFileCount >= maxFiles) {
+      // Zaten limit doluysa hiçbir dosya ekleme
+      return;
+    }
+    
+    // Seçilen dosyaları limit ile sınırla
+    const filesToAdd = selectedFiles.slice(0, remainingSlots);
+    
+    // Eğer seçilen dosya sayısı limiti aşıyorsa uyarı ver
+    if (selectedFiles.length > remainingSlots) {
+      // Toast bildirimini tetikle
+      window.dispatchEvent(new CustomEvent('show-limit-toast', { 
+        detail: { message: 'Dosya limitine ulaştınız. Eğer tamamını yüklediyseniz bu dosyaları işleyin, ardından ana sayfaya dönüp yenilerini ekleyebilirsiniz.' }
+      }));
+    }
+    
     // Dosya türüne göre activeType'ı ayarla
     if (hasImages) {
       setActiveType('image');
@@ -47,7 +86,7 @@ export default function Home() {
       }
     }
 
-    const newFiles: FileState[] = selectedFiles.map((file) => ({
+    const newFiles: FileState[] = filesToAdd.map((file) => ({
       id: Math.random().toString(36).substring(7),
       file,
       targetFormat: null as unknown as FileFormat,
@@ -55,6 +94,13 @@ export default function Home() {
       quality: 0.8,
     }));
     setFiles((prev) => [...prev, ...newFiles]);
+    
+    // Eğer dosya sayısı tam olarak 10'a ulaştıysa toast göster
+    if (files.length + filesToAdd.length >= maxFiles && files.length < maxFiles) {
+      window.dispatchEvent(new CustomEvent('show-limit-toast', { 
+        detail: { message: 'Dosya limitine ulaştınız. Eğer tamamını yüklediyseniz bu dosyaları işleyin, ardından ana sayfaya dönüp yenilerini ekleyebilirsiniz.' }
+      }));
+    }
   };
 
   const handleModeChange = (newMode: AppMode) => {
@@ -76,14 +122,26 @@ export default function Home() {
   const removeAllFiles = () => {
     setFiles([]);
     setActiveType(null);
+    // Global formatı sıfırla
+    setGlobalFormat(null);
+    setGlobalQuality(0.8);
+    setIsGlobalDropdownOpen(false);
+    setGlobalSearchQuery('');
+    setGlobalActiveCategory(mode === 'music' ? 'Ses' : 'Görüntü');
   };
 
   // Dosya listesi değiştiğinde aktif türü kontrol et
   useEffect(() => {
     if (files.length === 0) {
       setActiveType(null); // Tüm dosyalar silinirse kilidi kaldır
+      // Global formatı sıfırla
+      setGlobalFormat(null);
+      setGlobalQuality(0.8);
+      setIsGlobalDropdownOpen(false);
+      setGlobalSearchQuery('');
+      setGlobalActiveCategory(mode === 'music' ? 'Ses' : 'Görüntü');
     }
-  }, [files]);
+  }, [files, mode]);
 
   const updateFormat = (id: string, format: FileFormat) => {
     setFiles((prev) =>
@@ -557,8 +615,16 @@ export default function Home() {
               {/* Separator Line */}
               <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', margin: '0 24px' }}></div>
 
+              {/* Files List Header with Counter */}
+              <div className="p-6 pb-0">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-slate-900">Dosya Listesi</h3>
+                  <FileCounter currentCount={files.length} maxCount={10} />
+                </div>
+              </div>
+
               {/* Files List */}
-              <div className="divide-y divide-white/10">
+              <div className="divide-y divide-white/10 px-6">
                 {files.map((fileState) => (
                   <FileItem
                     key={fileState.id}
@@ -575,7 +641,18 @@ export default function Home() {
               {/* Bottom Action Bar */}
               <div className="p-8 flex items-center justify-between border-t border-white/10">
                 <div className="flex items-center gap-4">
-                  <label className="flex items-center gap-3 text-white font-bold cursor-pointer transition-transform hover:scale-105 px-6 py-3 rounded-2xl" style={{ backdropFilter: 'blur(25px)', backgroundColor: 'rgba(147, 51, 234, 0.85)', border: '1px solid rgba(255, 255, 255, 0.2)', boxShadow: '0 8px 24px rgba(147, 51, 234, 0.3)', background: 'linear-gradient(170deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%), rgba(147, 51, 234, 0.85)', textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+                  <label className={`flex items-center gap-3 font-bold cursor-pointer transition-transform hover:scale-105 px-6 py-3 rounded-2xl ${
+                    files.length >= 10 
+                      ? 'text-gray-400 cursor-not-allowed opacity-60' 
+                      : 'text-white hover:scale-105'
+                  }`} style={{ 
+                    backdropFilter: 'blur(25px)', 
+                    backgroundColor: files.length >= 10 ? 'rgba(148, 163, 184, 0.5)' : 'rgba(147, 51, 234, 0.85)', 
+                    border: '1px solid rgba(255, 255, 255, 0.2)', 
+                    boxShadow: files.length >= 10 ? '0 4px 16px rgba(0, 0, 0, 0.15)' : '0 8px 24px rgba(147, 51, 234, 0.3)', 
+                    background: `linear-gradient(170deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%), ${files.length >= 10 ? 'rgba(148, 163, 184, 0.5)' : 'rgba(147, 51, 234, 0.85)'}`, 
+                    textShadow: files.length >= 10 ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.3)' 
+                  }}>
                     <Plus className="w-5 h-5" />
                     DAHA FAZLA EKLE
                     <input
@@ -583,6 +660,7 @@ export default function Home() {
                       multiple
                       accept={mode === 'music' ? 'audio/*' : 'image/*'}
                       className="hidden"
+                      disabled={files.length >= 10}
                       onChange={(e) => e.target.files && handleFilesSelect(Array.from(e.target.files))}
                     />
                   </label>
@@ -639,6 +717,13 @@ export default function Home() {
         )}
       </main>
       <Footer />
+      
+      {/* Limit Toast Notification */}
+      <LimitToast
+        message={toastMessage}
+        isVisible={showLimitToast}
+        onClose={() => setShowLimitToast(false)}
+      />
     </div>
   );
 }
