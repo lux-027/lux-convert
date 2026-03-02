@@ -54,13 +54,13 @@ export default function Footer() {
             <div className="relative">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 <div className="lg:col-span-5">
-                  <p className="text-xs font-black uppercase tracking-[0.32em] text-slate-500">Tüm Zamanlar</p>
+                  <p className="text-xs font-black uppercase tracking-[0.32em] text-slate-500">Dönüştürülen Dosya</p>
                   <div className="mt-4 flex items-baseline gap-4">
                     <span className="text-4xl md:text-5xl font-semibold text-slate-900 tracking-tight">
                       {stats.count.toLocaleString()}
                     </span>
                     <span className="text-base md:text-lg font-semibold text-slate-500">
-                      / {formatBytes(stats.size)}
+                      adet / {formatBytes(stats.size)}
                     </span>
                   </div>
 
