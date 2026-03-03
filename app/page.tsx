@@ -173,12 +173,15 @@ export default function Home() {
   };
 
   const convertAll = async () => {
+    console.log('convertAll called', { mode, isProcessing, filesLength: files.length, filesStatus: files.map(f => ({ id: f.id, status: f.status, targetFormat: f.targetFormat })) });
     setIsProcessing(true);
     // In compression mode, process all pending files (no target format needed)
     // In other modes, only process files with target format
     const pendingFiles = mode === 'compress' 
       ? files.filter(f => f.status === 'pending')
       : files.filter(f => f.status === 'pending' && f.targetFormat);
+    
+    console.log('pendingFiles', pendingFiles.length);
     
     for (const fileState of pendingFiles) {
       // For compression mode, use original file format; for others use target format
@@ -208,6 +211,7 @@ export default function Home() {
           detail: { size: blob.size } 
         }));
       } catch (err) {
+        console.error('Conversion error:', err);
         setFiles(prev => prev.map(f => f.id === fileState.id ? { 
           ...f, 
           status: 'error', 
@@ -291,30 +295,30 @@ export default function Home() {
       </div>
 
       <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-16 flex flex-col items-center relative overflow-x-hidden" style={{ zIndex: 1 }}>
-        <div className="text-center mb-16 space-y-6">
+        <div className="text-center mb-8 sm:mb-16 space-y-4 sm:space-y-6">
           <div className="relative inline-block">
             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 blur-3xl opacity-20"></div>
-            <h2 className="relative text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 mb-4">
+            <h2 className="relative text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 mb-2 sm:mb-4 px-4">
               {mode === 'convert' ? 'Dosya Çevirici' : mode === 'compress' ? 'Dosya Sıkıştırıcı' : 'Müzik Dönüştürücü'}
             </h2>
           </div>
-          <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 font-medium max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 font-medium max-w-3xl mx-auto leading-relaxed px-4">
             {mode === 'convert' 
               ? 'Dosyalarınızı istediğiniz biçime dönüştürün' 
               : mode === 'compress'
                 ? 'Dosyalarınızı boyutunu kaliteden ödün vermeden düşürün'
                 : 'Müzik dosyalarınızı hızlıca çevirin'}
           </p>
-          <div className="flex items-center justify-center gap-8 mt-8">
-            <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mt-6 sm:mt-8 px-4">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               <span>Her zaman aktif</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
               <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
               <span>Güvenli bağlantı</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
               <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
               <span>Yüksek hız</span>
             </div>
@@ -648,13 +652,13 @@ export default function Home() {
               </div>
 
               {/* Bottom Action Bar */}
-              <div className="p-4 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10">
-                <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-                  <label className={`flex items-center gap-3 font-bold cursor-pointer transition-transform hover:scale-105 px-4 sm:px-6 py-3 rounded-2xl ${
+              <div className="p-4 sm:p-6 lg:p-8 flex flex-col gap-4 sm:gap-6 border-t border-white/10">
+                <div className="flex flex-col gap-4 w-full">
+                  <label className={`flex items-center gap-3 font-bold cursor-pointer transition-all hover:scale-105 px-4 sm:px-6 py-4 sm:py-3 rounded-2xl ${
                     files.length >= 10 
                       ? 'text-gray-400 cursor-not-allowed opacity-60' 
                       : 'text-white hover:scale-105'
-                  } w-full sm:w-auto justify-center`} style={{ 
+                  } w-full justify-center min-h-[56px] sm:min-h-[48px]`} style={{ 
                     backdropFilter: 'blur(25px)', 
                     backgroundColor: files.length >= 10 ? 'rgba(148, 163, 184, 0.5)' : 'rgba(147, 51, 234, 0.85)', 
                     border: '1px solid rgba(255, 255, 255, 0.2)', 
@@ -675,7 +679,7 @@ export default function Home() {
                   </label>
                   <button
                     onClick={removeAllFiles}
-                    className="flex items-center gap-3 text-white font-bold transition-transform hover:scale-105 px-4 sm:px-6 py-3 rounded-2xl w-full sm:w-auto justify-center"
+                    className="flex items-center gap-3 text-white font-bold transition-all hover:scale-105 px-4 sm:px-6 py-4 sm:py-3 rounded-2xl w-full justify-center min-h-[56px] sm:min-h-[48px]"
                     style={{ backdropFilter: 'blur(25px)', backgroundColor: 'rgba(220, 38, 38, 0.85)', border: '1px solid rgba(255, 255, 255, 0.2)', boxShadow: '0 8px 24px rgba(220, 38, 38, 0.3)', background: 'linear-gradient(170deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%), rgba(220, 38, 38, 0.85)', textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}
                   >
                     <Trash2 className="w-5 h-5" />
@@ -683,12 +687,12 @@ export default function Home() {
                   </button>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                <div className="flex flex-col gap-4 w-full">
                   {allCompleted && (
                     <button
                       onClick={() => files.forEach(f => !f.downloaded && downloadFile(f.id))}
                       disabled={allDownloaded}
-                      className="px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold flex items-center gap-2 transition-all text-white disabled:cursor-not-allowed disabled:opacity-60 w-full sm:w-auto justify-center"
+                      className="px-6 sm:px-8 py-4 sm:py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all text-white disabled:cursor-not-allowed disabled:opacity-60 w-full min-h-[56px] sm:min-h-[48px]"
                       style={{
                         backdropFilter: 'blur(25px)',
                         backgroundColor: allDownloaded ? 'rgba(148, 163, 184, 0.3)' : 'rgba(147, 51, 234, 0.85)',
@@ -703,9 +707,12 @@ export default function Home() {
                   )}
                   {somePending && (
                     <button
-                      onClick={convertAll}
+                      onClick={() => {
+                        console.log('Button clicked', { mode, isProcessing, somePending, filesLength: files.length, hasPendingFiles: files.some(f => f.status === 'pending') });
+                        convertAll();
+                      }}
                       disabled={isProcessing || (mode === 'compress' ? !files.some(f => f.status === 'pending') : !files.some(f => f.status === 'pending' && f.targetFormat))}
-                      className="text-white px-8 sm:px-10 py-3 sm:py-4 rounded-2xl font-bold flex items-center gap-2 transition-all disabled:cursor-not-allowed w-full sm:w-auto justify-center"
+                      className="text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all disabled:cursor-not-allowed w-full min-h-[56px] sm:min-h-[48px] active:scale-95"
                       style={{
                         backdropFilter: 'blur(25px)',
                         backgroundColor: (isProcessing || (mode === 'compress' ? !files.some(f => f.status === 'pending') : !files.some(f => f.status === 'pending' && f.targetFormat))) ? 'rgba(148, 163, 184, 0.7)' : 'rgba(147, 51, 234, 0.85)',
@@ -717,6 +724,12 @@ export default function Home() {
                       }}
                     >
                       {isProcessing ? 'İŞLENİYOR...' : 'ŞİMDİ DÖNÜŞTÜR'}
+                      {/* Debug info - remove in production */}
+                      {process.env.NODE_ENV === 'development' && (
+                        <span className="text-xs ml-2 opacity-75">
+                          ({mode === 'compress' ? `${files.filter(f => f.status === 'pending').length} pending` : `${files.filter(f => f.status === 'pending' && f.targetFormat).length} ready`})
+                        </span>
+                      )}
                     </button>
                   )}
                 </div>
