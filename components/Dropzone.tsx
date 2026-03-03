@@ -32,7 +32,7 @@ export default function Dropzone({ onFilesSelect, className, mode }: DropzonePro
   return (
     <div
       className={cn(
-        'relative w-full max-w-4xl mx-auto rounded-[2.5rem] p-16 flex flex-col items-center justify-center transition-all duration-500 ease-in-out overflow-hidden',
+        'relative w-full max-w-4xl mx-auto rounded-[2.5rem] p-8 sm:p-16 flex flex-col items-center justify-center transition-all duration-500 ease-in-out overflow-hidden',
         'bg-gradient-to-br from-white via-white to-purple-50/40',
         isDragActive ? 'bg-gradient-to-br from-purple-50/60 via-white to-indigo-50/50 scale-[1.01] shadow-2xl ring-2 ring-purple-400/60' : 'hover:bg-white hover:shadow-xl',
         className
@@ -60,20 +60,20 @@ export default function Dropzone({ onFilesSelect, className, mode }: DropzonePro
         <div {...getRootProps()} className="relative group">
           <input {...getInputProps()} />
           <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity"></div>
-          <div className="relative flex items-center gap-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-12 py-7 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 group hover:scale-105 cursor-pointer">
-            <span className="text-2xl font-black uppercase tracking-wider">Dosyaları Seçin</span>
-            <div className="flex gap-4 border-l border-white/30 pl-8">
-              <FolderOpen className="w-7 h-7" />
-              <HardDrive className="w-7 h-7" />
+          <div className="relative flex items-center gap-4 sm:gap-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 sm:px-8 lg:px-12 py-4 sm:py-6 lg:py-7 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 group hover:scale-105 cursor-pointer">
+            <span className="text-lg sm:text-xl lg:text-2xl font-black uppercase tracking-wider">Dosyaları Seçin</span>
+            <div className="flex gap-3 sm:gap-4 border-l border-white/30 pl-4 sm:pl-6 lg:pl-8">
+              <FolderOpen className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
+              <HardDrive className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
             </div>
           </div>
         </div>
         
         {/* Cloud Upload Options */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
           <button 
             onClick={() => window.open('https://www.dropbox.com', '_blank')}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-white text-lg font-semibold shadow-lg hover:bg-blue-700 transition-all duration-300 hover:scale-110 hover:shadow-2xl active:scale-95 active:shadow-lg"
+            className="flex items-center gap-2 px-4 sm:px-6 py-3 rounded-xl bg-blue-600 text-white text-base sm:text-lg font-semibold shadow-lg hover:bg-blue-700 transition-all duration-300 hover:scale-110 hover:shadow-2xl active:scale-95 active:shadow-lg w-full sm:w-auto"
           >
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12.007 0C8.618 0 5.61 2.308 4.002 5.766L0 5.766 0 18.234 4.002 18.234C5.61 21.692 8.618 24 12.007 24 17.525 24 22.014 19.511 22.014 14.002 22.014 8.493 17.525 4.002 12.007 4.002L12.007 0ZM12.007 8.004C15.313 8.004 18.01 10.701 18.01 14.002 18.01 17.303 15.313 20 12.007 20 8.696 20 5.999 17.303 5.999 14.002 5.999 10.701 8.696 8.004 12.007 8.004Z"/>
@@ -82,7 +82,7 @@ export default function Dropzone({ onFilesSelect, className, mode }: DropzonePro
           </button>
           <button 
             onClick={() => window.open('https://drive.google.com', '_blank')}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white text-lg font-semibold shadow-lg hover:bg-red-700 transition-all duration-300 hover:scale-110 hover:shadow-2xl active:scale-95 active:shadow-lg"
+            className="flex items-center gap-2 px-4 sm:px-6 py-3 rounded-xl bg-red-600 text-white text-base sm:text-lg font-semibold shadow-lg hover:bg-red-700 transition-all duration-300 hover:scale-110 hover:shadow-2xl active:scale-95 active:shadow-lg w-full sm:w-auto"
           >
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
               <path d="M24 8.57h-8.32L12 12.85 8.32 8.57H0l12 15.43L24 8.57zM12 0L0 8.57h4.94l7.06-7.98 7.06 7.98H24L12 0z"/>
@@ -93,12 +93,12 @@ export default function Dropzone({ onFilesSelect, className, mode }: DropzonePro
         
         {/* Drag & Drop Text */}
         <div className="flex flex-col items-center gap-4">
-          <p className="text-gray-500 text-lg font-semibold uppercase tracking-wide">
+          <p className="text-gray-500 text-base sm:text-lg font-semibold uppercase tracking-wide">
             veya dosyaları buraya sürükleyin
           </p>
           <div className="flex items-center gap-2 text-gray-400">
             <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
-            <span className="text-sm font-medium">Desteklenen formatlar: {mode === 'music' ? 'MP3, WAV, OGG, FLAC' : 'PNG, JPG, JPEG, WEBP'}</span>
+            <span className="text-xs sm:text-sm font-medium">Desteklenen formatlar: {mode === 'music' ? 'MP3, WAV, OGG, FLAC' : 'PNG, JPG, JPEG, WEBP'}</span>
             <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
           </div>
         </div>

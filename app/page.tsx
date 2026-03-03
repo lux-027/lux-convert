@@ -281,15 +281,15 @@ export default function Home() {
         <Header mode={mode} onModeChange={handleModeChange} activeType={activeType} />
       </div>
 
-      <main className="container mx-auto px-4 py-16 flex flex-col items-center relative" style={{ zIndex: 1 }}>
+      <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-16 flex flex-col items-center relative overflow-x-hidden" style={{ zIndex: 1 }}>
         <div className="text-center mb-16 space-y-6">
           <div className="relative inline-block">
             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 blur-3xl opacity-20"></div>
-            <h2 className="relative text-6xl font-black tracking-tight text-gray-900 mb-4">
+            <h2 className="relative text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 mb-4">
               {mode === 'convert' ? 'Dosya Çevirici' : mode === 'compress' ? 'Dosya Sıkıştırıcı' : 'Müzik Dönüştürücü'}
             </h2>
           </div>
-          <p className="text-2xl text-gray-600 font-medium max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 font-medium max-w-3xl mx-auto leading-relaxed">
             {mode === 'convert' 
               ? 'Dosyalarınızı istediğiniz biçime dönüştürün' 
               : mode === 'compress'
@@ -313,22 +313,22 @@ export default function Home() {
         </div>
 
         {!hasFiles ? (
-          <div className="w-full max-w-5xl">
+          <div className="w-full max-w-5xl overflow-x-hidden px-4 sm:px-6">
             {/* Main Upload Card */}
             <div className="relative glass-droplet rounded-[3rem] shadow-3xl border border-white/20 overflow-hidden">
               {/* Gradient Background Accent */}
               <div className="absolute inset-0 bg-gradient-to-br from-slate-950/40 via-slate-900/20 to-purple-950/30"></div>
               
               {/* Upload Area */}
-              <div className="relative p-12">
-                <div className="glass-droplet-inner rounded-[2.5rem] p-20 text-center border border-white/30 shadow-2xl">
+              <div className="relative p-6 sm:p-12">
+                <div className="glass-droplet-inner rounded-[2.5rem] p-8 sm:p-20 text-center border border-white/30 shadow-2xl">
                   <Dropzone onFilesSelect={handleFilesSelect} mode={mode} />
                 </div>
               </div>
               
               {/* Features Section */}
-              <div className="relative glass-droplet-footer p-8 border-t border-white/20">
-                <div className="flex justify-center items-center gap-16 text-white">
+              <div className="relative glass-droplet-footer p-6 sm:p-8 border-t border-white/20">
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-16 text-white">
                   <div className="flex items-center gap-3 group">
                     <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors">
                       <Zap className="w-6 h-6" />
@@ -363,7 +363,7 @@ export default function Home() {
             </div>
             
             {/* Additional Info Cards */}
-            <div className="grid grid-cols-3 gap-6 mt-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-8">
               <div className="purple-themed-card rounded-2xl p-6 text-center group hover:shadow-3xl transition-all duration-300 hover:scale-105">
                 <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-white/25 transition-colors border border-white/30 shadow-xl">
                   <UploadCloud className="w-7 h-7 text-white" />
@@ -392,9 +392,9 @@ export default function Home() {
             {/* Features Information Section */}
             <div className="mt-16 glass-droplet glass-reflect-panel rounded-[3rem] shadow-3xl border border-white/20 overflow-hidden">
               <div className="p-12">
-                <h3 className="text-3xl font-bold text-center text-slate-900 mb-12">Neden Bizi Tercih Etmelisiniz?</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold text-center text-slate-900 mb-8 sm:mb-12">Neden Bizi Tercih Etmelisiniz?</h3>
                 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                   <div className="text-center group">
                     <div className="w-20 h-20 glass-droplet-icon rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-xl border border-white/30">
                       <span className="text-3xl font-bold text-white">300+</span>
@@ -449,7 +449,7 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className="w-full max-w-6xl">
+          <div className="w-full max-w-6xl overflow-x-hidden px-4 sm:px-6">
             {/* Main Glassmorphism Container */}
             <div className="rounded-[24px] overflow-visible" style={{ backdropFilter: 'blur(35px) saturate(150%)', backgroundColor: 'rgba(255, 255, 255, 0.03)', border: '1px solid #8a2be2', boxShadow: '0 0 20px rgba(138, 43, 226, 0.3), 0 8px 32px rgba(138, 43, 226, 0.15)' }}>
               {/* Global Controls */}
@@ -639,13 +639,13 @@ export default function Home() {
               </div>
 
               {/* Bottom Action Bar */}
-              <div className="p-8 flex items-center justify-between border-t border-white/10">
-                <div className="flex items-center gap-4">
-                  <label className={`flex items-center gap-3 font-bold cursor-pointer transition-transform hover:scale-105 px-6 py-3 rounded-2xl ${
+              <div className="p-4 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10">
+                <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                  <label className={`flex items-center gap-3 font-bold cursor-pointer transition-transform hover:scale-105 px-4 sm:px-6 py-3 rounded-2xl ${
                     files.length >= 10 
                       ? 'text-gray-400 cursor-not-allowed opacity-60' 
                       : 'text-white hover:scale-105'
-                  }`} style={{ 
+                  } w-full sm:w-auto justify-center`} style={{ 
                     backdropFilter: 'blur(25px)', 
                     backgroundColor: files.length >= 10 ? 'rgba(148, 163, 184, 0.5)' : 'rgba(147, 51, 234, 0.85)', 
                     border: '1px solid rgba(255, 255, 255, 0.2)', 
@@ -666,7 +666,7 @@ export default function Home() {
                   </label>
                   <button
                     onClick={removeAllFiles}
-                    className="flex items-center gap-3 text-white font-bold transition-transform hover:scale-105 px-6 py-3 rounded-2xl"
+                    className="flex items-center gap-3 text-white font-bold transition-transform hover:scale-105 px-4 sm:px-6 py-3 rounded-2xl w-full sm:w-auto justify-center"
                     style={{ backdropFilter: 'blur(25px)', backgroundColor: 'rgba(220, 38, 38, 0.85)', border: '1px solid rgba(255, 255, 255, 0.2)', boxShadow: '0 8px 24px rgba(220, 38, 38, 0.3)', background: 'linear-gradient(170deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%), rgba(220, 38, 38, 0.85)', textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}
                   >
                     <Trash2 className="w-5 h-5" />
@@ -674,12 +674,12 @@ export default function Home() {
                   </button>
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
                   {allCompleted && (
                     <button
                       onClick={() => files.forEach(f => !f.downloaded && downloadFile(f.id))}
                       disabled={allDownloaded}
-                      className="px-8 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all text-white disabled:cursor-not-allowed disabled:opacity-60"
+                      className="px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold flex items-center gap-2 transition-all text-white disabled:cursor-not-allowed disabled:opacity-60 w-full sm:w-auto justify-center"
                       style={{
                         backdropFilter: 'blur(25px)',
                         backgroundColor: allDownloaded ? 'rgba(148, 163, 184, 0.3)' : 'rgba(147, 51, 234, 0.85)',
@@ -696,7 +696,7 @@ export default function Home() {
                     <button
                       onClick={convertAll}
                       disabled={isProcessing || (mode !== 'compress' && !files.some(f => f.targetFormat))}
-                      className="text-white px-10 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all disabled:cursor-not-allowed"
+                      className="text-white px-8 sm:px-10 py-3 sm:py-4 rounded-2xl font-bold flex items-center gap-2 transition-all disabled:cursor-not-allowed w-full sm:w-auto justify-center"
                       style={{
                         backdropFilter: 'blur(25px)',
                         backgroundColor: (isProcessing || (mode !== 'compress' && !files.some(f => f.targetFormat))) ? 'rgba(148, 163, 184, 0.7)' : 'rgba(147, 51, 234, 0.85)',
