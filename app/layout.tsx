@@ -61,9 +61,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "m8Qku4ZAge2z-ESCrA2FNKstuJvy4i5P3dM6_7v_DWw",
-  },
   other: {
     "theme-color": "#9333ea",
     "msapplication-TileColor": "#9333ea",
