@@ -174,17 +174,24 @@ export default function Home() {
 
   const convertAll = async () => {
     setIsProcessing(true);
-    const pendingFiles = files.filter(f => f.status === 'pending' && f.targetFormat);
+    // In compression mode, process all pending files (no target format needed)
+    // In other modes, only process files with target format
+    const pendingFiles = mode === 'compress' 
+      ? files.filter(f => f.status === 'pending')
+      : files.filter(f => f.status === 'pending' && f.targetFormat);
     
     for (const fileState of pendingFiles) {
-      if (!fileState.targetFormat) continue;
+      // For compression mode, use original file format; for others use target format
+      const processFormat = mode === 'compress' ? fileState.file.type as FileFormat : fileState.targetFormat;
+      
+      if (!processFormat) continue;
       
       setFiles(prev => prev.map(f => f.id === fileState.id ? { ...f, status: 'converting' } : f));
       
       try {
         const blob = await processImage({
           file: fileState.file,
-          format: fileState.targetFormat,
+          format: processFormat,
           quality: fileState.quality,
           mode: mode,
         });
@@ -192,7 +199,9 @@ export default function Home() {
         setFiles(prev => prev.map(f => f.id === fileState.id ? { 
           ...f, 
           status: 'completed', 
-          convertedBlob: blob 
+          convertedBlob: blob,
+          // For compression mode, set target format to original format for download
+          targetFormat: mode === 'compress' ? processFormat : fileState.targetFormat
         } : f));
 
         window.dispatchEvent(new CustomEvent('conversion-complete', { 
@@ -695,16 +704,16 @@ export default function Home() {
                   {somePending && (
                     <button
                       onClick={convertAll}
-                      disabled={isProcessing || (mode !== 'compress' && !files.some(f => f.targetFormat))}
+                      disabled={isProcessing || (mode === 'compress' ? !files.some(f => f.status === 'pending') : !files.some(f => f.status === 'pending' && f.targetFormat))}
                       className="text-white px-8 sm:px-10 py-3 sm:py-4 rounded-2xl font-bold flex items-center gap-2 transition-all disabled:cursor-not-allowed w-full sm:w-auto justify-center"
                       style={{
                         backdropFilter: 'blur(25px)',
-                        backgroundColor: (isProcessing || (mode !== 'compress' && !files.some(f => f.targetFormat))) ? 'rgba(148, 163, 184, 0.7)' : 'rgba(147, 51, 234, 0.85)',
+                        backgroundColor: (isProcessing || (mode === 'compress' ? !files.some(f => f.status === 'pending') : !files.some(f => f.status === 'pending' && f.targetFormat))) ? 'rgba(148, 163, 184, 0.7)' : 'rgba(147, 51, 234, 0.85)',
                         border: '1px solid rgba(255, 255, 255, 0.2)',
-                        boxShadow: (isProcessing || (mode !== 'compress' && !files.some(f => f.targetFormat))) ? '0 4px 16px rgba(0, 0, 0, 0.15)' : '0 8px 24px rgba(147, 51, 234, 0.3)',
-                        background: `linear-gradient(170deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%), ${(isProcessing || (mode !== 'compress' && !files.some(f => f.targetFormat))) ? 'rgba(148, 163, 184, 0.7)' : 'rgba(147, 51, 234, 0.85)'}`,
+                        boxShadow: (isProcessing || (mode === 'compress' ? !files.some(f => f.status === 'pending') : !files.some(f => f.status === 'pending' && f.targetFormat))) ? '0 4px 16px rgba(0, 0, 0, 0.15)' : '0 8px 24px rgba(147, 51, 234, 0.3)',
+                        background: `linear-gradient(170deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%), ${(isProcessing || (mode === 'compress' ? !files.some(f => f.status === 'pending') : !files.some(f => f.status === 'pending' && f.targetFormat))) ? 'rgba(148, 163, 184, 0.7)' : 'rgba(147, 51, 234, 0.85)'}`,
                         textShadow: '0 2px 8px rgba(0, 0, 0, 0.4)',
-                        opacity: (isProcessing || (mode !== 'compress' && !files.some(f => f.targetFormat))) ? 0.8 : 1
+                        opacity: (isProcessing || (mode === 'compress' ? !files.some(f => f.status === 'pending') : !files.some(f => f.status === 'pending' && f.targetFormat))) ? 0.8 : 1
                       }}
                     >
                       {isProcessing ? 'İŞLENİYOR...' : 'ŞİMDİ DÖNÜŞTÜR'}
