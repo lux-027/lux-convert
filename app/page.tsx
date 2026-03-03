@@ -153,7 +153,7 @@ export default function Home() {
 
   const updateQuality = (id: string, quality: number) => {
     setFiles((prev) =>
-      prev.map((f) => (f.id === id ? { ...f, quality, status: 'pending' } : f))
+      prev.map((f) => (f.id === id ? { ...f, quality, status: 'pending', convertedBlob: undefined, downloaded: false } : f))
     );
   };
 
