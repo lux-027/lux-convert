@@ -13,9 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lux Convert | Ücretsiz Resim ve Ses Dönüştürücü (JPG, PNG, WEBP, MP3)",
-  description: "Dosyalarınızı saniyeler içinde kaliteden ödün vermeden dönüştürün. JPG, PNG, WEBP, AVIF ve MP3 desteğiyle hızlı, güvenli ve tamamen ücretsiz online çevirici.",
-  keywords: "resim dönüştürücü, image converter, png to jpg, webp çevirici, mp3 dönüştürücü, free online converter, hızlı dosya çevirme",
+  title: "Lux Convert | Ücretsiz Resim, Ses ve Belge Dönüştürücü",
+  applicationName: "Lux Convert",
+  description: "Dosyalarınızı saniyeler içinde kaliteden ödün vermeden dönüştürün. JPG, PNG, WEBP, AVIF, MP3 ve belge formatları desteğiyle hızlı, güvenli ve tamamen ücretsiz online çevirici.",
+  keywords: "resim dönüştürücü, image converter, png to jpg, webp çevirici, mp3 dönüştürücü, belge dönüştürücü, free online converter, hızlı dosya çevirme",
   authors: [{ name: "Lux Convert" }],
   creator: "Lux Convert",
   publisher: "Lux Convert",
@@ -29,8 +30,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Lux Convert | Ücretsiz Resim ve Ses Dönüştürücü",
-    description: "Dosyalarınızı saniyeler içinde kaliteden ödün vermeden dönüştürün. JPG, PNG, WEBP, AVIF ve MP3 desteğiyle hızlı, güvenli ve tamamen ücretsiz online çevirici.",
+    title: "Lux Convert | Ücretsiz Resim, Ses ve Belge Dönüştürücü",
+    description: "Dosyalarınızı saniyeler içinde kaliteden ödün vermeden dönüştürün. JPG, PNG, WEBP, AVIF, MP3 ve belge formatları desteğiyle hızlı, güvenli ve tamamen ücretsiz online çevirici.",
     url: "https://lux-convert.vercel.app",
     siteName: "Lux Convert",
     locale: "tr_TR",
@@ -40,14 +41,14 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Lux Convert - Ücretsiz Resim ve Ses Dönüştürücü",
+        alt: "Lux Convert - Ücretsiz Resim, Ses ve Belge Dönüştürücü",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lux Convert | Ücretsiz Resim ve Ses Dönüştürücü",
-    description: "Dosyalarınızı saniyeler içinde kaliteden ödün vermeden dönüştürün. JPG, PNG, WEBP, AVIF ve MP3 desteğiyle hızlı, güvenli ve tamamen ücretsiz online çevirici.",
+    title: "Lux Convert | Ücretsiz Resim, Ses ve Belge Dönüştürücü",
+    description: "Dosyalarınızı saniyeler içinde kaliteden ödün vermeden dönüştürün. JPG, PNG, WEBP, AVIF, MP3 ve belge formatları desteğiyle hızlı, güvenli ve tamamen ücretsiz online çevirici.",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -61,9 +62,18 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg",
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Lux Convert",
+    statusBarStyle: "default",
+  },
   other: {
-    "theme-color": "#9333ea",
-    "msapplication-TileColor": "#9333ea",
+    "theme-color": "#a855f7",
+    "msapplication-TileColor": "#a855f7",
     "apple-mobile-web-app-title": "Lux Convert",
     "application-name": "Lux Convert",
   },
