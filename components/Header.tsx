@@ -58,17 +58,19 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
           <div className="absolute top-[60%] left-[-10%] w-[120%] h-3 bg-purple-400/30 rounded-full animate-blob-horizontal animation-delay-2000" />
         </div>
         
-        <div className="flex items-center justify-between p-4 w-full glass-header rounded-2xl border border-white/20 relative z-10">
-        <div className="flex items-center gap-3 group cursor-pointer">
-          <div className="bg-primary p-2 rounded-2xl shadow-lg shadow-primary/30 group-hover:rotate-12 transition-transform duration-500">
-            <Zap className="w-6 h-6 text-white" />
+        <div className="flex flex-col md:flex-row items-center justify-between p-4 w-full glass-header rounded-2xl border border-white/20 relative z-10 gap-4 md:gap-0">
+          {/* Logo Section */}
+          <div className="flex items-center gap-3 group cursor-pointer self-center md:self-auto mb-4 md:mb-0">
+            <div className="bg-primary p-2 rounded-2xl shadow-lg shadow-primary/30 group-hover:rotate-12 transition-transform duration-500">
+              <Zap className="w-6 h-6 text-white" />
+            </div>
+            <h1 className="text-2xl font-black tracking-tighter text-gray-900 uppercase">
+              Lux<span className="text-primary">Convert</span>
+            </h1>
           </div>
-          <h1 className="text-2xl font-black tracking-tighter text-gray-900 uppercase">
-            Lux<span className="text-primary">Convert</span>
-          </h1>
-        </div>
 
-        <nav className="flex items-center gap-6 glass-nav px-8 py-1.5 rounded-2xl shadow-inner border border-white/10">
+          {/* Navigation Section */}
+          <nav className="flex flex-wrap justify-center items-center gap-2 md:gap-6 glass-nav px-4 md:px-8 py-1.5 md:py-1.5 rounded-2xl shadow-inner border border-white/10 w-full md:w-auto max-w-full overflow-x-hidden">
           <div className="relative">
             {/* Sliding background indicator */}
             <div 
@@ -81,12 +83,13 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
               onClick={() => onModeChange('convert')}
               disabled={activeType === 'music' || activeType === 'document'}
               className={cn(
-                "relative z-10 flex items-center gap-2.5 px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
+                "relative z-10 flex items-center gap-1.5 md:gap-2.5 px-2 md:px-5 py-1.5 md:py-2.5 text-xs md:text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
                 mode === 'convert' ? "text-primary scale-105" : (activeType === 'music' || activeType === 'document') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:text-black opacity-90 hover:opacity-100"
               )}
             >
-              <ImageIcon className="w-4 h-4" />
-              Görüntü
+              <ImageIcon className="w-3 h-3 md:w-4 md:h-4" />
+              <span className="hidden sm:inline">Görüntü</span>
+              <span className="sm:hidden">Gör</span>
             </button>
           </div>
           
@@ -100,12 +103,13 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
             <button
               onClick={() => onModeChange('compress')}
               className={cn(
-                "relative z-10 flex items-center gap-2.5 px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
+                "relative z-10 flex items-center gap-1.5 md:gap-2.5 px-2 md:px-5 py-1.5 md:py-2.5 text-xs md:text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
                 mode === 'compress' ? "text-primary scale-105" : "text-gray-900 hover:text-black opacity-90 hover:opacity-100"
               )}
             >
-              <Minimize2 className="w-4 h-4" />
-              Sıkıştır
+              <Minimize2 className="w-3 h-3 md:w-4 md:h-4" />
+              <span className="hidden sm:inline">Sıkıştır</span>
+              <span className="sm:hidden">Sık</span>
             </button>
           </div>
 
@@ -120,12 +124,13 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
               onClick={() => onModeChange('music')}
               disabled={activeType === 'image' || activeType === 'document'}
               className={cn(
-                "relative z-10 flex items-center gap-2.5 px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
+                "relative z-10 flex items-center gap-1.5 md:gap-2.5 px-2 md:px-5 py-1.5 md:py-2.5 text-xs md:text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
                 mode === 'music' ? "text-primary scale-105" : (activeType === 'image' || activeType === 'document') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:text-black opacity-90 hover:opacity-100"
               )}
             >
-              <Music className="w-4 h-4" />
-              Ses
+              <Music className="w-3 h-3 md:w-4 md:h-4" />
+              <span className="hidden sm:inline">Ses</span>
+              <span className="sm:hidden">Ses</span>
             </button>
           </div>
 
@@ -140,12 +145,13 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
               onClick={() => onModeChange('document')}
               disabled={activeType === 'image' || activeType === 'music'}
               className={cn(
-                "relative z-10 flex items-center gap-2.5 px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
+                "relative z-10 flex items-center gap-1.5 md:gap-2.5 px-2 md:px-5 py-1.5 md:py-2.5 text-xs md:text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
                 mode === 'document' ? "text-primary scale-105" : (activeType === 'image' || activeType === 'music') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:text-black opacity-90 hover:opacity-100"
               )}
             >
-              <FileText className="w-4 h-4" />
-              Belge
+              <FileText className="w-3 h-3 md:w-4 md:h-4" />
+              <span className="hidden sm:inline">Belge</span>
+              <span className="sm:hidden">Bel</span>
             </button>
           </div>
         </nav>

@@ -6,7 +6,7 @@ import Dropzone from '@/components/Dropzone';
 import FileItem from '@/components/FileItem';
 import Footer from '@/components/Footer';
 import LimitToast from '@/components/LimitToast';
-import { Plus, Trash2, Zap } from 'lucide-react';
+import { Plus, Trash2, Zap, UploadCloud, SlidersHorizontal, Download } from 'lucide-react';
 import { FileFormat, FileState, AppMode } from '@/types';
 
 // Format definitions
@@ -156,7 +156,7 @@ export default function Home() {
   const hasFiles = files.length > 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50/30 to-indigo-50/50 overflow-x-hidden w-full">
+    <div className="min-h-screen bg-white overflow-x-hidden w-full">
       {/* Background Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: -1 }}>
         <div className="absolute" style={{ top: '8%', left: '5%', width: '300px', height: '5px', background: 'linear-gradient(90deg, transparent, #8a2be2, transparent)', transform: 'rotate(-35deg)', boxShadow: '0 0 20px #8a2be2, 0 0 40px #8a2be2, 0 0 60px #8a2be2', filter: 'blur(10px)', animation: 'breathe 6s ease-in-out infinite' }}></div>
@@ -192,7 +192,7 @@ export default function Home() {
               <Dropzone onFilesSelect={handleFilesSelect} mode={mode} />
             </div>
             
-            {/* Features Section */}
+            {/* Features Section - Moved below Dropzone */}
             <div className="relative glass-droplet-footer p-4 sm:p-6 md:p-8 border-t border-white/20 rounded-b-[1.5rem] sm:rounded-b-[2rem] mt-4 sm:mt-6 overflow-hidden">
               <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 md:gap-16 text-white">
                 <div className="flex items-center gap-2 sm:gap-3 group">
@@ -222,6 +222,56 @@ export default function Home() {
                   <div className="text-left">
                     <div className="font-bold text-sm sm:text-base lg:text-lg">ÜCRETSİZ</div>
                     <div className="text-xs text-white/80 hidden sm:block">Sınırsız kullanım</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* 3-Step Guide Section - Moved to bottom */}
+            <div className="mt-12">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Step 1 */}
+                <div className="group bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-purple-300/50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:from-purple-500 hover:via-purple-600 hover:to-purple-700">
+                  <div className="flex flex-col items-center text-center space-y-4">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/30 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                      <UploadCloud className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-lg sm:text-xl font-bold text-white">1. Dosya Seç</h3>
+                      <p className="text-sm sm:text-base text-purple-50 leading-relaxed">
+                        Dönüştürmek istediğiniz dosyayı seçin veya sürükleyip bırakın.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Step 2 */}
+                <div className="group bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-purple-300/50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:from-purple-500 hover:via-purple-600 hover:to-purple-700">
+                  <div className="flex flex-col items-center text-center space-y-4">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/30 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                      <SlidersHorizontal className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-lg sm:text-xl font-bold text-white">2. Biçim Seç</h3>
+                      <p className="text-sm sm:text-base text-purple-50 leading-relaxed">
+                        İhtiyacınız olan hedef dosya formatını listeden belirleyin.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Step 3 */}
+                <div className="group bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-purple-300/50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:from-purple-500 hover:via-purple-600 hover:to-purple-700">
+                  <div className="flex flex-col items-center text-center space-y-4">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/30 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                      <Download className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-lg sm:text-xl font-bold text-white">3. İndir</h3>
+                      <p className="text-sm sm:text-base text-purple-50 leading-relaxed">
+                        Dönüştürülen dosyanızı yüksek hızda ve güvenle indirin.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
