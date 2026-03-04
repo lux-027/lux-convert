@@ -106,10 +106,10 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
 
           {/* Navigation Section */}
           {/* Mobile Dropdown */}
-          <div className="md:hidden flex flex-col w-full" ref={mobileMenuRef}>
+          <div className="md:hidden flex flex-col w-full ml-auto" ref={mobileMenuRef}>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="flex items-center justify-between w-full glass-nav px-4 py-2 rounded-2xl shadow-inner border border-white/10"
+              className="flex items-center justify-between w-fit ml-auto glass-nav px-4 py-2 rounded-2xl shadow-inner border border-white/10"
             >
               <span className="text-xs font-black text-gray-900 uppercase tracking-[0.2em]">
                 {getCurrentModeName()}
@@ -118,65 +118,68 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
             </button>
             
             {isMobileMenuOpen && (
-              <div className="absolute top-full left-0 right-0 mt-2 glass-nav rounded-2xl shadow-xl border border-white/20 overflow-hidden z-50">
-                <div className="flex flex-col">
-                  <button
-                    onClick={() => {
-                      onModeChange('convert');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    disabled={activeType === 'music' || activeType === 'document'}
-                    className={cn(
-                      "flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all border-b border-white/10",
-                      mode === 'convert' ? "text-primary bg-white/20" : (activeType === 'music' || activeType === 'document') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:bg-white/10"
-                    )}
-                  >
-                    <ImageIcon className="w-4 h-4" />
-                    Görüntü
-                  </button>
-                  <button
-                    onClick={() => {
-                      onModeChange('compress');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={cn(
-                      "flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all border-b border-white/10",
-                      mode === 'compress' ? "text-primary bg-white/20" : "text-gray-900 hover:bg-white/10"
-                    )}
-                  >
-                    <Minimize2 className="w-4 h-4" />
-                    Sıkıştır
-                  </button>
-                  <button
-                    onClick={() => {
-                      onModeChange('music');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    disabled={activeType === 'image' || activeType === 'document'}
-                    className={cn(
-                      "flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all border-b border-white/10",
-                      mode === 'music' ? "text-primary bg-white/20" : (activeType === 'image' || activeType === 'document') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:bg-white/10"
-                    )}
-                  >
-                    <Music className="w-4 h-4" />
-                    Ses
-                  </button>
-                  <button
-                    onClick={() => {
-                      onModeChange('document');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    disabled={activeType === 'image' || activeType === 'music'}
-                    className={cn(
-                      "flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all",
-                      mode === 'document' ? "text-primary bg-white/20" : (activeType === 'image' || activeType === 'music') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:bg-white/10"
-                    )}
-                  >
-                    <FileText className="w-4 h-4" />
-                    Belge
-                  </button>
+              <>
+                <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
+                <div className="absolute top-full left-0 right-0 mt-2 glass-nav rounded-2xl shadow-xl border border-white/20 overflow-hidden z-50 relative">
+                  <div className="flex flex-col">
+                    <button
+                      onClick={() => {
+                        onModeChange('convert');
+                        setIsMobileMenuOpen(false);
+                      }}
+                      disabled={activeType === 'music' || activeType === 'document'}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all border-b border-white/10",
+                        mode === 'convert' ? "text-primary bg-white/20" : (activeType === 'music' || activeType === 'document') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:bg-white/10"
+                      )}
+                    >
+                      <ImageIcon className="w-4 h-4" />
+                      Görüntü
+                    </button>
+                    <button
+                      onClick={() => {
+                        onModeChange('compress');
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all border-b border-white/10",
+                        mode === 'compress' ? "text-primary bg-white/20" : "text-gray-900 hover:bg-white/10"
+                      )}
+                    >
+                      <Minimize2 className="w-4 h-4" />
+                      Sıkıştır
+                    </button>
+                    <button
+                      onClick={() => {
+                        onModeChange('music');
+                        setIsMobileMenuOpen(false);
+                      }}
+                      disabled={activeType === 'image' || activeType === 'document'}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all border-b border-white/10",
+                        mode === 'music' ? "text-primary bg-white/20" : (activeType === 'image' || activeType === 'document') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:bg-white/10"
+                      )}
+                    >
+                      <Music className="w-4 h-4" />
+                      Ses
+                    </button>
+                    <button
+                      onClick={() => {
+                        onModeChange('document');
+                        setIsMobileMenuOpen(false);
+                      }}
+                      disabled={activeType === 'image' || activeType === 'music'}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all",
+                        mode === 'document' ? "text-primary bg-white/20" : (activeType === 'image' || activeType === 'music') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:bg-white/10"
+                      )}
+                    >
+                      <FileText className="w-4 h-4" />
+                      Belge
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
 
