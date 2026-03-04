@@ -15,7 +15,9 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
   // const { language, changeLanguage, t, isLoading } = useLanguage();
   const [language, setLanguage] = useState<'tr' | 'en'>('tr');
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement | null>(null);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
 
   const changeLanguage = (lang: 'tr' | 'en') => {
     console.log('Dil değişti:', lang.toUpperCase());
@@ -49,6 +51,39 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
     };
   }, [isLangOpen]);
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as Node | null;
+      if (!target) return;
+      if (!mobileMenuRef.current) return;
+      if (!mobileMenuRef.current.contains(target)) setIsMobileMenuOpen(false);
+    };
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+
+    window.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
+  // Get current mode display name
+  const getCurrentModeName = () => {
+    switch (mode) {
+      case 'convert': return 'Görüntü';
+      case 'compress': return 'Sıkıştır';
+      case 'music': return 'Ses';
+      case 'document': return 'Belge';
+      default: return 'Görüntü';
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 px-4 pt-4">
       <div className="max-w-7xl mx-auto relative group">
@@ -70,7 +105,83 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
           </div>
 
           {/* Navigation Section */}
-          <nav className="flex flex-wrap justify-center items-center gap-2 md:gap-6 glass-nav px-4 md:px-8 py-1.5 md:py-1.5 rounded-2xl shadow-inner border border-white/10 w-full md:w-auto max-w-full overflow-x-hidden">
+          {/* Mobile Dropdown */}
+          <div className="md:hidden flex flex-col w-full" ref={mobileMenuRef}>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="flex items-center justify-between w-full glass-nav px-4 py-2 rounded-2xl shadow-inner border border-white/10"
+            >
+              <span className="text-xs font-black text-gray-900 uppercase tracking-[0.2em]">
+                {getCurrentModeName()}
+              </span>
+              <ChevronDown className={`w-4 h-4 text-gray-900 transition-transform ${isMobileMenuOpen ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {isMobileMenuOpen && (
+              <div className="absolute top-full left-0 right-0 mt-2 glass-nav rounded-2xl shadow-xl border border-white/20 overflow-hidden z-50">
+                <div className="flex flex-col">
+                  <button
+                    onClick={() => {
+                      onModeChange('convert');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    disabled={activeType === 'music' || activeType === 'document'}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all border-b border-white/10",
+                      mode === 'convert' ? "text-primary bg-white/20" : (activeType === 'music' || activeType === 'document') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:bg-white/10"
+                    )}
+                  >
+                    <ImageIcon className="w-4 h-4" />
+                    Görüntü
+                  </button>
+                  <button
+                    onClick={() => {
+                      onModeChange('compress');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all border-b border-white/10",
+                      mode === 'compress' ? "text-primary bg-white/20" : "text-gray-900 hover:bg-white/10"
+                    )}
+                  >
+                    <Minimize2 className="w-4 h-4" />
+                    Sıkıştır
+                  </button>
+                  <button
+                    onClick={() => {
+                      onModeChange('music');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    disabled={activeType === 'image' || activeType === 'document'}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all border-b border-white/10",
+                      mode === 'music' ? "text-primary bg-white/20" : (activeType === 'image' || activeType === 'document') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:bg-white/10"
+                    )}
+                  >
+                    <Music className="w-4 h-4" />
+                    Ses
+                  </button>
+                  <button
+                    onClick={() => {
+                      onModeChange('document');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    disabled={activeType === 'image' || activeType === 'music'}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all",
+                      mode === 'document' ? "text-primary bg-white/20" : (activeType === 'image' || activeType === 'music') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:bg-white/10"
+                    )}
+                  >
+                    <FileText className="w-4 h-4" />
+                    Belge
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex flex-wrap justify-center items-center gap-2 md:gap-6 glass-nav px-4 md:px-8 py-1.5 md:py-1.5 rounded-2xl shadow-inner border border-white/10 w-full md:w-auto max-w-full overflow-x-hidden">
           <div className="relative">
             {/* Sliding background indicator */}
             <div 
