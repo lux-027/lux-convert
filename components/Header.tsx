@@ -1,16 +1,14 @@
 'use client';
 
-import { Globe, ChevronDown, Zap, Minimize2, Image as ImageIcon, Music } from 'lucide-react';
+import { Globe, ChevronDown, Zap, Minimize2, Image as ImageIcon, Music, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
-// import { useLanguage, Language } from '../src/hooks/useLanguage';
-
-export type AppMode = 'convert' | 'compress' | 'music';
+import { AppMode } from '@/types';
 
 interface HeaderProps {
   mode: AppMode;
   onModeChange: (mode: AppMode) => void;
-  activeType?: 'image' | 'music' | null;
+  activeType?: 'image' | 'music' | 'document' | null;
 }
 
 export default function Header({ mode, onModeChange, activeType }: HeaderProps) {
@@ -70,50 +68,86 @@ export default function Header({ mode, onModeChange, activeType }: HeaderProps) 
           </h1>
         </div>
 
-        <nav className="flex items-center glass-nav p-1.5 rounded-2xl relative overflow-hidden shadow-inner border border-white/10">
-          {/* Sliding background indicator */}
-          <div 
-            className={cn(
-              "absolute top-1.5 bottom-1.5 w-[calc(33.33%-4px)] bg-white/90 rounded-xl shadow-lg transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-0",
-              mode === 'convert' ? "left-1" : mode === 'compress' ? "left-[33.33%]" : "left-[66.66%]"
-            )}
-          />
+        <nav className="flex items-center gap-6 glass-nav px-8 py-1.5 rounded-2xl shadow-inner border border-white/10">
+          <div className="relative">
+            {/* Sliding background indicator */}
+            <div 
+              className={cn(
+                "absolute inset-0 bg-white/90 rounded-xl shadow-lg transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-0",
+                mode === 'convert' ? "opacity-100" : "opacity-0"
+              )}
+            />
+            <button
+              onClick={() => onModeChange('convert')}
+              disabled={activeType === 'music' || activeType === 'document'}
+              className={cn(
+                "relative z-10 flex items-center gap-2.5 px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
+                mode === 'convert' ? "text-primary scale-105" : (activeType === 'music' || activeType === 'document') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:text-black opacity-90 hover:opacity-100"
+              )}
+            >
+              <ImageIcon className="w-4 h-4" />
+              Görüntü
+            </button>
+          </div>
           
-          <button
-            onClick={() => onModeChange('convert')}
-            disabled={activeType === 'music'}
-            className={cn(
-              "relative z-10 flex items-center gap-2.5 px-6 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
-              mode === 'convert' ? "text-primary scale-105" : activeType === 'music' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:text-black opacity-90 hover:opacity-100"
-            )}
-          >
-            <ImageIcon className="w-4 h-4" />
-            Dönüştür
-          </button>
-          
-          <button
-            onClick={() => onModeChange('compress')}
-            disabled={activeType === 'music'}
-            className={cn(
-              "relative z-10 flex items-center gap-2.5 px-6 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
-              mode === 'compress' ? "text-primary scale-105" : activeType === 'music' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:text-black opacity-90 hover:opacity-100"
-            )}
-          >
-            <Minimize2 className="w-4 h-4" />
-            Sıkıştır
-          </button>
+          <div className="relative">
+            <div 
+              className={cn(
+                "absolute inset-0 bg-white/90 rounded-xl shadow-lg transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-0",
+                mode === 'compress' ? "opacity-100" : "opacity-0"
+              )}
+            />
+            <button
+              onClick={() => onModeChange('compress')}
+              className={cn(
+                "relative z-10 flex items-center gap-2.5 px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
+                mode === 'compress' ? "text-primary scale-105" : "text-gray-900 hover:text-black opacity-90 hover:opacity-100"
+              )}
+            >
+              <Minimize2 className="w-4 h-4" />
+              Sıkıştır
+            </button>
+          </div>
 
-          <button
-            onClick={() => onModeChange('music')}
-            disabled={activeType === 'image'}
-            className={cn(
-              "relative z-10 flex items-center gap-2.5 px-6 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
-              mode === 'music' ? "text-primary scale-105" : activeType === 'image' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:text-black opacity-90 hover:opacity-100"
-            )}
-          >
-            <Music className="w-4 h-4" />
-            Müzik
-          </button>
+          <div className="relative">
+            <div 
+              className={cn(
+                "absolute inset-0 bg-white/90 rounded-xl shadow-lg transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-0",
+                mode === 'music' ? "opacity-100" : "opacity-0"
+              )}
+            />
+            <button
+              onClick={() => onModeChange('music')}
+              disabled={activeType === 'image' || activeType === 'document'}
+              className={cn(
+                "relative z-10 flex items-center gap-2.5 px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
+                mode === 'music' ? "text-primary scale-105" : (activeType === 'image' || activeType === 'document') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:text-black opacity-90 hover:opacity-100"
+              )}
+            >
+              <Music className="w-4 h-4" />
+              Ses
+            </button>
+          </div>
+
+          <div className="relative">
+            <div 
+              className={cn(
+                "absolute inset-0 bg-white/90 rounded-xl shadow-lg transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-0",
+                mode === 'document' ? "opacity-100" : "opacity-0"
+              )}
+            />
+            <button
+              onClick={() => onModeChange('document')}
+              disabled={activeType === 'image' || activeType === 'music'}
+              className={cn(
+                "relative z-10 flex items-center gap-2.5 px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500",
+                mode === 'document' ? "text-primary scale-105" : (activeType === 'image' || activeType === 'music') && mode !== 'compress' ? "text-gray-600 cursor-not-allowed opacity-75" : "text-gray-900 hover:text-black opacity-90 hover:opacity-100"
+              )}
+            >
+              <FileText className="w-4 h-4" />
+              Belge
+            </button>
+          </div>
         </nav>
 
         <div className="hidden md:flex items-center justify-end w-32" ref={langMenuRef}>
