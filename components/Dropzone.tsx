@@ -71,7 +71,7 @@ export default function Dropzone({ onFilesSelect, className, mode }: DropzonePro
         {/* Upload Button */}
         <div className="relative group">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl sm:rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity"></div>
-          <div className="relative flex items-center gap-2 sm:gap-4 md:gap-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 sm:px-6 md:px-8 lg:px-12 py-2 sm:py-4 md:py-6 lg:py-7 rounded-xl sm:rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 group hover:scale-105">
+          <div className="relative flex items-center gap-2 sm:gap-4 md:gap-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 sm:px-6 md:px-8 lg:px-12 py-4 sm:py-4 md:py-6 lg:py-7 min-h-[60px] rounded-xl sm:rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 group hover:scale-105">
             <span className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-black uppercase tracking-wider truncate">Dosyaları Seçin</span>
             <div className="flex gap-2 sm:gap-3 md:gap-4 border-l border-white/30 pl-2 sm:pl-4 md:pl-6 lg:pl-8 flex-shrink-0">
               <FolderOpen className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7" />
@@ -84,21 +84,21 @@ export default function Dropzone({ onFilesSelect, className, mode }: DropzonePro
         <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 md:gap-4 w-full max-w-md mx-auto">
           <button 
             onClick={() => window.open('https://www.dropbox.com', '_blank')}
-            className="flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-1 sm:py-2 md:py-3 rounded-lg sm:rounded-xl bg-blue-600 text-white text-xs sm:text-sm md:text-base font-semibold shadow-lg hover:bg-blue-700 transition-all duration-300 hover:scale-110 hover:shadow-2xl active:scale-95 active:shadow-lg w-full sm:w-auto h-8 sm:h-10"
+            className="flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-2 sm:py-2 md:py-3 h-[36px] rounded-lg sm:rounded-xl bg-blue-600 text-white text-xs sm:text-sm md:text-base font-semibold shadow-lg hover:bg-blue-700 transition-all duration-300 hover:scale-110 hover:shadow-2xl active:scale-95 active:shadow-lg w-full sm:w-auto"
           >
             <svg className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12.007 0C8.618 0 5.61 2.308 4.002 5.766L0 5.766 0 18.234 4.002 18.234C5.61 21.692 8.618 24 12.007 24 17.525 24 22.014 19.511 22.014 14.002 22.014 8.493 17.525 4.002 12.007 4.002L12.007 0ZM12.007 8.004C15.313 8.004 18.01 10.701 18.01 14.002 18.01 17.303 15.313 20 12.007 20 8.696 20 5.999 17.303 5.999 14.002 5.999 10.701 8.696 8.004 12.007 8.004Z"/>
             </svg>
-            <span className="truncate hidden sm:inline">Dropbox</span>
+            <span className="truncate">Dropbox'tan Seç</span>
           </button>
           <button 
             onClick={() => window.open('https://drive.google.com', '_blank')}
-            className="flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-1 sm:py-2 md:py-3 rounded-lg sm:rounded-xl bg-red-600 text-white text-xs sm:text-sm md:text-base font-semibold shadow-lg hover:bg-red-700 transition-all duration-300 hover:scale-110 hover:shadow-2xl active:scale-95 active:shadow-lg w-full sm:w-auto h-8 sm:h-10"
+            className="flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-2 sm:py-2 md:py-3 h-[36px] rounded-lg sm:rounded-xl bg-red-600 text-white text-xs sm:text-sm md:text-base font-semibold shadow-lg hover:bg-red-700 transition-all duration-300 hover:scale-110 hover:shadow-2xl active:scale-95 active:shadow-lg w-full sm:w-auto"
           >
             <svg className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M24 8.57h-8.32L12 12.85 8.32 8.57H0l12 15.43L24 8.57zM12 0L0 8.57h4.94l7.06-7.98 7.06 7.98H24L12 0z"/>
             </svg>
-            <span className="truncate hidden sm:inline">Google Drive</span>
+            <span className="truncate">Drive'dan Seç</span>
           </button>
         </div>
         

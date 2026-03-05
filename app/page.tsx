@@ -193,35 +193,35 @@ export default function Home() {
             </div>
             
             {/* Features Section - Moved below Dropzone */}
-            <div className="relative glass-droplet-footer p-4 sm:p-6 md:p-8 border-t border-white/20 rounded-b-[1.5rem] sm:rounded-b-[2rem] mt-4 sm:mt-6 overflow-hidden">
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 md:gap-16 text-white">
-                <div className="flex items-center gap-2 sm:gap-3 group">
-                  <div className="w-8 h-8 sm:w-12 sm:h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors flex-shrink-0">
-                    <Zap className="w-4 h-4 sm:w-6 sm:h-6" />
+            <div className="relative glass-droplet-footer p-2 sm:p-4 md:p-8 border-t border-white/20 rounded-b-[1.5rem] sm:rounded-b-[2rem] mt-4 sm:mt-6 overflow-hidden">
+              <div className="flex flex-row justify-between items-center gap-1 sm:gap-4 md:gap-16 text-white w-full">
+                <div className="flex items-center gap-1 sm:gap-3 group">
+                  <div className="w-3 h-3 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors flex-shrink-0">
+                    <Zap className="w-2 h-2 sm:w-4 sm:h-4 md:w-6 md:h-6" />
                   </div>
                   <div className="text-left">
-                    <div className="font-bold text-sm sm:text-base lg:text-lg">HIZLI</div>
-                    <div className="text-xs text-white/80 hidden sm:block">Anında işlem</div>
+                    <div className="font-bold text-[10px] sm:text-sm md:text-base lg:text-lg">HIZLI</div>
+                    <div className="text-[8px] sm:text-xs md:text-xs text-white/80 hidden sm:block">Anında işlem</div>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-2 sm:gap-3 group">
-                  <div className="w-8 h-8 sm:w-12 sm:h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors flex-shrink-0">
-                    <div className="w-3 h-3 sm:w-6 sm:h-6 border-2 border-white rounded-sm"></div>
+                <div className="flex items-center gap-1 sm:gap-3 group">
+                  <div className="w-3 h-3 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors flex-shrink-0">
+                    <div className="w-1 h-1 sm:w-3 sm:h-3 md:w-6 md:h-6 border border-white rounded-sm"></div>
                   </div>
                   <div className="text-left">
-                    <div className="font-bold text-sm sm:text-base lg:text-lg">GÜVENLİ</div>
-                    <div className="text-xs text-white/80 hidden sm:block">Gizlilik korumalı</div>
+                    <div className="font-bold text-[10px] sm:text-sm md:text-base lg:text-lg">GÜVENLİ</div>
+                    <div className="text-[8px] sm:text-xs md:text-xs text-white/80 hidden sm:block">Gizlilik korumalı</div>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-2 sm:gap-3 group">
-                  <div className="w-8 h-8 sm:w-12 sm:h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors flex-shrink-0">
-                    <div className="w-3 h-3 sm:w-6 sm:h-6 flex items-center justify-center text-xs font-bold">ÜC</div>
+                <div className="flex items-center gap-1 sm:gap-3 group">
+                  <div className="w-3 h-3 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors flex-shrink-0">
+                    <div className="w-1 h-1 sm:w-3 sm:h-3 md:w-6 md:h-6 flex items-center justify-center text-[6px] sm:text-xs font-bold">ÜC</div>
                   </div>
                   <div className="text-left">
-                    <div className="font-bold text-sm sm:text-base lg:text-lg">ÜCRETSİZ</div>
-                    <div className="text-xs text-white/80 hidden sm:block">Sınırsız kullanım</div>
+                    <div className="font-bold text-[10px] sm:text-sm md:text-base lg:text-lg">ÜCRETSİZ</div>
+                    <div className="text-[8px] sm:text-xs md:text-xs text-white/80 hidden sm:block">Sınırsız kullanım</div>
                   </div>
                 </div>
               </div>
@@ -229,16 +229,16 @@ export default function Home() {
             
             {/* 3-Step Guide Section - Moved to bottom */}
             <div className="mt-12">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="flex flex-col md:grid md:grid-cols-3 gap-4 md:gap-6">
                 {/* Step 1 */}
-                <div className="group bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-purple-300/50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:from-purple-500 hover:via-purple-600 hover:to-purple-700">
-                  <div className="flex flex-col items-center text-center space-y-4">
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/30 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-                      <UploadCloud className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                <div className="group bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-xl sm:rounded-2xl md:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-purple-300/50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:from-purple-500 hover:via-purple-600 hover:to-purple-700">
+                  <div className="flex flex-col items-center text-center space-y-2 sm:space-y-4">
+                    <div className="w-6 h-6 sm:w-8 sm:w-12 md:w-16 md:h-16 bg-white/30 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                      <UploadCloud className="w-3 h-3 sm:w-4 sm:w-6 md:w-8 md:h-8 text-white" />
                     </div>
-                    <div className="space-y-2">
-                      <h3 className="text-lg sm:text-xl font-bold text-white">1. Dosya Seç</h3>
-                      <p className="text-sm sm:text-base text-purple-50 leading-relaxed">
+                    <div className="space-y-1 sm:space-y-2">
+                      <h3 className="text-sm sm:text-sm md:text-base lg:text-xl font-bold text-white">1. Dosya Seç</h3>
+                      <p className="text-xs sm:text-xs md:text-sm text-purple-50 leading-relaxed hidden md:block">
                         Dönüştürmek istediğiniz dosyayı seçin veya sürükleyip bırakın.
                       </p>
                     </div>
@@ -246,14 +246,14 @@ export default function Home() {
                 </div>
 
                 {/* Step 2 */}
-                <div className="group bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-purple-300/50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:from-purple-500 hover:via-purple-600 hover:to-purple-700">
-                  <div className="flex flex-col items-center text-center space-y-4">
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/30 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-                      <SlidersHorizontal className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                <div className="group bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-xl sm:rounded-2xl md:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-purple-300/50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:from-purple-500 hover:via-purple-600 hover:to-purple-700">
+                  <div className="flex flex-col items-center text-center space-y-2 sm:space-y-4">
+                    <div className="w-6 h-6 sm:w-8 sm:w-12 md:w-16 md:h-16 bg-white/30 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                      <SlidersHorizontal className="w-3 h-3 sm:w-4 sm:w-6 md:w-8 md:h-8 text-white" />
                     </div>
-                    <div className="space-y-2">
-                      <h3 className="text-lg sm:text-xl font-bold text-white">2. Biçim Seç</h3>
-                      <p className="text-sm sm:text-base text-purple-50 leading-relaxed">
+                    <div className="space-y-1 sm:space-y-2">
+                      <h3 className="text-sm sm:text-sm md:text-base lg:text-xl font-bold text-white">2. Biçim Seç</h3>
+                      <p className="text-xs sm:text-xs md:text-sm text-purple-50 leading-relaxed hidden md:block">
                         İhtiyacınız olan hedef dosya formatını listeden belirleyin.
                       </p>
                     </div>
@@ -261,14 +261,14 @@ export default function Home() {
                 </div>
 
                 {/* Step 3 */}
-                <div className="group bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-purple-300/50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:from-purple-500 hover:via-purple-600 hover:to-purple-700">
-                  <div className="flex flex-col items-center text-center space-y-4">
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/30 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-                      <Download className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                <div className="group bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-xl sm:rounded-2xl md:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-purple-300/50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:from-purple-500 hover:via-purple-600 hover:to-purple-700">
+                  <div className="flex flex-col items-center text-center space-y-2 sm:space-y-4">
+                    <div className="w-6 h-6 sm:w-8 sm:w-12 md:w-16 md:h-16 bg-white/30 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                      <Download className="w-3 h-3 sm:w-4 sm:w-6 md:w-8 md:h-8 text-white" />
                     </div>
-                    <div className="space-y-2">
-                      <h3 className="text-lg sm:text-xl font-bold text-white">3. İndir</h3>
-                      <p className="text-sm sm:text-base text-purple-50 leading-relaxed">
+                    <div className="space-y-1 sm:space-y-2">
+                      <h3 className="text-sm sm:text-sm md:text-base lg:text-xl font-bold text-white">3. İndir</h3>
+                      <p className="text-xs sm:text-xs md:text-sm text-purple-50 leading-relaxed hidden md:block">
                         Dönüştürülen dosyanızı yüksek hızda ve güvenle indirin.
                       </p>
                     </div>
