@@ -72,8 +72,8 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
   },
   other: {
-    "theme-color": "#a855f7",
-    "msapplication-TileColor": "#a855f7",
+    "theme-color": "#9333ea",
+    "msapplication-TileColor": "#9333ea",
     "apple-mobile-web-app-title": "Lux Convert",
     "application-name": "Lux Convert",
   },
