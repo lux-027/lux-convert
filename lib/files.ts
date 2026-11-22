@@ -30,11 +30,12 @@ export function downloadBlob(blob: Blob, name: string) {
 }
 
 function uniqueNames(outputs: Output[]) {
-  const seen = new Map<string, number>();
+  const used = new Set<string>();
   return outputs.map((o) => {
-    const n = seen.get(o.name) ?? 0;
-    seen.set(o.name, n + 1);
-    return n === 0 ? o : { ...o, name: `${baseName(o.name)} (${n}).${getExt(o.name)}` };
+    let name = o.name;
+    for (let n = 1; used.has(name.toLowerCase()); n++) name = `${baseName(o.name)} (${n}).${getExt(o.name)}`;
+    used.add(name.toLowerCase());
+    return name === o.name ? o : { ...o, name };
   });
 }
 
