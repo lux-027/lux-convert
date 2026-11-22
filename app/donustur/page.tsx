@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Converter from '@/components/Converter';
 import { PageTitle } from '@/components/ui';
 
-export const metadata: Metadata = {
-  title: 'Dosya Dönüştür',
-  description: 'Görüntü, ses, video ve belgeleri tarayıcınızda ücretsiz dönüştürün.',
-  alternates: { canonical: '/donustur' },
-};
+export const metadata = pageMetadata('/donustur', 'Dosya Dönüştür', 'Görüntü, ses, video ve belgeleri tarayıcınızda ücretsiz dönüştürün.');
 
 export default function Page() {
   return (

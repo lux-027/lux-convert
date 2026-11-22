@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Compressor from '@/components/Compressor';
 import { PageTitle } from '@/components/ui';
 
-export const metadata: Metadata = {
-  title: 'Dosya Sıkıştır',
-  description: 'Görüntü, PDF, ses ve video dosyalarının boyutunu tarayıcınızda ücretsiz küçültün.',
-  alternates: { canonical: '/sikistir' },
-};
+export const metadata = pageMetadata('/sikistir', 'Dosya Sıkıştır', 'Görüntü, PDF, ses ve video dosyalarının boyutunu tarayıcınızda ücretsiz küçültün.');
 
 export default function Page() {
   return (

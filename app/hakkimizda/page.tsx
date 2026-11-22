@@ -1,11 +1,7 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Prose from '@/components/Prose';
 
-export const metadata: Metadata = {
-  title: 'Hakkımızda',
-  description: 'Lux Convert, dosyalarınızı tarayıcınızda güvenle dönüştüren ücretsiz bir araçtır.',
-  alternates: { canonical: '/hakkimizda' },
-};
+export const metadata = pageMetadata('/hakkimizda', 'Hakkımızda', 'Lux Convert, dosyalarınızı tarayıcınızda güvenle dönüştüren ücretsiz bir araçtır.');
 
 export default function Page() {
   return (

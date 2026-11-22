@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Cropper from '@/components/Cropper';
 import { PageTitle } from '@/components/ui';
 
-export const metadata: Metadata = {
-  title: 'Görüntü Kırp',
-  description: 'Görüntülerinizi istediğiniz oranda kırpın, döndürün ve çevirin. Ücretsiz ve tarayıcıda.',
-  alternates: { canonical: '/kirp' },
-};
+export const metadata = pageMetadata('/kirp', 'Görüntü Kırp', 'Görüntülerinizi istediğiniz oranda kırpın, döndürün ve çevirin. Ücretsiz ve tarayıcıda.');
 
 export default function Page() {
   return (
