@@ -48,7 +48,7 @@ export default function Compressor() {
     ]);
   }, []);
 
-  const pending = items.filter((i) => i.status === 'idle' && canCompress(i.file));
+  const pending = items.filter((i) => (i.status === 'idle' || i.status === 'error') && canCompress(i.file));
   const done = items.filter((i) => i.status === 'done' && i.output);
   const totalBefore = done.reduce((s, i) => s + i.file.size, 0);
   const totalAfter = done.reduce((s, i) => s + i.output!.blob.size, 0);
@@ -61,7 +61,7 @@ export default function Compressor() {
   const run = async () => {
     setRunning(true);
     for (const item of pending) {
-      update(item.id, { status: 'working', progress: 0, statusText: undefined });
+      update(item.id, { status: 'working', progress: 0, statusText: undefined, error: undefined });
       try {
         const output = await compressFile(item.file, level, {
           onProgress: (p) => update(item.id, { progress: p }),
