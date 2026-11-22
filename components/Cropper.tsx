@@ -163,9 +163,9 @@ export default function Cropper() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-      <div className="flex min-h-[320px] min-w-0 items-center justify-center overflow-hidden rounded-[28px] border border-line bg-[repeating-conic-gradient(#f1f3f4_0_25%,#fff_0_50%)] bg-[length:20px_20px] p-4">
+      <div className="flex min-h-[320px] min-w-0 items-center justify-center overflow-hidden rounded-[28px] border border-ink bg-ink bg-[repeating-conic-gradient(#2b2e33_0_25%,#34383d_0_50%)] bg-[length:20px_20px] p-4">
         {error ? (
-          <p className="text-sm text-error">{error}</p>
+          <p className="text-sm text-[#f28b82]">{error}</p>
         ) : (
           src && (
             <ReactCrop
