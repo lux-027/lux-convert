@@ -93,7 +93,7 @@ async function compressVideo(file: File, level: Level, cb: Progress): Promise<Ou
     outExt: 'mp4',
     args: [
       '-c:v', 'libx264', '-preset', 'veryfast', '-crf', pick(level, '26', '30', '34'), '-pix_fmt', 'yuv420p',
-      '-vf', `scale='min(${maxW},iw)':-2`,
+      '-vf', `scale='min(${maxW},trunc(iw/2)*2)':-2`,
       '-c:a', 'aac', '-b:a', pick(level, '128k', '96k', '64k'),
       '-movflags', '+faststart',
     ],
