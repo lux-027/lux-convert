@@ -6,7 +6,7 @@ type Variant = 'filled' | 'tonal' | 'outlined' | 'text';
 
 const variants: Record<Variant, string> = {
   filled: 'bg-primary text-on-primary hover:bg-primary-hover hover:shadow-card',
-  tonal: 'bg-primary-container text-on-primary-container hover:brightness-95 dark:hover:brightness-110',
+  tonal: 'bg-primary-container text-on-primary-container hover:brightness-95',
   outlined: 'border border-line text-primary hover:bg-primary-container/60',
   text: 'text-primary hover:bg-primary-container/60',
 };

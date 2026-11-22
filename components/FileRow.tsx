@@ -9,10 +9,10 @@ export type Status = 'idle' | 'working' | 'done' | 'error';
 
 const ICONS: Record<Category, typeof ImageIcon> = { image: ImageIcon, audio: Music, video: Film, document: FileText };
 const TINTS: Record<Category, string> = {
-  image: 'bg-[#e8f0fe] text-[#1a73e8] dark:bg-[#1f3760] dark:text-[#8ab4f8]',
-  audio: 'bg-[#fce8e6] text-[#d93025] dark:bg-[#4a2523] dark:text-[#f28b82]',
-  video: 'bg-[#fef7e0] text-[#e37400] dark:bg-[#4a3a17] dark:text-[#fdd663]',
-  document: 'bg-[#e6f4ea] text-[#188038] dark:bg-[#1e3a2a] dark:text-[#81c995]',
+  image: 'bg-[#e8f0fe] text-[#1a73e8]',
+  audio: 'bg-[#fce8e6] text-[#d93025]',
+  video: 'bg-[#fef7e0] text-[#e37400]',
+  document: 'bg-[#e6f4ea] text-[#188038]',
 };
 
 export default function FileRow({

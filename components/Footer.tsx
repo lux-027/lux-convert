@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { LogoMark } from './Logo';
 
 const LINKS = [
-  { href: '/', label: 'Dönüştür' },
+  { href: '/donustur', label: 'Dönüştür' },
   { href: '/sikistir', label: 'Sıkıştır' },
   { href: '/kirp', label: 'Kırp' },
   { href: '/hakkimizda', label: 'Hakkımızda' },
@@ -11,7 +11,7 @@ const LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="mt-24 border-t border-line bg-surface">
+    <footer className="mt-20 border-t border-line bg-surface">
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-8 text-sm text-fg-2 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="flex items-center gap-2">
           <LogoMark size={20} />

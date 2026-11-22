@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
   --bg: #ffffff;
   --surface: #f8f9fa;
@@ -22,25 +20,6 @@
   color-scheme: light;
 }
 
-.dark {
-  --bg: #131314;
-  --surface: #1e1f20;
-  --surface-2: #282a2c;
-  --border: #3c4043;
-  --text: #e3e3e3;
-  --text-2: #9aa0a6;
-  --primary: #8ab4f8;
-  --primary-hover: #aecbfa;
-  --on-primary: #062e6f;
-  --primary-container: #1f3760;
-  --on-primary-container: #d3e3fd;
-  --success: #81c995;
-  --success-container: #1e3a2a;
-  --error: #f28b82;
-  --error-container: #4a2523;
-  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.5);
-  color-scheme: dark;
-}
 
 @theme inline {
   --color-bg: var(--bg);

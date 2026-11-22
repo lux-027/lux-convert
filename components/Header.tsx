@@ -5,11 +5,10 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import Logo from './Logo';
-import ThemeToggle from './ThemeToggle';
 import { cn } from '@/lib/utils';
 
 const NAV = [
-  { href: '/', label: 'Dönüştür' },
+  { href: '/donustur', label: 'Dönüştür' },
   { href: '/sikistir', label: 'Sıkıştır' },
   { href: '/kirp', label: 'Kırp' },
 ];
@@ -40,7 +39,12 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-1">
-          <ThemeToggle />
+          <Link
+            href="/donustur"
+            className="hidden h-9 items-center rounded-full bg-primary px-4 text-sm font-medium text-on-primary transition-all hover:bg-primary-hover hover:shadow-card sm:inline-flex"
+          >
+            Hemen başla
+          </Link>
           <button
             type="button"
             className="grid h-10 w-10 place-items-center rounded-full text-fg-2 hover:bg-surface-2 sm:hidden"
