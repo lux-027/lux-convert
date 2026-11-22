@@ -8,7 +8,7 @@ import FileRow, { type Status } from './FileRow';
 import { Button, IconButton, Segmented } from './ui';
 import { getCategory, type Category } from '@/lib/formats';
 import { downloadAll, downloadBlob, formatBytes, type Output } from '@/lib/files';
-import { LEVELS, MIN_RATIO, canCompress, compressFile, type Level } from '@/lib/compress';
+import { LEVELS, MIN_RATIO, canCompress, compressFile, estimateRatio, type Level } from '@/lib/compress';
 
 type Item = {
   id: string;
@@ -184,13 +184,15 @@ export default function Compressor() {
                   statusText={item.statusText}
                   error={item.error}
                   disabled={item.status === 'working'}
-                  idleText={
-                    custom ? (
+                  idleText={(() => {
+                    const est = item.file.size * (custom ? percent / 100 : estimateRatio(item.file, mode as Level));
+                    return (
                       <>
-                        {formatBytes(item.file.size)} → <span className="font-medium text-fg">≈ {formatBytes((item.file.size * percent) / 100)}</span>
+                        {formatBytes(item.file.size)} → <span className="font-medium text-fg">≈ {formatBytes(est)}</span>
+                        <span className="text-success"> · −{formatBytes(item.file.size - est)}</span>
                       </>
-                    ) : undefined
-                  }
+                    );
+                  })()}
                   doneText={
                     item.output &&
                     (item.output.unchanged ? (

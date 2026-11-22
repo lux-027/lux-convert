@@ -35,6 +35,19 @@ function mediaDuration(file: File): Promise<number> {
 
 const pick = <T,>(level: Level, low: T, medium: T, high: T) => (level === 'low' ? low : level === 'medium' ? medium : high);
 
+const ESTIMATES: Record<string, [number, number, number]> = {
+  image: [0.8, 0.55, 0.3],
+  document: [0.7, 0.5, 0.3],
+  audio: [0.6, 0.45, 0.25],
+  video: [0.6, 0.4, 0.2],
+};
+
+/** Rough expected output/input size ratio for a preset level, used for previews only. */
+export function estimateRatio(file: File, level: Level) {
+  const e = ESTIMATES[getCategory(file) ?? ''] ?? ESTIMATES.image;
+  return pick(level, ...e);
+}
+
 export function canCompress(file: File) {
   const cat = getCategory(file);
   const ext = getExt(file.name);
