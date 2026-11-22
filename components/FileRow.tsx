@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { CheckCircle2, Download, FileText, Film, Image as ImageIcon, Music, AlertCircle, X } from 'lucide-react';
 import type { Category } from '@/lib/formats';
 import { formatBytes } from '@/lib/files';
@@ -17,25 +17,22 @@ const TINTS: Record<Category, string> = {
   document: 'bg-[#e6f4ea] text-[#188038]',
 };
 
-const thumbs = new WeakMap<File, string>();
-
-function thumbUrl(file: File) {
-  let url = thumbs.get(file);
-  if (!url) {
-    url = URL.createObjectURL(file);
-    thumbs.set(file, url);
-  }
-  return url;
-}
-
 function Thumb({ file, category }: { file: File; category: Category | null }) {
   const [broken, setBroken] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const showImage = category === 'image' && !broken;
+  useEffect(() => {
+    if (!showImage || !imgRef.current) return;
+    const url = URL.createObjectURL(file);
+    imgRef.current.src = url;
+    return () => URL.revokeObjectURL(url);
+  }, [file, showImage]);
   const Icon = category ? ICONS[category] : FileText;
-  if (category === 'image' && !broken) {
+  if (showImage) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={thumbUrl(file)}
+        ref={imgRef}
         alt=""
         onError={() => setBroken(true)}
         className="h-10 w-10 shrink-0 rounded-xl bg-surface-2 object-cover ring-1 ring-line"
