@@ -7,7 +7,7 @@ export const metadata = pageMetadata('/sikistir', 'Dosya Sıkıştır', 'Görün
 export default function Page() {
   return (
     <>
-      <ToolHero tool="compress" title="Dosya boyutunu küçültün" subtitle="Görüntü, PDF, ses ve video dosyalarını kaliteyi koruyarak sıkıştırın." chips={['3 seviye', 'Boyut karşılaştırması', 'Toplu sıkıştırma']} />
+      <ToolHero tool="compress" title="Dosya boyutunu küçültün" subtitle="Görüntü, PDF, ses ve video dosyalarını kaliteyi koruyarak sıkıştırın." chips={['3 seviye + özel ayar', 'Anlık hedef boyut', 'Toplu sıkıştırma']} />
       <section className="mx-auto mt-8 max-w-4xl">
         <Compressor />
       </section>

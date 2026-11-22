@@ -2,13 +2,13 @@
 
 import { recordConversions } from '@/lib/stats';
 import { useCallback, useRef, useState } from 'react';
-import { Download, Plus, RotateCcw } from 'lucide-react';
+import { Download, Minus, Plus, RotateCcw } from 'lucide-react';
 import DropArea from './DropArea';
 import FileRow, { type Status } from './FileRow';
-import { Button, Segmented } from './ui';
+import { Button, IconButton, Segmented } from './ui';
 import { getCategory, type Category } from '@/lib/formats';
 import { downloadAll, downloadBlob, formatBytes, type Output } from '@/lib/files';
-import { LEVELS, canCompress, compressFile, type Level } from '@/lib/compress';
+import { LEVELS, MIN_RATIO, canCompress, compressFile, type Level } from '@/lib/compress';
 
 type Item = {
   id: string;
@@ -24,9 +24,13 @@ type Item = {
 const ACCEPT = '.jpg,.jpeg,.png,.webp,.gif,.bmp,.pdf,.mp3,.wav,.ogg,.flac,.m4a,.aac,.opus,.wma,.aiff,.mp4,.webm,.mov,.mkv,.avi,.m4v,.3gp,.wmv';
 const MAX_FILES = 25;
 
+type Mode = Level | 'custom';
+const MODES: { value: Mode; label: string }[] = [...LEVELS.map(({ value, label }) => ({ value, label })), { value: 'custom', label: 'Ayarla' }];
+
 export default function Compressor() {
   const [items, setItems] = useState<Item[]>([]);
-  const [level, setLevel] = useState<Level>('medium');
+  const [mode, setMode] = useState<Mode>('medium');
+  const [percent, setPercent] = useState(50);
   const [running, setRunning] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -54,10 +58,18 @@ export default function Compressor() {
   const totalBefore = done.reduce((s, i) => s + i.file.size, 0);
   const totalAfter = done.reduce((s, i) => s + i.output!.blob.size, 0);
 
-  const changeLevel = (l: Level) => {
-    setLevel(l);
-    setItems((list) => list.map((i) => (i.status === 'done' ? { ...i, status: 'idle', output: undefined } : i)));
+  const resetDone = () => setItems((list) => list.map((i) => (i.status === 'done' ? { ...i, status: 'idle', output: undefined } : i)));
+  const changeMode = (m: Mode) => {
+    setMode(m);
+    resetDone();
   };
+  const changePercent = (p: number) => {
+    setPercent(Math.min(100, Math.max(MIN_RATIO, Math.round(p))));
+    resetDone();
+  };
+  const custom = mode === 'custom';
+  const ratio = custom ? percent / 100 : undefined;
+  const totalOriginal = items.reduce((s, i) => s + i.file.size, 0);
 
   const run = async () => {
     setRunning(true);
@@ -65,10 +77,15 @@ export default function Compressor() {
     for (const item of pending) {
       update(item.id, { status: 'working', progress: 0, statusText: undefined, error: undefined });
       try {
-        const output = await compressFile(item.file, level, {
-          onProgress: (p) => update(item.id, { progress: p }),
-          onStatus: (s) => update(item.id, { statusText: s }),
-        });
+        const output = await compressFile(
+          item.file,
+          custom ? 'medium' : mode,
+          {
+            onProgress: (p) => update(item.id, { progress: p }),
+            onStatus: (s) => update(item.id, { statusText: s }),
+          },
+          ratio
+        );
         update(item.id, { status: 'done', output, progress: 1 });
         if (!output.unchanged) succeeded++;
       } catch (e) {
@@ -79,14 +96,61 @@ export default function Compressor() {
     recordConversions(succeeded);
   };
 
-  const levelHint = LEVELS.find((l) => l.value === level)!.hint;
+  const levelHint = custom ? 'Hedef boyutu kendiniz belirleyin' : LEVELS.find((l) => l.value === mode)!.hint;
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col items-center gap-2">
-        <Segmented options={LEVELS.map(({ value, label }) => ({ value, label }))} value={level} onChange={changeLevel} />
+        <Segmented options={MODES} value={mode} onChange={changeMode} />
         <p className="text-xs text-fg-2">{levelHint}</p>
       </div>
+
+      {custom && (
+        <div data-appear className="mx-auto max-w-xl rounded-3xl border border-line bg-white p-5 shadow-[0_2px_12px_rgb(60_64_67/0.08)]">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-medium tracking-wide text-fg-2 uppercase">Hedef boyut</p>
+              <p className="mt-1 text-2xl font-medium tracking-tight text-fg tabular-nums">
+                {totalOriginal ? formatBytes((totalOriginal * percent) / 100) : `%${percent}`}
+              </p>
+            </div>
+            <p className="text-right text-xs text-fg-2 tabular-nums">
+              {totalOriginal ? (
+                <>
+                  Orijinal {formatBytes(totalOriginal)}
+                  <br />
+                  <span className="font-medium text-fg">%{percent}</span> · −%{100 - percent}
+                </>
+              ) : (
+                'Orijinal boyuta göre'
+              )}
+            </p>
+          </div>
+          <div className="mt-4 flex items-center gap-3">
+            <IconButton aria-label="Küçült" title="Küçült" onClick={() => changePercent(percent - 5)} disabled={running || percent <= MIN_RATIO}>
+              <Minus className="h-4 w-4" />
+            </IconButton>
+            <input
+              type="range"
+              min={MIN_RATIO}
+              max={100}
+              step={1}
+              value={percent}
+              onChange={(e) => changePercent(Number(e.target.value))}
+              disabled={running}
+              aria-label="Hedef boyut yüzdesi"
+              className="h-1.5 flex-1 cursor-pointer accent-ink"
+            />
+            <IconButton aria-label="Büyüt" title="Büyüt" onClick={() => changePercent(percent + 5)} disabled={running || percent >= 100}>
+              <Plus className="h-4 w-4" />
+            </IconButton>
+          </div>
+          <div className="mt-2 flex justify-between px-12 text-[11px] text-fg-2">
+            <span>Daha küçük</span>
+            <span>Orijinal</span>
+          </div>
+        </div>
+      )}
 
       {!items.length ? (
         <DropArea
@@ -141,6 +205,13 @@ export default function Compressor() {
                   statusText={item.statusText}
                   error={item.error}
                   disabled={item.status === 'working'}
+                  idleText={
+                    custom ? (
+                      <>
+                        {formatBytes(item.file.size)} → <span className="font-medium text-fg">≈ {formatBytes((item.file.size * percent) / 100)}</span>
+                      </>
+                    ) : undefined
+                  }
                   doneText={
                     item.output &&
                     (item.output.unchanged ? (

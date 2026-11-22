@@ -22,6 +22,7 @@ export default function FileRow({
   progress,
   statusText,
   doneText,
+  idleText,
   error,
   right,
   onRemove,
@@ -34,6 +35,7 @@ export default function FileRow({
   progress?: number;
   statusText?: string;
   doneText?: ReactNode;
+  idleText?: ReactNode;
   error?: string;
   right?: ReactNode;
   onRemove: () => void;
@@ -71,7 +73,7 @@ export default function FileRow({
             <span className="line-clamp-2">{error}</span>
           </p>
         ) : (
-          <p className="mt-0.5 text-xs text-fg-2">{formatBytes(file.size)}</p>
+          <p className="mt-0.5 text-xs text-fg-2">{idleText ?? formatBytes(file.size)}</p>
         )}
       </div>
       {right}
