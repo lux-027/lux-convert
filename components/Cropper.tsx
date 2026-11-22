@@ -153,14 +153,15 @@ export default function Cropper() {
         multiple={false}
         accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/avif,image/svg+xml"
         onFiles={(f) => setFile(f[0])}
-        hint="JPG, PNG, WEBP, GIF, BMP, AVIF, SVG · Görüntünüz cihazınızdan çıkmaz."
+        formats={['JPG', 'PNG', 'WEBP', 'GIF', 'BMP', 'AVIF', 'SVG']}
+        hint="Görüntünüz cihazınızdan çıkmaz, işlem tarayıcınızda yapılır."
       />
     );
   }
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-      <div className="flex min-h-[320px] items-center justify-center rounded-3xl border border-line bg-surface p-4">
+      <div className="flex min-h-[320px] items-center justify-center rounded-[28px] border border-line bg-[repeating-conic-gradient(#f1f3f4_0_25%,#fff_0_50%)] bg-[length:20px_20px] p-4">
         {error ? (
           <p className="text-sm text-error">{error}</p>
         ) : (
@@ -180,7 +181,7 @@ export default function Cropper() {
         )}
       </div>
 
-      <aside className="space-y-6 rounded-3xl border border-line p-5">
+      <aside className="space-y-6 rounded-[28px] border border-line bg-white p-5 shadow-[0_2px_12px_rgb(60_64_67/0.08)]">
         <div>
           <p className="mb-1 truncate text-sm font-medium text-fg" title={file.name}>
             {file.name}

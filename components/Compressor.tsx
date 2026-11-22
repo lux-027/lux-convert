@@ -88,10 +88,11 @@ export default function Compressor() {
         <DropArea
           onFiles={addFiles}
           accept={ACCEPT}
-          hint="JPG, PNG, WEBP, GIF, PDF, MP3, WAV, MP4, MOV ve daha fazlası · Dosyalarınız cihazınızdan çıkmaz."
+          formats={['JPG', 'PNG', 'WEBP', 'GIF', 'PDF', 'MP3', 'WAV', 'MP4', 'MOV']}
+          hint="Dosyalarınız cihazınızdan çıkmaz, işlem tarayıcınızda yapılır."
         />
       ) : (
-        <div className="overflow-hidden rounded-3xl border border-line bg-bg">
+        <div className="overflow-hidden rounded-[28px] border border-line bg-white shadow-[0_2px_12px_rgb(60_64_67/0.08)]">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-surface px-4 py-3">
             <span className="text-sm text-fg-2">
               {items.length} dosya

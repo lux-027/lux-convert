@@ -83,13 +83,14 @@ export default function Converter() {
       <DropArea
         onFiles={addFiles}
         accept={ACCEPT}
-        hint="Görüntü, ses, video ve belge dosyaları · En fazla 25 dosya · Dosyalarınız cihazınızdan çıkmaz, işlem tarayıcınızda yapılır."
+        formats={['JPG', 'PNG', 'WEBP', 'MP3', 'WAV', 'MP4', 'MOV', 'PDF', 'DOCX', 'CSV']}
+        hint="En fazla 25 dosya · Dosyalarınız cihazınızdan çıkmaz, işlem tarayıcınızda yapılır."
       />
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-line bg-bg">
+    <div className="overflow-hidden rounded-[28px] border border-line bg-white shadow-[0_2px_12px_rgb(60_64_67/0.08)]">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-surface px-4 py-3">
         <div className="flex flex-wrap items-center gap-3 text-sm text-fg-2">
           <span>
