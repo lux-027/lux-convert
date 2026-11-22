@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-white/95 shadow-[0_1px_6px_rgb(60_64_67/0.08)] backdrop-blur">
-      <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-4 sm:px-6">
+      <div className="mx-auto grid h-[68px] max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6">
         <Logo />
         <nav className="hidden items-center gap-1 rounded-full bg-surface-2 p-1 md:flex" aria-label="Ana menü">
           {NAV.map((item) => (
@@ -40,13 +40,7 @@ export default function Header() {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-1">
-          <Link
-            href="/donustur"
-            className="hidden h-9 items-center rounded-full bg-primary px-4 text-sm font-medium text-on-primary transition-all hover:bg-primary-hover hover:shadow-card md:inline-flex"
-          >
-            Hemen başla
-          </Link>
+        <div className="flex items-center justify-self-end">
           <button
             type="button"
             className="grid h-10 w-10 place-items-center rounded-full text-fg-2 hover:bg-surface-2 md:hidden"
