@@ -1,4 +1,6 @@
-import type { ReactNode } from 'react';
+'use client';
+
+import { useState, type ReactNode } from 'react';
 import { CheckCircle2, Download, FileText, Film, Image as ImageIcon, Music, AlertCircle, X } from 'lucide-react';
 import type { Category } from '@/lib/formats';
 import { formatBytes } from '@/lib/files';
@@ -14,6 +16,38 @@ const TINTS: Record<Category, string> = {
   video: 'bg-[#fef7e0] text-[#e37400]',
   document: 'bg-[#e6f4ea] text-[#188038]',
 };
+
+const thumbs = new WeakMap<File, string>();
+
+function thumbUrl(file: File) {
+  let url = thumbs.get(file);
+  if (!url) {
+    url = URL.createObjectURL(file);
+    thumbs.set(file, url);
+  }
+  return url;
+}
+
+function Thumb({ file, category }: { file: File; category: Category | null }) {
+  const [broken, setBroken] = useState(false);
+  const Icon = category ? ICONS[category] : FileText;
+  if (category === 'image' && !broken) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={thumbUrl(file)}
+        alt=""
+        onError={() => setBroken(true)}
+        className="h-10 w-10 shrink-0 rounded-xl bg-surface-2 object-cover ring-1 ring-line"
+      />
+    );
+  }
+  return (
+    <div className={cn('grid h-10 w-10 shrink-0 place-items-center rounded-xl', category ? TINTS[category] : 'bg-surface-2 text-fg-2')}>
+      <Icon className="h-5 w-5" />
+    </div>
+  );
+}
 
 export default function FileRow({
   file,
@@ -42,12 +76,9 @@ export default function FileRow({
   onDownload?: () => void;
   disabled?: boolean;
 }) {
-  const Icon = category ? ICONS[category] : FileText;
   return (
     <li className="flex items-center gap-3 px-4 py-3 sm:gap-4">
-      <div className={cn('grid h-10 w-10 shrink-0 place-items-center rounded-xl', category ? TINTS[category] : 'bg-surface-2 text-fg-2')}>
-        <Icon className="h-5 w-5" />
-      </div>
+      <Thumb file={file} category={category} />
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium text-fg" title={file.name}>
           {file.name}
