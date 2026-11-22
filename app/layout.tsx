@@ -1,108 +1,87 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import type { Metadata, Viewport } from 'next';
+import { Google_Sans } from 'next/font/google';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import Motion from '@/components/Motion';
+import './globals.css';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const googleSans = Google_Sans({
+  variable: '--font-google-sans',
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const description =
+  'Görüntü, ses, video ve belge dosyalarınızı tarayıcınızda ücretsiz dönüştürün, sıkıştırın ve kırpın. Dosyalarınız cihazınızdan hiç çıkmaz.';
 
 export const metadata: Metadata = {
-  title: "Lux Convert | Ücretsiz Resim, Ses ve Belge Dönüştürücü",
-  applicationName: "Lux Convert",
-  description: "Dosyalarınızı saniyeler içinde kaliteden ödün vermeden dönüştürün. JPG, PNG, WEBP, AVIF, MP3 ve belge formatları desteğiyle hızlı, güvenli ve tamamen ücretsiz online çevirici.",
-  keywords: "resim dönüştürücü, image converter, png to jpg, webp çevirici, mp3 dönüştürücü, belge dönüştürücü, free online converter, hızlı dosya çevirme",
-  authors: [{ name: "Lux Convert" }],
-  creator: "Lux Convert",
-  publisher: "Lux Convert",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
+  metadataBase: new URL('https://lux-convert.vercel.app'),
+  title: {
+    default: 'Lux Convert | Ücretsiz Online Dosya Dönüştürücü',
+    template: '%s | Lux Convert',
   },
-  metadataBase: new URL("https://lux-convert.vercel.app"),
-  alternates: {
-    canonical: "/",
-  },
+  description,
+  applicationName: 'Lux Convert',
+  keywords: [
+    'dosya dönüştürücü',
+    'resim dönüştürücü',
+    'png to jpg',
+    'webp dönüştür',
+    'mp3 dönüştürücü',
+    'video dönüştürücü',
+    'pdf dönüştür',
+    'pdf sıkıştır',
+    'resim sıkıştır',
+    'resim kırp',
+    'online converter',
+  ],
+  alternates: { canonical: '/' },
   openGraph: {
-    title: "Lux Convert | Ücretsiz Resim, Ses ve Belge Dönüştürücü",
-    description: "Dosyalarınızı saniyeler içinde kaliteden ödün vermeden dönüştürün. JPG, PNG, WEBP, AVIF, MP3 ve belge formatları desteğiyle hızlı, güvenli ve tamamen ücretsiz online çevirici.",
-    url: "https://lux-convert.vercel.app",
-    siteName: "Lux Convert",
-    locale: "tr_TR",
-    type: "website",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Lux Convert - Ücretsiz Resim, Ses ve Belge Dönüştürücü",
-      },
-    ],
+    title: 'Lux Convert | Ücretsiz Online Dosya Dönüştürücü',
+    description,
+    url: 'https://lux-convert.vercel.app',
+    siteName: 'Lux Convert',
+    locale: 'tr_TR',
+    type: 'website',
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Lux Convert | Ücretsiz Resim, Ses ve Belge Dönüştürücü",
-    description: "Dosyalarınızı saniyeler içinde kaliteden ödün vermeden dönüştürün. JPG, PNG, WEBP, AVIF, MP3 ve belge formatları desteğiyle hızlı, güvenli ve tamamen ücretsiz online çevirici.",
-    images: ["/og-image.jpg"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  icons: {
-    icon: "/icon.svg",
-    apple: "/icon.svg",
-  },
-  appleWebApp: {
-    capable: true,
-    title: "Lux Convert",
-    statusBarStyle: "default",
-  },
-  other: {
-    "theme-color": "#9333ea",
-    "msapplication-TileColor": "#9333ea",
-    "apple-mobile-web-app-title": "Lux Convert",
-    "application-name": "Lux Convert",
-  },
+  twitter: { card: 'summary', title: 'Lux Convert', description },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: '#ffffff',
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="tr">
+    <html lang="tr" className={googleSans.variable} suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var d=document.documentElement;d.classList.add('motion');setTimeout(function(){d.classList.add('motion-ready')},3000)}",
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              "name": "Lux Convert",
-              "url": "https://lux-convert.vercel.app/"
-            })
+              '@context': 'https://schema.org',
+              '@type': 'WebApplication',
+              name: 'Lux Convert',
+              url: 'https://lux-convert.vercel.app/',
+              applicationCategory: 'UtilitiesApplication',
+              operatingSystem: 'Any',
+              offers: { '@type': 'Offer', price: '0', priceCurrency: 'TRY' },
+            }),
           }}
         />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className="flex min-h-screen flex-col overflow-x-clip">
+        <Header />
+        <main className="mx-auto w-full max-w-6xl flex-1 px-4 sm:px-6">{children}</main>
+        <Footer />
+        <Motion />
       </body>
     </html>
   );
