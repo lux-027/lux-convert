@@ -1,5 +1,6 @@
 'use client';
 
+import { recordConversions } from '@/lib/stats';
 import { useCallback, useRef, useState } from 'react';
 import { Download, Plus, RotateCcw } from 'lucide-react';
 import DropArea from './DropArea';
@@ -60,6 +61,7 @@ export default function Compressor() {
 
   const run = async () => {
     setRunning(true);
+    let succeeded = 0;
     for (const item of pending) {
       update(item.id, { status: 'working', progress: 0, statusText: undefined, error: undefined });
       try {
@@ -68,11 +70,13 @@ export default function Compressor() {
           onStatus: (s) => update(item.id, { statusText: s }),
         });
         update(item.id, { status: 'done', output, progress: 1 });
+        succeeded++;
       } catch (e) {
         update(item.id, { status: 'error', error: e instanceof Error ? e.message : 'Sıkıştırma başarısız oldu.' });
       }
     }
     setRunning(false);
+    recordConversions(succeeded);
   };
 
   const levelHint = LEVELS.find((l) => l.value === level)!.hint;

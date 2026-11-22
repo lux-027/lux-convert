@@ -1,5 +1,6 @@
 'use client';
 
+import { recordConversions } from '@/lib/stats';
 import { useEffect, useRef, useState } from 'react';
 import ReactCrop, { centerCrop, makeAspectCrop, type Crop, type PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -132,6 +133,7 @@ export default function Cropper() {
       ctx.drawImage(img, pixelCrop.x * scaleX, pixelCrop.y * scaleY, outW, outH, 0, 0, outW, outH);
       const blob = await canvasToBlob(canvas, out.mime, quality);
       downloadBlob(blob, `${baseName(file.name)}-kirpilmis.${format}`);
+      recordConversions(1);
     } finally {
       setBusy(false);
     }

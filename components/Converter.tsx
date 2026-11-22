@@ -1,5 +1,6 @@
 'use client';
 
+import { recordConversions } from '@/lib/stats';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { ArrowRight, Download, Plus, RotateCcw } from 'lucide-react';
 import DropArea from './DropArea';
@@ -63,6 +64,7 @@ export default function Converter() {
 
   const convertAll = async () => {
     setRunning(true);
+    let succeeded = 0;
     for (const item of pending) {
       update(item.id, { status: 'working', progress: 0, statusText: undefined, error: undefined });
       try {
@@ -71,11 +73,13 @@ export default function Converter() {
           onStatus: (s) => update(item.id, { statusText: s }),
         });
         update(item.id, { status: 'done', output, progress: 1 });
+        succeeded++;
       } catch (e) {
         update(item.id, { status: 'error', error: e instanceof Error ? e.message : 'Dönüştürme başarısız oldu.' });
       }
     }
     setRunning(false);
+    recordConversions(succeeded);
   };
 
   if (!items.length) {
