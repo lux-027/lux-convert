@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { CircleHelp, Crop, House, Menu, Minimize2, RefreshCw, X } from 'lucide-react';
+import { Crop, House, Menu, Minimize2, RefreshCw, X } from 'lucide-react';
 import Logo from './Logo';
 import { cn } from '@/lib/utils';
 
@@ -12,7 +12,6 @@ const NAV = [
   { href: '/donustur', label: 'Dönüştür', icon: RefreshCw },
   { href: '/sikistir', label: 'Sıkıştır', icon: Minimize2 },
   { href: '/kirp', label: 'Kırp', icon: Crop },
-  { href: '/sss', label: 'SSS', icon: CircleHelp },
 ];
 
 export default function Header() {
