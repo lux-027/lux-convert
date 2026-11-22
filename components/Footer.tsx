@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Lock } from 'lucide-react';
+import { CircleHelp, Crop, House, Info, Lock, Mail, Minimize2, RefreshCw, Shield } from 'lucide-react';
+import { CONTACT_EMAIL, mailto } from '@/lib/contact';
 import Logo from './Logo';
 import StatsCounter from './StatsCounter';
 
@@ -7,18 +8,19 @@ const COLUMNS = [
   {
     title: 'Araçlar',
     links: [
-      { href: '/donustur', label: 'Dönüştür' },
-      { href: '/sikistir', label: 'Sıkıştır' },
-      { href: '/kirp', label: 'Kırp' },
+      { href: '/donustur', label: 'Dönüştür', icon: RefreshCw },
+      { href: '/sikistir', label: 'Sıkıştır', icon: Minimize2 },
+      { href: '/kirp', label: 'Kırp', icon: Crop },
     ],
   },
   {
     title: 'Lux Convert',
     links: [
-      { href: '/', label: 'Ana sayfa' },
-      { href: '/sss', label: 'Sık sorulan sorular' },
-      { href: '/hakkimizda', label: 'Hakkımızda' },
-      { href: '/gizlilik', label: 'Gizlilik' },
+      { href: '/', label: 'Ana sayfa', icon: House },
+      { href: '/sss', label: 'SSS', icon: CircleHelp },
+      { href: '/iletisim', label: 'İletişim', icon: Mail },
+      { href: '/hakkimizda', label: 'Hakkımızda', icon: Info },
+      { href: '/gizlilik', label: 'Gizlilik', icon: Shield },
     ],
   },
 ];
@@ -36,6 +38,10 @@ export default function Footer() {
             <Lock className="h-3.5 w-3.5 text-[#81c995]" />
             Dosyalarınız cihazınızdan çıkmaz
           </p>
+          <a href={mailto()} className="mt-4 flex w-fit items-center gap-2 text-sm text-white/65 transition-colors hover:text-white">
+            <Mail className="h-4 w-4 text-white/45" />
+            {CONTACT_EMAIL}
+          </a>
         </div>
         <StatsCounter />
         <div className="grid grid-cols-2 gap-6">
@@ -45,7 +51,8 @@ export default function Footer() {
               <ul className="mt-3 space-y-2">
                 {c.links.map((l) => (
                   <li key={l.href}>
-                    <Link href={l.href} className="text-sm text-white/65 transition-colors hover:text-white">
+                    <Link href={l.href} className="group inline-flex items-center gap-2 text-sm text-white/65 transition-colors hover:text-white">
+                      <l.icon className="h-4 w-4 text-white/45 transition-colors group-hover:text-white" />
                       {l.label}
                     </Link>
                   </li>

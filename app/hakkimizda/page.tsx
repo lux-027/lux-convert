@@ -1,5 +1,6 @@
 import { pageMetadata } from '@/lib/seo';
 import Prose from '@/components/Prose';
+import { CONTACT_EMAIL, mailto } from '@/lib/contact';
 
 export const metadata = pageMetadata('/hakkimizda', 'Hakkımızda', 'Lux Convert, dosyalarınızı tarayıcınızda güvenle dönüştüren ücretsiz bir araçtır.');
 
@@ -23,7 +24,10 @@ export default function Page() {
         <li>Görüntüleri kırpmak, döndürmek ve çevirmek</li>
       </ul>
       <h2>İletişim</h2>
-      <p>Öneri ve geri bildirimleriniz için bize ulaşabilirsiniz.</p>
+      <p>
+        Öneri ve geri bildirimleriniz için <a href={mailto()} className="text-primary hover:underline">{CONTACT_EMAIL}</a> adresine yazabilir ya da{' '}
+        <a href="/iletisim" className="text-primary hover:underline">iletişim sayfasını</a> kullanabilirsiniz.
+      </p>
     </Prose>
   );
 }
