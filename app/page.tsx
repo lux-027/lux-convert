@@ -59,7 +59,6 @@ const FORMATS = [
   { icon: FileText, title: 'Belge', items: ['PDF', 'DOCX', 'TXT', 'HTML', 'CSV', 'JSON'], tone: 'text-[#188038]', grad: 'bg-[#e6f4ea] text-[#188038]' },
 ];
 
-const POPULAR = ['PNG → JPG', 'JPG → PDF', 'WEBP → PNG', 'MP4 → MP3', 'MOV → MP4', 'WAV → MP3', 'PDF → JPG', 'DOCX → PDF', 'Video → GIF', 'CSV → JSON'];
 
 const STEPS = [
   { icon: Upload, title: 'Dosyanızı seçin', text: 'Sürükleyip bırakın ya da cihazınızdan seçin. Aynı anda 25 dosyaya kadar.' },
@@ -180,17 +179,6 @@ export default function Home() {
                 ))}
               </div>
             </div>
-          ))}
-        </div>
-        <div className="mt-8 flex flex-wrap justify-center gap-2">
-          {POPULAR.map((p) => (
-            <Link
-              key={p}
-              href="/donustur"
-              className="rounded-full border border-line px-3.5 py-1.5 text-sm text-fg-2 transition-colors hover:border-primary hover:text-primary"
-            >
-              {p}
-            </Link>
           ))}
         </div>
       </section>
