@@ -35,31 +35,55 @@ const TOOLS: Record<ToolId, { href: string; name: string; text: string; icon: Lu
   },
 };
 
-export function ToolHero({ tool, title, subtitle, chips }: { tool: ToolId; title: string; subtitle: string; chips: string[] }) {
-  const t = TOOLS[tool];
+export function PageHero({
+  badge,
+  icon: Icon,
+  title,
+  subtitle,
+  chips,
+  art: Art,
+  bg,
+  tone,
+}: {
+  badge: string;
+  icon: LucideIcon;
+  title: string;
+  subtitle: string;
+  chips?: string[];
+  art: typeof ConvertArt;
+  bg: string;
+  tone: string;
+}) {
   return (
-    <section className={cn('mt-6 overflow-hidden rounded-[32px] bg-gradient-to-br', t.bg)}>
+    <section className={cn('mt-6 overflow-hidden rounded-[32px] bg-gradient-to-br', bg)}>
       <div className="grid items-center gap-4 px-6 py-8 sm:px-10 md:grid-cols-[1fr_auto] md:py-10">
         <div data-stagger className="text-center md:text-left">
-          <span className={cn('inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-medium shadow-sm', t.tone)}>
-            <t.icon className="h-3.5 w-3.5" />
-            {t.name}
+          <span className={cn('inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-medium shadow-sm', tone)}>
+            <Icon className="h-3.5 w-3.5" />
+            {badge}
           </span>
           <h1 className="mt-4 text-3xl font-medium tracking-tight text-fg sm:text-4xl">{title}</h1>
           <p className="mx-auto mt-3 max-w-xl text-[16px] leading-relaxed text-fg-2 md:mx-0">{subtitle}</p>
-          <ul className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-fg md:justify-start">
-            {chips.map((c) => (
-              <li key={c} className="flex items-center gap-1.5">
-                <Check className="h-4 w-4 text-success" />
-                {c}
-              </li>
-            ))}
-          </ul>
+          {chips && (
+            <ul className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-fg md:justify-start">
+              {chips.map((c) => (
+                <li key={c} className="flex items-center gap-1.5">
+                  <Check className="h-4 w-4 text-success" />
+                  {c}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-        <t.art className="mx-auto hidden h-40 w-auto sm:block md:h-48" />
+        <Art className="mx-auto hidden h-40 w-auto sm:block md:h-48" />
       </div>
     </section>
   );
+}
+
+export function ToolHero({ tool, title, subtitle, chips }: { tool: ToolId; title: string; subtitle: string; chips: string[] }) {
+  const t = TOOLS[tool];
+  return <PageHero badge={t.name} icon={t.icon} title={title} subtitle={subtitle} chips={chips} art={t.art} bg={t.bg} tone={t.tone} />;
 }
 
 const TIPS: { icon: LucideIcon; title: string; text: string }[] = [

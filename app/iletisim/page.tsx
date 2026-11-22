@@ -1,19 +1,27 @@
+import { Mail } from 'lucide-react';
 import { pageMetadata } from '@/lib/seo';
 import ContactForm from '@/components/ContactForm';
+import { ContactArt } from '@/components/Illustrations';
+import { PageHero } from '@/components/ToolHero';
 
 export const metadata = pageMetadata('/iletisim', 'İletişim', 'Lux Convert ekibine öneri, hata bildirimi veya iş birliği için ulaşın.');
 
 export default function Page() {
   return (
-    <div className="mx-auto max-w-5xl pt-14 pb-4 sm:pt-20">
-      <div data-stagger className="mb-10 text-center">
-        <span className="inline-flex rounded-full border border-line bg-white px-3 py-1 text-xs text-fg-2">İletişim</span>
-        <h1 className="mt-4 text-[32px] font-medium tracking-tight text-fg sm:text-[40px]">Bize ulaşın</h1>
-        <p className="mx-auto mt-3 max-w-lg text-[15px] leading-relaxed text-fg-2">
-          Öneri, hata bildirimi veya iş birliği için bize yazın. Her mesajı okuyoruz.
-        </p>
+    <div className="pb-4">
+      <PageHero
+        badge="İletişim"
+        icon={Mail}
+        title="Bize ulaşın"
+        subtitle="Öneri, hata bildirimi veya iş birliği için bize yazın. Her mesajı okuyoruz."
+        chips={['1–2 iş günü içinde yanıt', 'Türkçe destek']}
+        art={ContactArt}
+        bg="from-[#e8f0fe] via-[#eef3fd] to-[#e6f4ea]"
+        tone="text-[#1a73e8]"
+      />
+      <div className="mx-auto mt-10 max-w-5xl">
+        <ContactForm />
       </div>
-      <ContactForm />
     </div>
   );
 }

@@ -135,3 +135,78 @@ export function CropArt({ className }: { className?: string }) {
     </svg>
   );
 }
+
+const line = { fill: 'none', strokeWidth: 1.75, strokeLinecap: 'round', strokeLinejoin: 'round' } as const;
+
+export function FaqArt({ className }: { className?: string }) {
+  const c = PURPLE.color;
+  return (
+    <svg viewBox="0 0 240 160" className={className} aria-hidden="true">
+      <path d="M48 30h96a14 14 0 0 1 14 14v42a14 14 0 0 1-14 14H86l-20 18v-18H48a14 14 0 0 1-14-14V44a14 14 0 0 1 14-14Z" fill="#fff" stroke={c} strokeWidth="1.75" strokeLinejoin="round" />
+      <g {...line} stroke={c}>
+        <path d="M86 56a10 10 0 1 1 14 9.2c-2.6 1.1-4 3-4 5.8v2" />
+      </g>
+      <circle cx="96" cy="82" r="2" fill={c} />
+      <path d="M140 74h50a12 12 0 0 1 12 12v30a12 12 0 0 1-12 12h-8v14l-16-14h-26a12 12 0 0 1-12-12V86a12 12 0 0 1 12-12Z" fill={PURPLE.tint} stroke={c} strokeWidth="1.75" strokeLinejoin="round" />
+      <g {...line} stroke={c}>
+        <path d="M144 94h42M144 106h28" />
+      </g>
+    </svg>
+  );
+}
+
+export function ContactArt({ className }: { className?: string }) {
+  const c = BLUE.color;
+  return (
+    <svg viewBox="0 0 240 160" className={className} aria-hidden="true">
+      <rect x="40" y="46" width="120" height="84" rx="14" fill="#fff" stroke={c} strokeWidth="1.75" />
+      <g {...line} stroke={c}>
+        <path d="M44 54l56 40 56-40" />
+        <path d="M44 124l40-32M156 124l-40-32" strokeOpacity=".45" />
+      </g>
+      <path d="M172 30l34-12-12 34-8-14Z" fill={BLUE.tint} stroke={c} strokeWidth="1.75" strokeLinejoin="round" />
+      <g {...line} stroke={c}>
+        <path d="M186 38l20-20" />
+        <path d="M150 52c6-6 14-10 22-12" strokeDasharray="3 5" />
+      </g>
+    </svg>
+  );
+}
+
+export function AboutArt({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 240 160" className={className} aria-hidden="true">
+      <FileCard x={26} y={40} w={60} label="JPG" {...BLUE}>
+        <ImageGlyph />
+      </FileCard>
+      <FileCard x={90} y={22} w={60} label="MP3" {...RED}>
+        <MusicGlyph />
+      </FileCard>
+      <FileCard x={154} y={40} w={60} label="PDF" {...GREEN}>
+        <DocGlyph />
+      </FileCard>
+      <g {...line} stroke={AMBER.color}>
+        <path d="M120 120v12M114 126h12" />
+        <path d="M200 22v8M196 26h8M36 24v8M32 28h8" strokeOpacity=".7" />
+      </g>
+    </svg>
+  );
+}
+
+export function PrivacyArt({ className }: { className?: string }) {
+  const c = GREEN.color;
+  return (
+    <svg viewBox="0 0 240 160" className={className} aria-hidden="true">
+      <FileCard x={40} y={36} w={72} label="DOSYA" {...GREEN}>
+        <DocGlyph />
+      </FileCard>
+      <path d="M160 26l42 14v32c0 28-18 46-42 56-24-10-42-28-42-56V40Z" fill="#fff" stroke={c} strokeWidth="1.75" strokeLinejoin="round" />
+      <path d="M160 38l30 10v24c0 20-12 34-30 42" fill="none" stroke={c} strokeWidth="1.25" strokeOpacity=".35" />
+      <rect x="146" y="70" width="28" height="22" rx="5" fill={GREEN.tint} stroke={c} strokeWidth="1.75" />
+      <g {...line} stroke={c}>
+        <path d="M152 70v-6a8 8 0 0 1 16 0v6" />
+        <path d="M160 79v5" />
+      </g>
+    </svg>
+  );
+}
