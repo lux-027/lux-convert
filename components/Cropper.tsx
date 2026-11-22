@@ -163,7 +163,7 @@ export default function Cropper() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-      <div className="flex min-h-[320px] items-center justify-center rounded-[28px] border border-line bg-[repeating-conic-gradient(#f1f3f4_0_25%,#fff_0_50%)] bg-[length:20px_20px] p-4">
+      <div className="flex min-h-[320px] min-w-0 items-center justify-center overflow-hidden rounded-[28px] border border-line bg-[repeating-conic-gradient(#f1f3f4_0_25%,#fff_0_50%)] bg-[length:20px_20px] p-4">
         {error ? (
           <p className="text-sm text-error">{error}</p>
         ) : (
@@ -173,11 +173,12 @@ export default function Cropper() {
               aspect={aspectNum}
               keepSelection
               ruleOfThirds
+              className="max-w-full"
               onChange={(_, percent) => setCrop(percent)}
               onComplete={(c) => setPixelCrop(c)}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img ref={imgRef} src={src} alt="Kırpılacak görüntü" onLoad={onLoad} className="max-h-[65vh] w-auto" />
+              <img ref={imgRef} src={src} alt="Kırpılacak görüntü" onLoad={onLoad} className="block h-auto max-h-[min(55vh,520px)] w-auto max-w-full" />
             </ReactCrop>
           )
         )}
