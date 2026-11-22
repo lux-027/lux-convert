@@ -70,7 +70,7 @@ export default function Compressor() {
           onStatus: (s) => update(item.id, { statusText: s }),
         });
         update(item.id, { status: 'done', output, progress: 1 });
-        succeeded++;
+        if (!output.unchanged) succeeded++;
       } catch (e) {
         update(item.id, { status: 'error', error: e instanceof Error ? e.message : 'Sıkıştırma başarısız oldu.' });
       }
