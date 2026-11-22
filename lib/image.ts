@@ -95,19 +95,26 @@ async function encodeIco(img: HTMLImageElement): Promise<Blob> {
   return new Blob([header.buffer, png], { type: MIME.ico });
 }
 
-export async function canvasesToPdf(canvases: HTMLCanvasElement[], quality = 0.92, pageSizes?: { w: number; h: number }[]) {
+export type JpegPage = { bytes: Uint8Array; w: number; h: number };
+
+export async function canvasToJpegPage(canvas: HTMLCanvasElement, quality: number, size?: { w: number; h: number }): Promise<JpegPage> {
+  const bytes = new Uint8Array(await (await canvasToBlob(canvas, 'image/jpeg', quality)).arrayBuffer());
+  return { bytes, ...(size ?? { w: canvas.width * 0.75, h: canvas.height * 0.75 }) };
+}
+
+export async function jpegsToPdf(pages: JpegPage[]) {
   const { PDFDocument } = await import('pdf-lib');
   const pdf = await PDFDocument.create();
-  for (let i = 0; i < canvases.length; i++) {
-    const c = canvases[i];
-    const bytes = new Uint8Array(await (await canvasToBlob(c, 'image/jpeg', quality)).arrayBuffer());
-    const image = await pdf.embedJpg(bytes);
-    const size = pageSizes?.[i] ?? { w: c.width * 0.75, h: c.height * 0.75 };
-    const page = pdf.addPage([size.w, size.h]);
-    page.drawImage(image, { x: 0, y: 0, width: size.w, height: size.h });
+  for (const p of pages) {
+    const image = await pdf.embedJpg(p.bytes);
+    pdf.addPage([p.w, p.h]).drawImage(image, { x: 0, y: 0, width: p.w, height: p.h });
   }
   const out = await pdf.save();
   return new Blob([out as BlobPart], { type: MIME.pdf });
+}
+
+export async function canvasesToPdf(canvases: HTMLCanvasElement[], quality = 0.92) {
+  return jpegsToPdf(await Promise.all(canvases.map((c) => canvasToJpegPage(c, quality))));
 }
 
 export async function convertImage(file: File, target: string, quality = 0.92): Promise<Output> {

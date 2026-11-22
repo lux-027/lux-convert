@@ -24,13 +24,14 @@ export async function openPdf(file: Blob) {
   }
 }
 
-export async function renderPdfPages(
+export async function renderPdfPages<T>(
   file: Blob,
   scale: number,
+  encode: (canvas: HTMLCanvasElement, size: { width: number; height: number }) => Promise<T>,
   onProgress?: (p: number) => void
-): Promise<{ canvas: HTMLCanvasElement; width: number; height: number }[]> {
+): Promise<T[]> {
   const doc = await openPdf(file);
-  const pages = [];
+  const pages: T[] = [];
   for (let i = 1; i <= doc.numPages; i++) {
     const page = await doc.getPage(i);
     const base = page.getViewport({ scale: 1 });
@@ -42,7 +43,9 @@ export async function renderPdfPages(
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     await page.render({ canvas, canvasContext: ctx, viewport }).promise;
-    pages.push({ canvas, width: base.width, height: base.height });
+    pages.push(await encode(canvas, { width: base.width, height: base.height }));
+    canvas.width = canvas.height = 0;
+    page.cleanup();
     onProgress?.(i / doc.numPages);
   }
   await doc.destroy();
@@ -50,13 +53,12 @@ export async function renderPdfPages(
 }
 
 async function pdfToImages(file: File, target: 'jpg' | 'png', onProgress?: (p: number) => void): Promise<Output> {
-  const pages = await renderPdfPages(file, 2, onProgress);
+  const pages = await renderPdfPages(file, 2, (c) => canvasToBlob(c, MIME[target], 0.92), onProgress);
   const name = baseName(file.name);
-  const outs: Output[] = [];
-  for (let i = 0; i < pages.length; i++) {
-    const blob = await canvasToBlob(pages[i].canvas, MIME[target], 0.92);
-    outs.push({ blob, name: pages.length === 1 ? `${name}.${target}` : `${name}-sayfa-${i + 1}.${target}` });
-  }
+  const outs: Output[] = pages.map((blob, i) => ({
+    blob,
+    name: pages.length === 1 ? `${name}.${target}` : `${name}-sayfa-${i + 1}.${target}`,
+  }));
   if (outs.length === 1) return outs[0];
   return { blob: await zipOutputs(outs), name: `${name}-${target}.zip` };
 }

@@ -1,6 +1,6 @@
 import { MIME, baseName, getExt, type Output } from './files';
 import { getCategory } from './formats';
-import { canvasesToPdf } from './image';
+import { canvasToJpegPage, jpegsToPdf } from './image';
 import { renderPdfPages } from './document';
 import { runFFmpeg } from './ffmpeg';
 import type { Progress } from './convert';
@@ -53,12 +53,14 @@ async function compressImage(file: File, level: Level, cb: Progress): Promise<Ou
 
 async function compressPdf(file: File, level: Level, cb: Progress): Promise<Output> {
   cb.onStatus?.('Sayfalar işleniyor…');
-  const pages = await renderPdfPages(file, pick(level, 2, 1.5, 1.1), (p) => cb.onProgress?.(p * 0.9));
-  const blob = await canvasesToPdf(
-    pages.map((p) => p.canvas),
-    pick(level, 0.8, 0.65, 0.45),
-    pages.map((p) => ({ w: p.width, h: p.height }))
+  const quality = pick(level, 0.8, 0.65, 0.45);
+  const pages = await renderPdfPages(
+    file,
+    pick(level, 2, 1.5, 1.1),
+    (c, s) => canvasToJpegPage(c, quality, { w: s.width, h: s.height }),
+    (p) => cb.onProgress?.(p * 0.9)
   );
+  const blob = await jpegsToPdf(pages);
   cb.onProgress?.(1);
   return { blob, name: file.name };
 }
