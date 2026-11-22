@@ -248,7 +248,8 @@ const htmlPage = (title: string, body: string) =>
 const escapeHtml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 function parseCsv(text: string): string[][] {
-  const delim = (text.split('\n')[0].match(/;/g)?.length ?? 0) > (text.split('\n')[0].match(/,/g)?.length ?? 0) ? ';' : ',';
+  const head = text.split('\n')[0].replace(/"(?:[^"]|"")*"/g, '');
+  const delim = (head.match(/;/g)?.length ?? 0) > (head.match(/,/g)?.length ?? 0) ? ';' : ',';
   const rows: string[][] = [];
   let row: string[] = [];
   let field = '';
