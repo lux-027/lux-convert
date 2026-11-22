@@ -106,49 +106,28 @@ export default function Compressor() {
       </div>
 
       {custom && (
-        <div data-appear className="mx-auto max-w-xl rounded-3xl border border-line bg-white p-5 shadow-[0_2px_12px_rgb(60_64_67/0.08)]">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <p className="text-xs font-medium tracking-wide text-fg-2 uppercase">Hedef boyut</p>
-              <p className="mt-1 text-2xl font-medium tracking-tight text-fg tabular-nums">
-                {totalOriginal ? formatBytes((totalOriginal * percent) / 100) : `%${percent}`}
-              </p>
-            </div>
-            <p className="text-right text-xs text-fg-2 tabular-nums">
-              {totalOriginal ? (
-                <>
-                  Orijinal {formatBytes(totalOriginal)}
-                  <br />
-                  <span className="font-medium text-fg">%{percent}</span> · −%{100 - percent}
-                </>
-              ) : (
-                'Orijinal boyuta göre'
-              )}
-            </p>
-          </div>
-          <div className="mt-4 flex items-center gap-3">
-            <IconButton aria-label="Küçült" title="Küçült" onClick={() => changePercent(percent - 5)} disabled={running || percent <= MIN_RATIO}>
-              <Minus className="h-4 w-4" />
-            </IconButton>
-            <input
-              type="range"
-              min={MIN_RATIO}
-              max={100}
-              step={1}
-              value={percent}
-              onChange={(e) => changePercent(Number(e.target.value))}
-              disabled={running}
-              aria-label="Hedef boyut yüzdesi"
-              className="h-1.5 flex-1 cursor-pointer accent-ink"
-            />
-            <IconButton aria-label="Büyüt" title="Büyüt" onClick={() => changePercent(percent + 5)} disabled={running || percent >= 100}>
-              <Plus className="h-4 w-4" />
-            </IconButton>
-          </div>
-          <div className="mt-2 flex justify-between px-12 text-[11px] text-fg-2">
-            <span>Daha küçük</span>
-            <span>Orijinal</span>
-          </div>
+        <div data-appear className="mx-auto flex max-w-md items-center gap-2 rounded-full border border-line bg-white py-1 pr-4 pl-1 shadow-[0_1px_3px_rgb(60_64_67/0.08)]">
+          <IconButton aria-label="Küçült" title="Küçült" className="h-8 w-8" onClick={() => changePercent(percent - 5)} disabled={running || percent <= MIN_RATIO}>
+            <Minus className="h-3.5 w-3.5" />
+          </IconButton>
+          <input
+            type="range"
+            min={MIN_RATIO}
+            max={100}
+            step={1}
+            value={percent}
+            onChange={(e) => changePercent(Number(e.target.value))}
+            disabled={running}
+            aria-label="Hedef boyut yüzdesi"
+            className="h-1 min-w-0 flex-1 cursor-pointer accent-ink"
+          />
+          <IconButton aria-label="Büyüt" title="Büyüt" className="h-8 w-8" onClick={() => changePercent(percent + 5)} disabled={running || percent >= 100}>
+            <Plus className="h-3.5 w-3.5" />
+          </IconButton>
+          <span className="shrink-0 text-xs text-fg-2 tabular-nums">
+            <span className="font-medium text-fg">%{percent}</span>
+            {totalOriginal > 0 && <> · ≈ {formatBytes((totalOriginal * percent) / 100)}</>}
+          </span>
         </div>
       )}
 
