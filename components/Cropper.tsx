@@ -173,12 +173,12 @@ export default function Cropper() {
               aspect={aspectNum}
               keepSelection
               ruleOfThirds
-              className="max-w-full"
+              className="max-h-[min(50vh,420px)] max-w-full"
               onChange={(_, percent) => setCrop(percent)}
               onComplete={(c) => setPixelCrop(c)}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img ref={imgRef} src={src} alt="Kırpılacak görüntü" onLoad={onLoad} className="block h-auto max-h-[min(55vh,520px)] w-auto max-w-full" />
+              <img ref={imgRef} src={src} alt="Kırpılacak görüntü" onLoad={onLoad} className="block h-auto max-h-[min(50vh,420px)] w-auto max-w-full" />
             </ReactCrop>
           )
         )}
