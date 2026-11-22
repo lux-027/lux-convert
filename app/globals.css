@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #ffffff;
+  --bg: #f4f5f7;
   --surface: #f8f9fa;
   --surface-2: #f1f3f4;
-  --border: #dadce0;
+  --border: #dfe1e5;
   --text: #1f1f1f;
   --text-2: #444746;
   --primary: #1a73e8;
   --primary-hover: #1765cc;
   --on-primary: #ffffff;
   --primary-container: #e8f0fe;
+  --ink: #2b2e33;
+  --ink-2: #3a3e44;
   --on-primary-container: #0b57d0;
   --success: #188038;
   --success-container: #e6f4ea;
@@ -23,6 +25,8 @@
 
 @theme inline {
   --color-bg: var(--bg);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-line: var(--border);

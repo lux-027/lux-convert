@@ -21,12 +21,12 @@ export function LogoMark({ size = 28 }: { size?: number }) {
   );
 }
 
-export default function Logo() {
+export default function Logo({ dark }: { dark?: boolean }) {
   return (
     <Link href="/" className="flex items-center gap-2.5 rounded-full pr-2 outline-none focus-visible:ring-2 focus-visible:ring-primary">
       <LogoMark />
-      <span className="text-[19px] tracking-tight text-fg">
-        <span className="font-medium">Lux</span> <span className="text-fg-2">Convert</span>
+      <span className={`text-[19px] tracking-tight ${dark ? 'text-white' : 'text-fg'}`}>
+        <span className="font-medium">Lux</span> <span className={dark ? 'text-white/70' : 'text-fg-2'}>Convert</span>
       </span>
     </Link>
   );

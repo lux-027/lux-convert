@@ -20,10 +20,10 @@ export default function Header() {
   const open = openFor === pathname;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-white/95 shadow-[0_1px_6px_rgb(60_64_67/0.08)] backdrop-blur">
-      <div className="mx-auto grid h-[68px] max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6">
-        <Logo />
-        <nav className="hidden items-center gap-1 rounded-full bg-surface-2 p-1 md:flex" aria-label="Ana menü">
+    <header className="sticky top-0 z-40 bg-ink shadow-[0_2px_10px_rgb(0_0_0/0.18)]">
+      <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr] px-4 sm:px-6">
+        <Logo dark />
+        <nav className="hidden items-center gap-1 rounded-full bg-white/[0.07] p-1 ring-1 ring-white/10 md:flex" aria-label="Ana menü">
           {NAV.map((item) => (
             <Link
               key={item.href}
@@ -31,8 +31,8 @@ export default function Header() {
               className={cn(
                 'inline-flex items-center gap-2 rounded-full px-4 py-2 text-[15px] font-medium transition-all',
                 pathname === item.href
-                  ? 'bg-white text-primary shadow-[0_1px_3px_rgb(60_64_67/0.2)]'
-                  : 'text-fg hover:bg-white/70'
+                  ? 'bg-white text-ink shadow-[0_1px_3px_rgb(0_0_0/0.3)]'
+                  : 'text-white/80 hover:bg-white/10 hover:text-white'
               )}
             >
               <item.icon className="h-4 w-4" />
@@ -43,7 +43,7 @@ export default function Header() {
         <div className="flex items-center justify-self-end">
           <button
             type="button"
-            className="grid h-10 w-10 place-items-center rounded-full text-fg-2 hover:bg-surface-2 md:hidden"
+            className="grid h-10 w-10 place-items-center rounded-full text-white/80 hover:bg-white/10 md:hidden"
             onClick={() => setOpenFor(open ? null : pathname)}
             aria-label="Menü"
             aria-expanded={open}
@@ -53,14 +53,14 @@ export default function Header() {
         </div>
       </div>
       {open && (
-        <nav className="border-t border-line px-4 py-2 md:hidden" aria-label="Mobil menü">
+        <nav className="border-t border-white/10 px-4 py-2 md:hidden" aria-label="Mobil menü">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
                 'flex items-center gap-3 rounded-full px-4 py-2.5 text-[15px] font-medium',
-                pathname === item.href ? 'bg-primary-container text-on-primary-container' : 'text-fg'
+                pathname === item.href ? 'bg-white text-ink' : 'text-white/80'
               )}
             >
               <item.icon className="h-4 w-4" />

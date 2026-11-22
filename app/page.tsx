@@ -109,14 +109,14 @@ export default function Home() {
           <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
             <Link
               href="/donustur"
-              className="inline-flex h-10 items-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-on-primary transition-all hover:bg-primary-hover hover:shadow-card"
+              className="inline-flex h-10 items-center gap-2 rounded-full bg-ink px-6 text-sm font-medium text-white transition-all hover:bg-ink-2 hover:shadow-card"
             >
               Dosya dönüştür
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="#araclar"
-              className="inline-flex h-10 items-center rounded-full border border-line px-6 text-sm font-medium text-primary transition-colors hover:bg-primary-container/60"
+              className="inline-flex h-10 items-center rounded-full border border-[#c4c7cc] bg-white px-6 text-sm font-medium text-ink transition-colors hover:border-ink"
             >
               Tüm araçlar
             </Link>
@@ -162,7 +162,7 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <span className="mt-6 inline-flex h-10 items-center justify-center gap-2 rounded-full bg-primary-container text-sm font-medium text-on-primary-container transition-colors group-hover:bg-primary group-hover:text-on-primary">
+                <span className="mt-6 inline-flex h-10 items-center justify-center gap-2 rounded-full bg-primary-container text-sm font-medium text-on-primary-container transition-colors group-hover:bg-ink group-hover:text-white">
                   {t.title} aracını aç
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </span>
@@ -219,9 +219,9 @@ export default function Home() {
         </div>
         <ol className="mt-10 grid gap-4 md:grid-cols-3">
           {STEPS.map((s, i) => (
-            <li key={s.title} className="relative rounded-3xl border border-line p-6">
+            <li key={s.title} className="relative rounded-3xl border border-line bg-white p-6">
               <div className="flex items-center gap-3">
-                <span className="grid h-8 w-8 place-items-center rounded-full bg-primary text-sm font-medium text-on-primary">{i + 1}</span>
+                <span className="grid h-8 w-8 place-items-center rounded-full bg-ink text-sm font-medium text-white">{i + 1}</span>
                 <s.icon className="h-5 w-5 text-fg-2" />
               </div>
               <p className="mt-5 font-medium text-fg">{s.title}</p>
@@ -232,14 +232,14 @@ export default function Home() {
       </section>
 
       <section className="pt-24">
-        <div className="grid gap-10 rounded-[32px] bg-surface px-6 py-12 sm:px-12 md:grid-cols-3">
+        <div className="grid gap-10 rounded-[32px] bg-ink px-6 py-12 sm:px-12 md:grid-cols-3">
           {FEATURES.map((f) => (
             <div key={f.title}>
-              <div className="grid h-11 w-11 place-items-center rounded-full bg-white text-primary ring-1 ring-line">
+              <div className="grid h-11 w-11 place-items-center rounded-full bg-white/10 text-[#8ab4f8] ring-1 ring-white/15">
                 <f.icon className="h-5 w-5" />
               </div>
-              <p className="mt-4 font-medium text-fg">{f.title}</p>
-              <p className="mt-1.5 text-[15px] leading-relaxed text-fg-2">{f.text}</p>
+              <p className="mt-4 font-medium text-white">{f.title}</p>
+              <p className="mt-1.5 text-[15px] leading-relaxed text-white/70">{f.text}</p>
             </div>
           ))}
         </div>
@@ -247,7 +247,7 @@ export default function Home() {
 
       <section className="mx-auto max-w-3xl pt-24">
         <h2 className="text-center text-[28px] font-medium tracking-tight text-fg sm:text-[34px]">Sık sorulan sorular</h2>
-        <div className="mt-8 divide-y divide-line rounded-3xl border border-line">
+        <div className="mt-8 divide-y divide-line rounded-3xl border border-line bg-white">
           {FAQ.map((f) => (
             <details key={f.q} className="group px-6 py-4 [&_summary::-webkit-details-marker]:hidden">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-medium text-fg">
@@ -261,12 +261,12 @@ export default function Home() {
       </section>
 
       <section className="pt-24">
-        <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-[#1a73e8] to-[#0b57d0] px-6 py-14 text-center text-white">
+        <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-[#2b2e33] to-[#1c1e21] px-6 py-14 text-center text-white">
           <h2 className="text-2xl font-normal tracking-tight sm:text-3xl">Dosyanızı şimdi dönüştürün</h2>
           <p className="mt-2 text-sm text-white/80">Ücretsiz, hızlı ve gizli. Kayıt gerekmez.</p>
           <Link
             href="/donustur"
-            className="mt-7 inline-flex h-10 items-center gap-2 rounded-full bg-white px-6 text-sm font-medium text-[#0b57d0] transition-shadow hover:shadow-lg"
+            className="mt-7 inline-flex h-10 items-center gap-2 rounded-full bg-white px-6 text-sm font-medium text-ink transition-shadow hover:shadow-lg"
           >
             Hemen başla
             <ArrowRight className="h-4 w-4" />

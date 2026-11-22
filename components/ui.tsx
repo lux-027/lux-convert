@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 type Variant = 'filled' | 'tonal' | 'outlined' | 'text';
 
 const variants: Record<Variant, string> = {
-  filled: 'bg-primary text-on-primary hover:bg-primary-hover hover:shadow-card',
+  filled: 'bg-ink text-white hover:bg-ink-2 hover:shadow-card',
   tonal: 'bg-primary-container text-on-primary-container hover:brightness-95',
   outlined: 'border border-line text-primary hover:bg-primary-container/60',
   text: 'text-primary hover:bg-primary-container/60',
@@ -45,7 +45,7 @@ export function Select({ className, children, ...props }: SelectHTMLAttributes<H
   return (
     <div className={cn('relative inline-flex', className)}>
       <select
-        className="h-9 w-full cursor-pointer appearance-none rounded-lg border border-line bg-bg py-0 pr-8 pl-3 text-sm text-fg outline-none transition-colors hover:border-fg-2 focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
+        className="h-9 w-full cursor-pointer appearance-none rounded-lg border border-line bg-white py-0 pr-8 pl-3 text-sm text-fg outline-none transition-colors hover:border-fg-2 focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
         {...props}
       >
         {children}
