@@ -1,29 +1,22 @@
-type FileProps = { x: number; y: number; w?: number; c1: string; c2: string; label: string; id: string; rotate?: number; children?: React.ReactNode };
+type FileProps = { x: number; y: number; w?: number; color: string; tint: string; label: string; children?: React.ReactNode };
 
-function File3D({ x, y, w = 92, c1, c2, label, id, rotate = 0, children }: FileProps) {
+function FileCard({ x, y, w = 80, color, tint, label, children }: FileProps) {
   const h = w * 1.25;
-  const f = w * 0.28;
-  const d = w * 0.09;
-  const body = `M0 14a14 14 0 0 1 14-14H${w - f}L${w} ${f}V${h - 14}a14 14 0 0 1-14 14H14a14 14 0 0 1-14-14Z`;
+  const f = w * 0.26;
   return (
-    <g transform={`translate(${x} ${y}) rotate(${rotate} ${w / 2} ${h / 2})`}>
-      <defs>
-        <linearGradient id={`${id}-f`} x1="0" y1="0" x2={w} y2={h} gradientUnits="userSpaceOnUse">
-          <stop stopColor={c1} />
-          <stop offset="1" stopColor={c2} />
-        </linearGradient>
-      </defs>
-      <ellipse cx={w / 2 + d} cy={h + d + 14} rx={w * 0.48} ry={7} fill="#0b2a5b" opacity=".12" />
-      <path d={body} transform={`translate(${d} ${d})`} fill={c2} />
-      <path d={body} transform={`translate(${d} ${d})`} fill="#000" opacity=".18" />
-      <path d={body} fill={`url(#${id}-f)`} />
-      <path d={`M${w - f} 0V${f - 8}a8 8 0 0 0 8 8H${w}Z`} fill="#fff" opacity=".45" />
-      <path d={`M10 14a6 6 0 0 1 6-6H${w * 0.55}`} stroke="#fff" strokeOpacity=".5" strokeWidth="3" strokeLinecap="round" fill="none" />
-      <g transform={`translate(${w / 2} ${h * 0.42})`} fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+    <g transform={`translate(${x} ${y})`}>
+      <path
+        d={`M12 0H${w - f}L${w} ${f}V${h - 12}a12 12 0 0 1-12 12H12A12 12 0 0 1 0 ${h - 12}V12A12 12 0 0 1 12 0Z`}
+        fill="#fff"
+        stroke={color}
+        strokeWidth="1.75"
+      />
+      <path d={`M${w - f} 0V${f - 6}a6 6 0 0 0 6 6H${w}`} fill="none" stroke={color} strokeWidth="1.75" />
+      <g transform={`translate(${w / 2} ${h * 0.4})`} fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
         {children}
       </g>
-      <rect x={w * 0.16} y={h * 0.7} width={w * 0.68} height={h * 0.17} rx={h * 0.085} fill="#fff" opacity=".95" />
-      <text x={w / 2} y={h * 0.7 + h * 0.125} textAnchor="middle" fontSize={w * 0.15} fontWeight="700" fill={c2} fontFamily="system-ui, sans-serif">
+      <rect x={w * 0.18} y={h * 0.7} width={w * 0.64} height={h * 0.16} rx={h * 0.08} fill={tint} />
+      <text x={w / 2} y={h * 0.7 + h * 0.115} textAnchor="middle" fontSize={w * 0.14} fontWeight="600" fill={color} fontFamily="system-ui, sans-serif" letterSpacing=".5">
         {label}
       </text>
     </g>
@@ -32,101 +25,67 @@ function File3D({ x, y, w = 92, c1, c2, label, id, rotate = 0, children }: FileP
 
 const ImageGlyph = () => (
   <>
-    <rect x="-16" y="-13" width="32" height="26" rx="5" />
-    <path d="M-12 9l9-9 6 6 4-4 7 7" />
-    <circle cx="7" cy="-5" r="2.5" fill="#fff" />
+    <rect x="-13" y="-10" width="26" height="20" rx="4" />
+    <path d="M-9 6l7-7 5 5 3-3 5 5" />
+    <circle cx="5" cy="-4" r="2" />
   </>
 );
 const MusicGlyph = () => (
   <>
-    <path d="M-5 9V-12l15-3v19" />
-    <circle cx="-9" cy="9" r="4.5" fill="#fff" />
-    <circle cx="6" cy="5" r="4.5" fill="#fff" />
+    <path d="M-4 7V-10l12-2.5V5" />
+    <circle cx="-7.5" cy="7" r="3.5" />
+    <circle cx="4.5" cy="5" r="3.5" />
   </>
 );
 const VideoGlyph = () => (
   <>
-    <rect x="-16" y="-12" width="32" height="24" rx="5" />
-    <path d="M-3-5l8 5-8 5Z" fill="#fff" />
+    <rect x="-13" y="-10" width="26" height="20" rx="4" />
+    <path d="M-3-4l7 4-7 4Z" />
   </>
 );
-const DocGlyph = () => (
-  <>
-    <path d="M-12-12h24M-12-3h24M-12 6h16" />
-  </>
-);
+const DocGlyph = () => <path d="M-10-8h20M-10-1h20M-10 6h13" />;
+
+const BLUE = { color: '#1a73e8', tint: '#e8f0fe' };
+const RED = { color: '#d93025', tint: '#fce8e6' };
+const AMBER = { color: '#e37400', tint: '#fef7e0' };
+const GREEN = { color: '#188038', tint: '#e6f4ea' };
+const PURPLE = { color: '#9334e6', tint: '#f3e8fd' };
 
 export function HeroIllustration({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 560 480" className={className} role="img" aria-label="Dosya dönüştürme illüstrasyonu">
-      <defs>
-        <radialGradient id="h-bg" cx="50%" cy="45%" r="55%">
-          <stop stopColor="#d2e3fc" />
-          <stop offset="1" stopColor="#d2e3fc" stopOpacity="0" />
-        </radialGradient>
-        <linearGradient id="h-top" x1="0" y1="0" x2="0" y2="1">
-          <stop stopColor="#ffffff" />
-          <stop offset="1" stopColor="#e8f0fe" />
-        </linearGradient>
-        <linearGradient id="h-side" x1="0" y1="0" x2="0" y2="1">
-          <stop stopColor="#aecbfa" />
-          <stop offset="1" stopColor="#8ab4f8" />
-        </linearGradient>
-        <linearGradient id="h-cube" x1="0" y1="0" x2="1" y2="1">
-          <stop stopColor="#4c8df6" />
-          <stop offset="1" stopColor="#0b57d0" />
-        </linearGradient>
-        <filter id="h-blur" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="10" />
-        </filter>
-      </defs>
-      <circle cx="280" cy="220" r="230" fill="url(#h-bg)" />
-      {/* platform */}
-      <ellipse cx="280" cy="392" rx="190" ry="34" fill="#0b2a5b" opacity=".12" filter="url(#h-blur)" />
-      <path d="M90 352c0-19 85-46 190-46s190 27 190 46v22c0 19-85 46-190 46S90 393 90 374Z" fill="url(#h-side)" />
-      <ellipse cx="280" cy="352" rx="190" ry="46" fill="url(#h-top)" />
-      <ellipse cx="280" cy="352" rx="150" ry="34" fill="none" stroke="#aecbfa" strokeDasharray="4 8" strokeWidth="2" />
-      {/* connectors */}
-      <g fill="none" stroke="#1a73e8" strokeWidth="2.5" strokeDasharray="2 9" strokeLinecap="round" opacity=".55">
-        <path d="M150 150C190 170 210 190 236 210" />
-        <path d="M420 140C380 165 350 190 324 210" />
-        <path d="M135 300C180 300 210 285 236 268" />
-        <path d="M430 300C385 300 352 285 324 268" />
+    <svg viewBox="0 0 520 420" className={className} role="img" aria-label="Dosya dönüştürme illüstrasyonu">
+      <circle cx="260" cy="210" r="190" fill="#f8fafd" />
+      <circle cx="260" cy="210" r="190" fill="none" stroke="#e3e8ef" />
+      <circle cx="260" cy="210" r="128" fill="none" stroke="#e3e8ef" strokeDasharray="3 6" />
+      <g fill="none" stroke="#c4d3ea" strokeWidth="1.5" strokeDasharray="3 6" strokeLinecap="round">
+        <path d="M150 120L218 176" />
+        <path d="M370 120L302 176" />
+        <path d="M150 300L218 244" />
+        <path d="M370 300L302 244" />
       </g>
-      {/* center cube */}
-      <ellipse cx="280" cy="330" rx="62" ry="12" fill="#0b2a5b" opacity=".2" filter="url(#h-blur)" />
-      <rect x="226" y="190" width="120" height="120" rx="30" fill="#0842a0" />
-      <rect x="214" y="178" width="120" height="120" rx="30" fill="url(#h-cube)" />
-      <path d="M232 196a20 20 0 0 1 20-14h46" stroke="#fff" strokeOpacity=".35" strokeWidth="5" strokeLinecap="round" fill="none" />
-      <g transform="translate(274 238)" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M-28 0a28 28 0 0 1 48.9-18.6L28-11" />
-        <path d="M28-29v18h-18" />
-        <path d="M28 0a28 28 0 0 1-48.9 18.6L-28 11" />
-        <path d="M-28 29v-18h18" />
+      <rect x="208" y="158" width="104" height="104" rx="28" fill="#fff" stroke="#1a73e8" strokeWidth="1.75" />
+      <g transform="translate(260 210)" fill="none" stroke="#1a73e8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M-22 0a22 22 0 0 1 38.4-14.6L22-9" />
+        <path d="M22-23v14h-14" />
+        <path d="M22 0a22 22 0 0 1-38.4 14.6L-22 9" />
+        <path d="M-22 23v-14h14" />
       </g>
-      <circle cx="274" cy="238" r="7" fill="#fff" />
-      {/* files */}
-      <File3D id="hf1" x={70} y={40} c1="#6ea8fe" c2="#1a73e8" label="JPG" rotate={-10}>
+      <FileCard x={86} y={40} w={72} label="JPG" {...BLUE}>
         <ImageGlyph />
-      </File3D>
-      <File3D id="hf2" x={400} y={36} c1="#ff8a80" c2="#d93025" label="MP3" rotate={9}>
+      </FileCard>
+      <FileCard x={362} y={40} w={72} label="MP3" {...RED}>
         <MusicGlyph />
-      </File3D>
-      <File3D id="hf3" x={40} y={238} w={84} c1="#fdd663" c2="#e37400" label="MP4" rotate={6}>
+      </FileCard>
+      <FileCard x={86} y={290} w={72} label="MP4" {...AMBER}>
         <VideoGlyph />
-      </File3D>
-      <File3D id="hf4" x={432} y={236} w={84} c1="#81c995" c2="#188038" label="PDF" rotate={-7}>
+      </FileCard>
+      <FileCard x={362} y={290} w={72} label="PDF" {...GREEN}>
         <DocGlyph />
-      </File3D>
-      {/* sparkles */}
-      <g fill="#1a73e8">
-        <path d="M268 92l4 10 10 4-10 4-4 10-4-10-10-4 10-4Z" opacity=".8" />
-        <path d="M480 200l3 6 6 3-6 3-3 6-3-6-6-3 6-3Z" opacity=".5" />
-        <path d="M44 200l3 6 6 3-6 3-3 6-3-6-6-3 6-3Z" opacity=".5" />
-      </g>
-      <circle cx="350" cy="110" r="5" fill="#fbbc04" />
-      <circle cx="200" cy="120" r="4" fill="#34a853" />
-      <circle cx="380" cy="430" r="4" fill="#ea4335" opacity=".7" />
+      </FileCard>
+      <circle cx="260" cy="82" r="4" fill="#1a73e8" />
+      <circle cx="260" cy="338" r="4" fill="#1a73e8" opacity=".4" />
+      <circle cx="132" cy="210" r="3" fill="#fbbc04" />
+      <circle cx="388" cy="210" r="3" fill="#34a853" />
     </svg>
   );
 }
@@ -134,15 +93,15 @@ export function HeroIllustration({ className }: { className?: string }) {
 export function ConvertArt({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 240 160" className={className} aria-hidden="true">
-      <File3D id="ca1" x={34} y={26} w={68} c1="#6ea8fe" c2="#1a73e8" label="PNG" rotate={-8}>
+      <FileCard x={36} y={30} w={64} label="PNG" {...BLUE}>
         <ImageGlyph />
-      </File3D>
-      <File3D id="ca2" x={140} y={26} w={68} c1="#a142f4" c2="#7627bb" label="WEBP" rotate={8}>
+      </FileCard>
+      <FileCard x={140} y={30} w={64} label="WEBP" {...PURPLE}>
         <ImageGlyph />
-      </File3D>
-      <g fill="none" stroke="#1a73e8" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M100 40c12-12 30-12 42 0" />
-        <path d="M134 32l8 8-10 3" />
+      </FileCard>
+      <g fill="none" stroke="#1a73e8" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M108 70h24" />
+        <path d="M126 64l6 6-6 6" />
       </g>
     </svg>
   );
@@ -151,15 +110,13 @@ export function ConvertArt({ className }: { className?: string }) {
 export function CompressArt({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 240 160" className={className} aria-hidden="true">
-      <File3D id="cp1" x={30} y={22} w={76} c1="#81c995" c2="#188038" label="12 MB">
+      <FileCard x={34} y={24} w={72} label="12 MB" {...GREEN}>
         <DocGlyph />
-      </File3D>
-      <File3D id="cp2" x={160} y={58} w={46} c1="#81c995" c2="#188038" label="2 MB">
-        <path d="M-6-6h12" strokeWidth="2.5" />
-      </File3D>
-      <g fill="none" stroke="#188038" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M118 82h30" />
-        <path d="M140 74l8 8-8 8" />
+      </FileCard>
+      <FileCard x={156} y={56} w={48} label="2 MB" {...GREEN} />
+      <g fill="none" stroke="#188038" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M118 80h26" />
+        <path d="M138 74l6 6-6 6" />
       </g>
     </svg>
   );
@@ -168,20 +125,12 @@ export function CompressArt({ className }: { className?: string }) {
 export function CropArt({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 240 160" className={className} aria-hidden="true">
-      <defs>
-        <linearGradient id="cr-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop stopColor="#fdd663" />
-          <stop offset="1" stopColor="#fa903e" />
-        </linearGradient>
-      </defs>
-      <ellipse cx="124" cy="146" rx="80" ry="7" fill="#0b2a5b" opacity=".12" />
-      <rect x="50" y="26" width="148" height="110" rx="16" fill="#c26401" />
-      <rect x="42" y="18" width="148" height="110" rx="16" fill="url(#cr-sky)" />
-      <circle cx="150" cy="50" r="12" fill="#fff" opacity=".9" />
-      <path d="M42 108l40-40 30 30 18-18 60 50v-2a16 16 0 0 1-16 16H58a16 16 0 0 1-16-16Z" fill="#e37400" />
-      <rect x="68" y="38" width="96" height="70" rx="4" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="5 5" />
-      <g stroke="#fff" strokeWidth="5" strokeLinecap="round" fill="none">
-        <path d="M68 52V38h14M150 38h14v14M164 94v14h-14M82 108H68V94" />
+      <rect x="44" y="24" width="152" height="112" rx="14" fill="#fff" stroke="#e37400" strokeWidth="1.75" />
+      <circle cx="160" cy="54" r="9" fill="none" stroke="#e37400" strokeWidth="1.75" />
+      <path d="M44 114l40-38 28 26 18-16 66 50" fill="none" stroke="#e37400" strokeWidth="1.75" strokeLinejoin="round" />
+      <rect x="70" y="42" width="100" height="76" rx="3" fill="#fef7e0" fillOpacity=".55" stroke="#e37400" strokeWidth="1.25" strokeDasharray="4 4" />
+      <g stroke="#e37400" strokeWidth="3" strokeLinecap="round" fill="none">
+        <path d="M70 54V42h12M158 42h12v12M170 106v12h-12M82 118H70v-12" />
       </g>
     </svg>
   );

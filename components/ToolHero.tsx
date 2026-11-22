@@ -56,7 +56,7 @@ export function ToolHero({ tool, title, subtitle, chips }: { tool: ToolId; title
             ))}
           </ul>
         </div>
-        <t.art className="mx-auto hidden h-44 w-auto drop-shadow-sm sm:block md:h-52" />
+        <t.art className="mx-auto hidden h-40 w-auto sm:block md:h-48" />
       </div>
     </section>
   );

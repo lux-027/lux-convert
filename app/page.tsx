@@ -52,10 +52,10 @@ const TOOLS = [
 ];
 
 const FORMATS = [
-  { icon: ImageIcon, title: 'Görüntü', items: ['JPG', 'PNG', 'WEBP', 'AVIF', 'GIF', 'BMP', 'ICO', 'SVG'], tone: 'text-[#1a73e8]', grad: 'from-[#6ea8fe] to-[#1a73e8]' },
-  { icon: Music, title: 'Ses', items: ['MP3', 'WAV', 'OGG', 'FLAC', 'M4A', 'AAC', 'OPUS'], tone: 'text-[#d93025]', grad: 'from-[#ff8a80] to-[#d93025]' },
-  { icon: Film, title: 'Video', items: ['MP4', 'WEBM', 'MOV', 'MKV', 'AVI', 'GIF'], tone: 'text-[#e37400]', grad: 'from-[#fdd663] to-[#e37400]' },
-  { icon: FileText, title: 'Belge', items: ['PDF', 'DOCX', 'TXT', 'HTML', 'CSV', 'JSON'], tone: 'text-[#188038]', grad: 'from-[#81c995] to-[#188038]' },
+  { icon: ImageIcon, title: 'Görüntü', items: ['JPG', 'PNG', 'WEBP', 'AVIF', 'GIF', 'BMP', 'ICO', 'SVG'], tone: 'text-[#1a73e8]', grad: 'bg-[#e8f0fe] text-[#1a73e8]' },
+  { icon: Music, title: 'Ses', items: ['MP3', 'WAV', 'OGG', 'FLAC', 'M4A', 'AAC', 'OPUS'], tone: 'text-[#d93025]', grad: 'bg-[#fce8e6] text-[#d93025]' },
+  { icon: Film, title: 'Video', items: ['MP4', 'WEBM', 'MOV', 'MKV', 'AVI', 'GIF'], tone: 'text-[#e37400]', grad: 'bg-[#fef7e0] text-[#e37400]' },
+  { icon: FileText, title: 'Belge', items: ['PDF', 'DOCX', 'TXT', 'HTML', 'CSV', 'JSON'], tone: 'text-[#188038]', grad: 'bg-[#e6f4ea] text-[#188038]' },
 ];
 
 const POPULAR = ['PNG → JPG', 'JPG → PDF', 'WEBP → PNG', 'MP4 → MP3', 'MOV → MP4', 'WAV → MP3', 'PDF → JPG', 'DOCX → PDF', 'Video → GIF', 'CSV → JSON'];
@@ -130,7 +130,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <HeroIllustration className="mx-auto w-full max-w-[520px] drop-shadow-sm" />
+        <HeroIllustration className="mx-auto w-full max-w-[480px]" />
       </section>
 
       <section id="araclar" className="scroll-mt-24 pt-20">
@@ -146,7 +146,7 @@ export default function Home() {
               className="group flex flex-col overflow-hidden rounded-[28px] border border-line bg-white transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:shadow-[0_12px_40px_rgb(60_64_67/0.18)]"
             >
               <div className={`relative grid h-44 place-items-center bg-gradient-to-br ${t.bg}`}>
-                <t.art className="h-36 w-auto transition-transform duration-300 group-hover:scale-105" />
+                <t.art className="h-32 w-auto transition-transform duration-300 group-hover:scale-105" />
                 <div className={`absolute top-4 left-4 grid h-10 w-10 place-items-center rounded-xl bg-white shadow-sm ${t.tone.split(' ')[1]}`}>
                   <t.icon className="h-5 w-5" />
                 </div>
@@ -181,8 +181,8 @@ export default function Home() {
           {FORMATS.map((f) => (
             <div key={f.title} className="rounded-3xl border border-line bg-white p-6 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgb(60_64_67/0.14)]">
               <div className="flex items-center gap-3">
-                <span className={`grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br ${f.grad} text-white shadow-[inset_0_-4px_0_rgb(0_0_0/0.18),inset_0_2px_0_rgb(255_255_255/0.35),0_6px_14px_rgb(60_64_67/0.22)]`}>
-                  <f.icon className="h-6 w-6 drop-shadow" />
+                <span className={`grid h-11 w-11 place-items-center rounded-xl ${f.grad}`}>
+                  <f.icon className="h-5 w-5" strokeWidth={1.75} />
                 </span>
                 <div>
                   <p className="text-[17px] font-medium text-fg">{f.title}</p>

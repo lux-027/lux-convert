@@ -39,11 +39,11 @@ export default function DropArea({
       <input {...getInputProps({ accept })} />
       <div
         className={cn(
-          'mb-5 grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-[#6ea8fe] to-[#1a73e8] text-white shadow-[inset_0_-4px_0_rgb(0_0_0/0.18),inset_0_2px_0_rgb(255_255_255/0.35),0_10px_24px_rgb(26_115_232/0.35)] transition-transform',
+          'mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-primary-container text-primary ring-1 ring-[#d2e3fc] transition-transform',
           isDragActive ? '-translate-y-1 scale-110' : 'group-hover:-translate-y-0.5'
         )}
       >
-        <Upload className="h-7 w-7 drop-shadow" />
+        <Upload className="h-6 w-6" strokeWidth={1.75} />
       </div>
       <p className="text-xl font-medium text-fg">{isDragActive ? 'Bırakın, hemen ekleyelim' : 'Dosyaları buraya sürükleyip bırakın'}</p>
       <p className="mt-1 mb-5 text-sm text-fg-2">veya bilgisayarınızdan seçin</p>
