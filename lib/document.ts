@@ -301,10 +301,11 @@ function jsonToCsv(text: string) {
   if (!arr.length || typeof arr[0] !== 'object') throw new Error('JSON bir nesne dizisi olmalıdır.');
   const keys = Array.from(new Set(arr.flatMap((o) => Object.keys(o ?? {}))));
   const esc = (v: unknown) => {
-    const s = v == null ? '' : typeof v === 'object' ? JSON.stringify(v) : String(v);
-    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    let s = v == null ? '' : typeof v === 'object' ? JSON.stringify(v) : String(v);
+    if (/^[=+\-@\t\r]/.test(s) && !/^[+-]?\d+([.,]\d+)?$/.test(s)) s = `'${s}`;
+    return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  return [keys.join(','), ...arr.map((o) => keys.map((k) => esc(o?.[k])).join(','))].join('\n');
+  return [keys.map(esc).join(','), ...arr.map((o) => keys.map((k) => esc(o?.[k])).join(','))].join('\n');
 }
 
 export async function convertDocument(file: File, target: string, onProgress?: (p: number) => void): Promise<Output> {
