@@ -99,7 +99,7 @@ export default function Compressor() {
   const levelHint = custom ? 'Hedef boyutu kendiniz belirleyin' : LEVELS.find((l) => l.value === mode)!.hint;
 
   return (
-    <div className="space-y-6">
+    <div data-stagger className="space-y-6">
       <div className="flex flex-col items-center gap-2">
         <Segmented options={MODES} value={mode} onChange={changeMode} />
         <p className="text-xs text-fg-2">{levelHint}</p>

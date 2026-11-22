@@ -40,7 +40,7 @@ export function ToolHero({ tool, title, subtitle, chips }: { tool: ToolId; title
   return (
     <section className={cn('mt-6 overflow-hidden rounded-[32px] bg-gradient-to-br', t.bg)}>
       <div className="grid items-center gap-4 px-6 py-8 sm:px-10 md:grid-cols-[1fr_auto] md:py-10">
-        <div className="text-center md:text-left">
+        <div data-stagger className="text-center md:text-left">
           <span className={cn('inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-medium shadow-sm', t.tone)}>
             <t.icon className="h-3.5 w-3.5" />
             {t.name}

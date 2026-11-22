@@ -20,7 +20,7 @@ export default function FaqList() {
   }, [query, group]);
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div data-stagger className="mx-auto max-w-3xl">
       <div className="relative">
         <Search className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-fg-2" />
         <input
@@ -61,11 +61,11 @@ export default function FaqList() {
         ))}
       </div>
 
-      <div className="mt-10 space-y-10">
+      <div data-stagger className="mt-10 space-y-10">
         {groups.map((g) => (
-          <section key={g.id} data-appear>
+          <section key={g.id} data-stagger>
             <h2 className="mb-3 px-1 text-xs font-medium tracking-wider text-fg-2 uppercase">{g.title}</h2>
-            <div className="divide-y divide-line rounded-3xl border border-line bg-white">
+            <div data-stagger className="divide-y divide-line rounded-3xl border border-line bg-white">
               {g.items.map((f) => (
                 <details key={f.q} className="group px-6 py-4 [&_summary::-webkit-details-marker]:hidden">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-medium text-fg">

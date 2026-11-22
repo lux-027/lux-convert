@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
-const SCROLL_MS = 1100;
 const REVEAL_MS = 750;
 
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
@@ -13,28 +12,26 @@ function smoothScrollTo(y: number) {
   const startY = window.scrollY;
   const dist = y - startY;
   const start = performance.now();
+  const duration = Math.min(2400, Math.max(1600, 1000 + Math.abs(dist) * 0.6));
   let raf = 0;
   const stop = () => cancelAnimationFrame(raf);
   window.addEventListener('wheel', stop, { once: true, passive: true });
   window.addEventListener('touchstart', stop, { once: true, passive: true });
   const tick = (now: number) => {
-    const p = Math.min(1, (now - start) / SCROLL_MS);
+    const p = Math.min(1, (now - start) / duration);
     window.scrollTo(0, startY + dist * ease(p));
     if (p < 1) raf = requestAnimationFrame(tick);
   };
   raf = requestAnimationFrame(tick);
 }
 
+function expand(el: HTMLElement): HTMLElement[] {
+  const split = el.hasAttribute('data-stagger') || (el.classList.contains('grid') && el.children.length > 1);
+  return split ? (Array.from(el.children) as HTMLElement[]).flatMap(expand) : [el];
+}
+
 function revealTargets(root: ParentNode, selector: string): HTMLElement[] {
-  const out: HTMLElement[] = [];
-  root.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-    if (el.classList.contains('grid') && el.children.length > 1) {
-      out.push(...(Array.from(el.children) as HTMLElement[]));
-    } else {
-      out.push(el);
-    }
-  });
-  return out;
+  return Array.from(root.querySelectorAll<HTMLElement>(selector)).flatMap(expand);
 }
 
 function reveal(els: HTMLElement[], rootMargin = '0px 0px -8% 0px') {
@@ -99,7 +96,7 @@ export default function Motion() {
     document.documentElement.classList.add('motion-ready');
     if (!main || reduced()) return;
 
-    const els = revealTargets(main, ':scope > section > *, :scope > div > *');
+    const els = revealTargets(main, ':scope > section > *, :scope > div > *, :scope > article > *');
     const io = reveal(els);
 
     const mo = new MutationObserver((records) => {
