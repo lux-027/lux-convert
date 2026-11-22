@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Google_Sans } from 'next/font/google';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Motion from '@/components/Motion';
 import './globals.css';
 
 const googleSans = Google_Sans({
@@ -53,8 +54,14 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="tr" className={googleSans.variable}>
+    <html lang="tr" className={googleSans.variable} suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var d=document.documentElement;d.classList.add('motion');setTimeout(function(){d.classList.add('motion-ready')},3000)}",
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -74,6 +81,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Header />
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 sm:px-6">{children}</main>
         <Footer />
+        <Motion />
       </body>
     </html>
   );
