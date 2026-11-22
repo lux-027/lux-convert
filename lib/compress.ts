@@ -115,7 +115,12 @@ async function compressAudio(file: File, level: Level, cb: Progress, ratio?: num
     outExt = 'mp3';
     args = ['-vn', '-c:a', 'libmp3lame', '-b:a', pick(level, '160k', '112k', '64k')];
   }
-  if (kbps) {
+  if (kbps && outExt === 'ogg') {
+    // libvorbis rejects low -b:a targets at 44.1 kHz, so steer quality mode instead.
+    const i = args.indexOf('-q:a');
+    args.splice(i, 2, '-q:a', String(clamp(Math.round((kbps - 64) / 16), -1, 10)));
+    if (kbps < 48) args.push('-ac', '1', '-ar', '22050');
+  } else if (kbps) {
     const i = args.findIndex((a) => a === '-b:a' || a === '-q:a');
     args.splice(i, 2, '-b:a', `${kbps}k`);
     if (kbps < 48) args.push('-ac', '1');
