@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { CheckCircle2, Download, FileText, Film, Image as ImageIcon, Music, AlertCircle, X } from 'lucide-react';
+import { Check, CheckCircle2, Download, FileText, Film, Image as ImageIcon, Music, AlertCircle, X } from 'lucide-react';
 import type { Category } from '@/lib/formats';
 import { formatBytes } from '@/lib/files';
 import { Button, IconButton } from './ui';
@@ -43,6 +43,24 @@ function Thumb({ file, category }: { file: File; category: Category | null }) {
     <div className={cn('grid h-10 w-10 shrink-0 place-items-center rounded-xl', category ? TINTS[category] : 'bg-surface-2 text-fg-2')}>
       <Icon className="h-5 w-5" />
     </div>
+  );
+}
+
+export function DownloadButton({ onClick, label = 'İndir', className }: { onClick: () => void; label?: string; className?: string }) {
+  const [downloaded, setDownloaded] = useState(false);
+  return (
+    <Button
+      variant="tonal"
+      title={downloaded ? 'Tekrar indir' : label}
+      className={cn(className, downloaded && 'bg-[#e6f4ea] text-[#137333]')}
+      onClick={() => {
+        onClick();
+        setDownloaded(true);
+      }}
+    >
+      {downloaded ? <Check className="h-4 w-4" /> : <Download className="h-4 w-4" />}
+      <span className={className ? 'hidden sm:inline' : undefined}>{downloaded ? 'İndirildi' : label}</span>
+    </Button>
   );
 }
 
@@ -106,10 +124,7 @@ export default function FileRow({
       </div>
       {right}
       {status === 'done' && onDownload && (
-        <Button variant="tonal" className="h-9 px-4" onClick={onDownload}>
-          <Download className="h-4 w-4" />
-          <span className="hidden sm:inline">İndir</span>
-        </Button>
+        <DownloadButton className="h-9 px-4" onClick={onDownload} />
       )}
       <IconButton onClick={onRemove} disabled={disabled} aria-label="Kaldır" title="Kaldır">
         <X className="h-4 w-4" />

@@ -2,9 +2,9 @@
 
 import { recordConversions } from '@/lib/stats';
 import { useCallback, useRef, useState } from 'react';
-import { Download, Minus, Plus, RotateCcw } from 'lucide-react';
+import { Minus, Plus, RotateCcw } from 'lucide-react';
 import DropArea from './DropArea';
-import FileRow, { type Status } from './FileRow';
+import FileRow, { DownloadButton, type Status } from './FileRow';
 import { Button, IconButton, Segmented } from './ui';
 import { getCategory, type Category } from '@/lib/formats';
 import { downloadAll, downloadBlob, formatBytes, type Output } from '@/lib/files';
@@ -211,10 +211,7 @@ export default function Compressor() {
           </ul>
           <div className="flex flex-col-reverse gap-2 border-t border-line px-4 py-3 sm:flex-row sm:items-center sm:justify-end">
             {done.length > 1 && (
-              <Button variant="tonal" onClick={() => downloadAll(done.map((i) => i.output!), 'lux-convert-sikistirilmis.zip')}>
-                <Download className="h-4 w-4" />
-                Tümünü indir (ZIP)
-              </Button>
+              <DownloadButton key={done.length} label="Tümünü indir (ZIP)" onClick={() => downloadAll(done.map((i) => i.output!), 'lux-convert-sikistirilmis.zip')} />
             )}
             <Button onClick={run} disabled={running || !pending.length}>
               {running ? 'Sıkıştırılıyor…' : pending.length ? `Sıkıştır (${pending.length})` : 'Sıkıştırıldı'}

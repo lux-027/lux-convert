@@ -2,9 +2,9 @@
 
 import { recordConversions } from '@/lib/stats';
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { ArrowRight, Download, Plus, RotateCcw } from 'lucide-react';
+import { ArrowRight, Plus, RotateCcw } from 'lucide-react';
 import DropArea from './DropArea';
-import FileRow, { type Status } from './FileRow';
+import FileRow, { DownloadButton, type Status } from './FileRow';
 import { Button, Select } from './ui';
 import { ACCEPT, getCategory, getTargets, type Category } from '@/lib/formats';
 import { downloadAll, downloadBlob, formatBytes, type Output } from '@/lib/files';
@@ -191,10 +191,7 @@ export default function Converter() {
 
       <div className="flex flex-col-reverse gap-2 border-t border-line px-4 py-3 sm:flex-row sm:items-center sm:justify-end">
         {done.length > 1 && (
-          <Button variant="tonal" onClick={() => downloadAll(done.map((i) => i.output!), 'lux-convert.zip')}>
-            <Download className="h-4 w-4" />
-            Tümünü indir (ZIP)
-          </Button>
+          <DownloadButton key={done.length} label="Tümünü indir (ZIP)" onClick={() => downloadAll(done.map((i) => i.output!), 'lux-convert.zip')} />
         )}
         <Button onClick={convertAll} disabled={running || !pending.length}>
           {running ? 'Dönüştürülüyor…' : pending.length ? `Dönüştür (${pending.length})` : 'Dönüştürüldü'}
