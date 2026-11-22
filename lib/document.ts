@@ -69,8 +69,14 @@ async function pdfToText(file: File): Promise<string> {
   for (let i = 1; i <= doc.numPages; i++) {
     const content = await (await doc.getPage(i)).getTextContent();
     let text = '';
+    let last: { end: number; y: number } | null = null;
     for (const item of content.items) {
-      if ('str' in item) text += item.str + (item.hasEOL ? '\n' : '');
+      if (!('str' in item)) continue;
+      const [, , , , x, y] = item.transform as number[];
+      const gap = last && (Math.abs(y - last.y) > 1 || x - last.end > Math.max(1, item.height * 0.15));
+      if (gap && item.str && !/\s$/.test(text) && !/^\s/.test(item.str)) text += ' ';
+      text += item.str + (item.hasEOL ? '\n' : '');
+      last = item.str ? { end: x + item.width, y } : last;
     }
     parts.push(text.trim());
   }
