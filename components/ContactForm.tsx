@@ -22,7 +22,12 @@ export default function ContactForm() {
   const [copied, setCopied] = useState(false);
 
   const copy = async () => {
-    await navigator.clipboard.writeText(CONTACT_EMAIL).catch(() => {});
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+    } catch {
+      window.prompt('E-posta adresini kopyalayın:', CONTACT_EMAIL);
+      return;
+    }
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1800);
   };
