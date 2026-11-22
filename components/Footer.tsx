@@ -16,6 +16,7 @@ const COLUMNS = [
     title: 'Lux Convert',
     links: [
       { href: '/', label: 'Ana sayfa' },
+      { href: '/sss', label: 'Sık sorulan sorular' },
       { href: '/hakkimizda', label: 'Hakkımızda' },
       { href: '/gizlilik', label: 'Gizlilik' },
     ],

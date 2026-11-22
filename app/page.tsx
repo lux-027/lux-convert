@@ -17,6 +17,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { CompressArt, ConvertArt, CropArt, HeroIllustration } from '@/components/Illustrations';
+import { HOME_FAQ } from '@/lib/faq';
 
 const TOOLS = [
   {
@@ -72,24 +73,6 @@ const FEATURES = [
   { icon: BadgeCheck, title: 'Tamamen ücretsiz', text: 'Kayıt, filigran veya gizli ücret yok. İstediğiniz kadar kullanın.' },
 ];
 
-const FAQ = [
-  {
-    q: 'Dosyalarım bir sunucuya yükleniyor mu?',
-    a: 'Hayır. Dönüştürme, sıkıştırma ve kırpma işlemlerinin tamamı tarayıcınızda yapılır. Dosyalarınız cihazınızdan çıkmaz.',
-  },
-  {
-    q: 'Bir dosya boyutu sınırı var mı?',
-    a: 'Sabit bir sınır yoktur; sınır cihazınızın belleğidir. Çok büyük videolar için masaüstü tarayıcı önerilir.',
-  },
-  {
-    q: 'Hangi tarayıcılarda çalışır?',
-    a: 'Chrome, Edge, Opera, Firefox ve Safari’nin güncel sürümlerinde çalışır.',
-  },
-  {
-    q: 'Ses ve video dönüştürme neden ilk seferde biraz bekliyor?',
-    a: 'İlk kullanımda dönüştürme motoru bir kez indirilir ve tarayıcıda önbelleğe alınır. Sonraki işlemler hemen başlar.',
-  },
-];
 
 export default function Home() {
   return (
@@ -248,7 +231,7 @@ export default function Home() {
       <section className="mx-auto max-w-3xl pt-24">
         <h2 className="text-center text-[28px] font-medium tracking-tight text-fg sm:text-[34px]">Sık sorulan sorular</h2>
         <div className="mt-8 divide-y divide-line rounded-3xl border border-line bg-white">
-          {FAQ.map((f) => (
+          {HOME_FAQ.map((f) => (
             <details key={f.q} className="group px-6 py-4 [&_summary::-webkit-details-marker]:hidden">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-medium text-fg">
                 {f.q}
@@ -257,6 +240,12 @@ export default function Home() {
               <p className="mt-2 text-[15px] leading-relaxed text-fg-2">{f.a}</p>
             </details>
           ))}
+        </div>
+        <div className="mt-6 text-center">
+          <Link href="/sss" className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline">
+            Tüm soruları görün
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
 
