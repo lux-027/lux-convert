@@ -37,7 +37,7 @@ function revealTargets(root: ParentNode, selector: string): HTMLElement[] {
   return out;
 }
 
-function reveal(els: HTMLElement[]) {
+function reveal(els: HTMLElement[], rootMargin = '0px 0px -8% 0px') {
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
@@ -52,7 +52,7 @@ function reveal(els: HTMLElement[]) {
         }, REVEAL_MS + 600);
       });
     },
-    { rootMargin: '0px 0px -8% 0px' }
+    { rootMargin }
   );
   els.forEach((el) => {
     const i = el.parentElement ? Array.prototype.indexOf.call(el.parentElement.children, el) : 0;
@@ -66,6 +66,13 @@ function reveal(els: HTMLElement[]) {
 export default function Motion() {
   const pathname = usePathname();
   const pathRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    const footer = document.querySelector('footer');
+    if (!footer || reduced()) return;
+    const io = reveal(revealTargets(footer, ':scope > div > *'), '0px');
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -88,14 +95,11 @@ export default function Motion() {
 
   useEffect(() => {
     const main = document.querySelector('main');
-    const footer = document.querySelector('footer');
-    const first = pathRef.current == null;
     pathRef.current = pathname;
     document.documentElement.classList.add('motion-ready');
     if (!main || reduced()) return;
 
     const els = revealTargets(main, ':scope > section > *, :scope > div > *');
-    if (first && footer) els.push(...revealTargets(footer, ':scope > div > *'));
     const io = reveal(els);
 
     const mo = new MutationObserver((records) => {
