@@ -1,9 +1,1 @@
-<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#9333ea;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="url(#purpleGradient)"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><defs><linearGradient id="g" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse"><stop stop-color="#4c8df6"/><stop offset="1" stop-color="#0b57d0"/></linearGradient></defs><rect width="48" height="48" rx="14" fill="url(#g)"/><g fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 24a11 11 0 0 1 19.2-7.3L35 19.5"/><path d="M35 12.5v7h-7"/><path d="M35 24a11 11 0 0 1-19.2 7.3L13 28.5"/><path d="M13 35.5v-7h7"/></g><circle cx="24" cy="24" r="3" fill="#fff"/></svg>

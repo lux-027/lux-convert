@@ -1,369 +1,77 @@
-'use client';
+import Link from 'next/link';
+import { ArrowRight, Crop, FileText, Film, Image as ImageIcon, Lock, Minimize2, Music, Zap, BadgeCheck } from 'lucide-react';
+import Converter from '@/components/Converter';
+import { PageTitle } from '@/components/ui';
 
-import { useState, useEffect, useRef } from 'react';
-import Header from '@/components/Header';
-import Dropzone from '@/components/Dropzone';
-import FileItem from '@/components/FileItem';
-import Footer from '@/components/Footer';
-import LimitToast from '@/components/LimitToast';
-import { Plus, Trash2, Zap, UploadCloud, SlidersHorizontal, Download } from 'lucide-react';
-import { FileFormat, FileState, AppMode } from '@/types';
+const FORMATS = [
+  { icon: ImageIcon, title: 'Görüntü', items: 'JPG, PNG, WEBP, AVIF, GIF, BMP, ICO, SVG → PDF dahil' },
+  { icon: Music, title: 'Ses', items: 'MP3, WAV, OGG, FLAC, M4A, AAC, OPUS, WMA' },
+  { icon: Film, title: 'Video', items: 'MP4, WEBM, MOV, MKV, AVI, GIF ve videodan MP3' },
+  { icon: FileText, title: 'Belge', items: 'PDF → JPG/PNG/TXT, DOCX → PDF, TXT → PDF, CSV ↔ JSON' },
+];
 
-// Format definitions
-const allFormats: FileFormat[] = [
-  // Image formats
-  { name: 'PNG', extensions: ['.png'], category: 'image' },
-  { name: 'JPG', extensions: ['.jpg', '.jpeg'], category: 'image' },
-  { name: 'WEBP', extensions: ['.webp'], category: 'image' },
-  { name: 'GIF', extensions: ['.gif'], category: 'image' },
-  { name: 'BMP', extensions: ['.bmp'], category: 'image' },
-  { name: 'SVG', extensions: ['.svg'], category: 'image' },
-  { name: 'ICO', extensions: ['.ico'], category: 'image' },
-  
-  // Audio formats
-  { name: 'MP3', extensions: ['.mp3'], category: 'audio' },
-  { name: 'WAV', extensions: ['.wav'], category: 'audio' },
-  { name: 'OGG', extensions: ['.ogg'], category: 'audio' },
-  { name: 'FLAC', extensions: ['.flac'], category: 'audio' },
-  { name: 'AAC', extensions: ['.aac'], category: 'audio' },
-  { name: 'M4A', extensions: ['.m4a'], category: 'audio' },
-  
-  // Document formats
-  { name: 'PDF', extensions: ['.pdf'], category: 'document' },
-  { name: 'DOCX', extensions: ['.docx'], category: 'document' },
-  { name: 'TXT', extensions: ['.txt'], category: 'document' },
+const FEATURES = [
+  { icon: Lock, title: 'Gizli', text: 'Dosyalarınız hiçbir sunucuya yüklenmez. Tüm işlemler tarayıcınızda yapılır.' },
+  { icon: Zap, title: 'Hızlı', text: 'Bekleme sırası yok. Dönüştürme cihazınızın gücüyle anında başlar.' },
+  { icon: BadgeCheck, title: 'Ücretsiz', text: 'Kayıt, filigran veya gizli ücret yok. Sınırsız kullanın.' },
+];
+
+const TOOLS = [
+  { href: '/sikistir', icon: Minimize2, title: 'Dosya sıkıştır', text: 'Görüntü, PDF, ses ve video boyutunu küçültün.' },
+  { href: '/kirp', icon: Crop, title: 'Görüntü kırp', text: 'Oran seçin, döndürün, çevirin ve kırpın.' },
 ];
 
 export default function Home() {
-  const [mode, setMode] = useState<AppMode>('convert');
-  const [files, setFiles] = useState<FileState[]>([]);
-  const [activeType, setActiveType] = useState<'image' | 'music' | 'document' | null>(null);
-  const [globalFormat, setGlobalFormat] = useState<FileFormat | null>(null);
-  const [globalQuality, setGlobalQuality] = useState(0.8);
-  const [isGlobalDropdownOpen, setIsGlobalDropdownOpen] = useState(false);
-  const [globalSearchQuery, setGlobalSearchQuery] = useState('');
-  const [globalActiveCategory, setGlobalActiveCategory] = useState('Görüntü');
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [showLimitToast, setShowLimitToast] = useState(false);
-  
-  const globalDropdownRef = useRef<HTMLDivElement>(null);
-
-  // Dynamic tab locking based on files array
-  useEffect(() => {
-    if (files.length === 0) {
-      // No files - unlock all tabs and reset to default
-      setActiveType(null);
-      setMode('convert');
-    } else {
-      // Files exist - ensure proper locking based on first file type
-      const firstFile = files[0].file;
-      let newActiveType: 'image' | 'music' | 'document' | null;
-      
-      if (firstFile.type.startsWith('image/')) {
-        newActiveType = 'image';
-        setMode('convert');
-      } else if (firstFile.type.startsWith('audio/')) {
-        newActiveType = 'music';
-        setMode('music');
-      } else if (firstFile.type.startsWith('application/') || firstFile.type.startsWith('text/')) {
-        newActiveType = 'document';
-        setMode('document');
-      } else {
-        newActiveType = null;
-        setMode('convert');
-      }
-      
-      setActiveType(newActiveType);
-    }
-  }, [files.length]); // Only depend on files.length to prevent infinite loops
-
-  const handleModeChange = (newMode: AppMode) => {
-    setMode(newMode);
-  };
-
-  const handleFilesSelect = (selectedFiles: File[]) => {
-    // File limit check
-    const currentFileCount = files.length;
-    const maxFiles = 10;
-    const remainingSlots = maxFiles - currentFileCount;
-    
-    if (currentFileCount >= maxFiles) {
-      alert('Dosya limitine ulaştınız.');
-      return;
-    }
-    
-    const filesToAdd = selectedFiles.slice(0, remainingSlots);
-
-    const newFiles: FileState[] = filesToAdd.map((file) => ({
-      id: Math.random().toString(36).substring(7),
-      file,
-      targetFormat: null as unknown as FileFormat,
-      status: 'pending' as const,
-      quality: 0.8,
-    }));
-
-    setFiles([...files, ...newFiles]);
-  };
-
-  const removeFile = (id: string) => {
-    setFiles(files.filter(f => f.id !== id));
-  };
-
-  const removeAllFiles = () => {
-    setFiles([]);
-    setGlobalFormat(null);
-    setGlobalQuality(0.8);
-  };
-
-  const updateFormat = (id: string, format: FileFormat) => {
-    setFiles(files.map(f => f.id === id ? { ...f, targetFormat: format } : f));
-  };
-
-  const updateQuality = (id: string, quality: number) => {
-    setFiles(files.map(f => f.id === id ? { ...f, quality } : f));
-  };
-
-  const downloadFile = (id: string) => {
-    console.log('Download file:', id);
-  };
-
-  const convertAll = () => {
-    setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
-    }, 2000);
-  };
-
-  const applyGlobalFormat = (format: FileFormat) => {
-    setGlobalFormat(format);
-    setFiles(files.map(f => ({ ...f, targetFormat: format })));
-  };
-
-  const applyGlobalQuality = (quality: number) => {
-    setGlobalQuality(quality);
-    setFiles(files.map(f => ({ ...f, quality })));
-  };
-
-  const getGlobalCategories = () => {
-    return [
-      { name: 'Görüntü', active: globalActiveCategory === 'Görüntü' },
-      { name: 'Ses', active: globalActiveCategory === 'Ses' },
-      { name: 'Belge', active: globalActiveCategory === 'Belge' },
-    ];
-  };
-
-  const hasFiles = files.length > 0;
-
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden w-full">
-      {/* Background Effects */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: -1 }}>
-        <div className="absolute" style={{ top: '8%', left: '5%', width: '300px', height: '5px', background: 'linear-gradient(90deg, transparent, #8a2be2, transparent)', transform: 'rotate(-35deg)', boxShadow: '0 0 20px #8a2be2, 0 0 40px #8a2be2, 0 0 60px #8a2be2', filter: 'blur(10px)', animation: 'breathe 6s ease-in-out infinite' }}></div>
-      </div>
+    <>
+      <PageTitle title="Her dosyayı saniyeler içinde dönüştürün" subtitle="Görüntü, ses, video ve belgeler için ücretsiz ve gizli dönüştürücü." />
+      <section className="mx-auto max-w-4xl">
+        <Converter />
+      </section>
 
-      <div className="relative w-full" style={{ zIndex: 1 }}>
-        <Header mode={mode} onModeChange={handleModeChange} activeType={activeType} />
-      </div>
+      <section className="mx-auto mt-16 grid max-w-4xl gap-4 sm:grid-cols-2">
+        {TOOLS.map((t) => (
+          <Link
+            key={t.href}
+            href={t.href}
+            className="group flex items-center gap-4 rounded-2xl border border-line p-5 transition-colors hover:bg-surface"
+          >
+            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary-container text-on-primary-container">
+              <t.icon className="h-5 w-5" />
+            </div>
+            <div className="flex-1">
+              <p className="text-base font-medium text-fg">{t.title}</p>
+              <p className="text-sm text-fg-2">{t.text}</p>
+            </div>
+            <ArrowRight className="h-5 w-5 text-fg-2 transition-transform group-hover:translate-x-0.5" />
+          </Link>
+        ))}
+      </section>
 
-      <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-16 flex flex-col items-center relative w-full overflow-x-hidden" style={{ zIndex: 1 }}>
-        <div className="text-center mb-8 sm:mb-16 space-y-4 sm:space-y-6">
-          <div className="relative inline-block">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 blur-3xl opacity-20"></div>
-            <h2 className="relative text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 mb-2 sm:mb-4 px-4">
-              {mode === 'convert' ? 'Görüntü Dönüştürücü' : mode === 'compress' ? 'Görüntü Sıkıştırıcı' : mode === 'music' ? 'Ses Dönüştürücü' : 'Belge Dönüştürücü'}
-            </h2>
-          </div>
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 font-medium max-w-3xl mx-auto leading-relaxed px-4">
-            {mode === 'convert' 
-              ? 'Görüntü dosyalarınızı istediğiniz biçime dönüştürün' 
-              : mode === 'compress'
-                ? 'Görüntü dosyalarınızı boyutunu kaliteden ödün vermeden düşürün'
-                : mode === 'music'
-                ? 'Ses dosyalarınızı hızlıca çevirin'
-                : 'Belge dosyalarınızı istediğiniz biçime dönüştürün'}
-          </p>
+      <section className="mx-auto mt-20 max-w-4xl">
+        <h2 className="text-center text-2xl font-normal text-fg">Desteklenen biçimler</h2>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          {FORMATS.map((f) => (
+            <div key={f.title} className="rounded-2xl bg-surface p-5">
+              <div className="flex items-center gap-2 text-fg">
+                <f.icon className="h-5 w-5 text-primary" />
+                <span className="font-medium">{f.title}</span>
+              </div>
+              <p className="mt-2 text-sm text-fg-2">{f.items}</p>
+            </div>
+          ))}
         </div>
+      </section>
 
-        {!hasFiles ? (
-          <div className="w-full max-w-5xl px-2 sm:px-4 md:px-6">
-            {/* Upload Area */}
-            <div className="relative glass-droplet-inner rounded-[1.5rem] sm:rounded-[2rem] p-8 md:p-12 lg:p-20 border border-white/30 shadow-2xl text-center overflow-hidden">
-              <Dropzone onFilesSelect={handleFilesSelect} mode={mode} />
-            </div>
-            
-            {/* Features Section - Moved below Dropzone */}
-            <div className="relative glass-droplet-footer p-2 sm:p-4 md:p-8 border-t border-white/20 rounded-b-[1.5rem] sm:rounded-b-[2rem] mt-4 sm:mt-6 overflow-hidden">
-              <div className="flex flex-row justify-between items-center gap-1 sm:gap-4 md:gap-16 text-white w-full">
-                <div className="flex items-center gap-1 sm:gap-3 group">
-                  <div className="w-3 h-3 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors flex-shrink-0">
-                    <Zap className="w-2 h-2 sm:w-4 sm:h-4 md:w-6 md:h-6" />
-                  </div>
-                  <div className="text-left">
-                    <div className="font-bold text-[10px] sm:text-sm md:text-base lg:text-lg">HIZLI</div>
-                    <div className="text-[8px] sm:text-xs md:text-xs text-white/80 hidden sm:block">Anında işlem</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-1 sm:gap-3 group">
-                  <div className="w-3 h-3 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors flex-shrink-0">
-                    <div className="w-1 h-1 sm:w-3 sm:h-3 md:w-6 md:h-6 border border-white rounded-sm"></div>
-                  </div>
-                  <div className="text-left">
-                    <div className="font-bold text-[10px] sm:text-sm md:text-base lg:text-lg">GÜVENLİ</div>
-                    <div className="text-[8px] sm:text-xs md:text-xs text-white/80 hidden sm:block">Gizlilik korumalı</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-1 sm:gap-3 group">
-                  <div className="w-3 h-3 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors flex-shrink-0">
-                    <div className="w-1 h-1 sm:w-3 sm:h-3 md:w-6 md:h-6 flex items-center justify-center text-[6px] sm:text-xs font-bold">ÜC</div>
-                  </div>
-                  <div className="text-left">
-                    <div className="font-bold text-[10px] sm:text-sm md:text-base lg:text-lg">ÜCRETSİZ</div>
-                    <div className="text-[8px] sm:text-xs md:text-xs text-white/80 hidden sm:block">Sınırsız kullanım</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* 3-Step Guide Section - Moved to bottom */}
-            <div className="mt-12">
-              <div className="flex flex-col md:grid md:grid-cols-3 gap-4 md:gap-6">
-                {/* Step 1 */}
-                <div className="group bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-xl sm:rounded-2xl md:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-purple-300/50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:from-purple-500 hover:via-purple-600 hover:to-purple-700">
-                  <div className="flex flex-col items-center text-center space-y-2 sm:space-y-4">
-                    <div className="w-6 h-6 sm:w-8 sm:w-12 md:w-16 md:h-16 bg-white/30 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-                      <UploadCloud className="w-3 h-3 sm:w-4 sm:w-6 md:w-8 md:h-8 text-white" />
-                    </div>
-                    <div className="space-y-1 sm:space-y-2">
-                      <h3 className="text-sm sm:text-sm md:text-base lg:text-xl font-bold text-white">1. Dosya Seç</h3>
-                      <p className="text-xs sm:text-xs md:text-sm text-purple-50 leading-relaxed hidden md:block">
-                        Dönüştürmek istediğiniz dosyayı seçin veya sürükleyip bırakın.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Step 2 */}
-                <div className="group bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-xl sm:rounded-2xl md:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-purple-300/50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:from-purple-500 hover:via-purple-600 hover:to-purple-700">
-                  <div className="flex flex-col items-center text-center space-y-2 sm:space-y-4">
-                    <div className="w-6 h-6 sm:w-8 sm:w-12 md:w-16 md:h-16 bg-white/30 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-                      <SlidersHorizontal className="w-3 h-3 sm:w-4 sm:w-6 md:w-8 md:h-8 text-white" />
-                    </div>
-                    <div className="space-y-1 sm:space-y-2">
-                      <h3 className="text-sm sm:text-sm md:text-base lg:text-xl font-bold text-white">2. Biçim Seç</h3>
-                      <p className="text-xs sm:text-xs md:text-sm text-purple-50 leading-relaxed hidden md:block">
-                        İhtiyacınız olan hedef dosya formatını listeden belirleyin.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Step 3 */}
-                <div className="group bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-xl sm:rounded-2xl md:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-purple-300/50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:from-purple-500 hover:via-purple-600 hover:to-purple-700">
-                  <div className="flex flex-col items-center text-center space-y-2 sm:space-y-4">
-                    <div className="w-6 h-6 sm:w-8 sm:w-12 md:w-16 md:h-16 bg-white/30 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-                      <Download className="w-3 h-3 sm:w-4 sm:w-6 md:w-8 md:h-8 text-white" />
-                    </div>
-                    <div className="space-y-1 sm:space-y-2">
-                      <h3 className="text-sm sm:text-sm md:text-base lg:text-xl font-bold text-white">3. İndir</h3>
-                      <p className="text-xs sm:text-xs md:text-sm text-purple-50 leading-relaxed hidden md:block">
-                        Dönüştürülen dosyanızı yüksek hızda ve güvenle indirin.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <section className="mx-auto mt-20 grid max-w-4xl gap-8 sm:grid-cols-3">
+        {FEATURES.map((f) => (
+          <div key={f.title} className="text-center">
+            <f.icon className="mx-auto h-6 w-6 text-primary" />
+            <p className="mt-3 font-medium text-fg">{f.title}</p>
+            <p className="mt-1 text-sm text-fg-2">{f.text}</p>
           </div>
-        ) : (
-          <div className="w-full max-w-5xl px-2 sm:px-4 md:px-6">
-            {/* Files List */}
-            <div className="relative glass-droplet rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[3rem] shadow-3xl border border-white/20 overflow-visible">
-              <div className="p-4 sm:p-6 md:p-8">
-                <div className="flex items-center justify-between mb-4 sm:mb-6">
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 truncate">Yüklenen Dosyalar ({files.length})</h3>
-                </div>
-                
-                {/* Files List */}
-                <div className="space-y-2 sm:space-y-3 overflow-x-hidden">
-                  {files.map((fileState) => (
-                    <FileItem
-                      key={fileState.id}
-                      fileState={fileState}
-                      mode={mode}
-                      onRemove={removeFile}
-                      onFormatChange={updateFormat}
-                      onQualityChange={updateQuality}
-                      onDownload={downloadFile}
-                    />
-                  ))}
-                </div>
-                
-                {/* Action Buttons */}
-                <div className="mt-6 sm:mt-8 flex flex-col gap-3 sm:gap-4">
-                  <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-4">
-                    <label className="flex items-center gap-2 sm:gap-3 font-bold cursor-pointer transition-all hover:scale-105 px-4 sm:px-6 py-2.5 rounded-xl sm:rounded-2xl flex-1 justify-center text-white text-sm sm:text-base"
-                      style={{ 
-                        backdropFilter: 'blur(25px)', 
-                        backgroundColor: 'rgba(147, 51, 234, 0.85)', 
-                        border: '1px solid rgba(255, 255, 255, 0.2)', 
-                        boxShadow: '0 8px 24px rgba(147, 51, 234, 0.3)', 
-                        background: 'linear-gradient(170deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%), rgba(147, 51, 234, 0.85)', 
-                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' 
-                      }}>
-                      <Plus className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                      <span className="truncate">DAHA FAZLA EKLE</span>
-                      <input
-                        type="file"
-                        multiple
-                        accept="image/*,audio/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
-                        className="hidden"
-                        onChange={(e) => e.target.files && handleFilesSelect(Array.from(e.target.files))}
-                      />
-                    </label>
-                    <button
-                      onClick={removeAllFiles}
-                      className="flex items-center gap-2 sm:gap-3 text-white font-bold transition-all hover:scale-105 px-4 sm:px-6 py-2.5 rounded-xl sm:rounded-2xl text-sm sm:text-base"
-                      style={{ backdropFilter: 'blur(25px)', backgroundColor: 'rgba(220, 38, 38, 0.85)', border: '1px solid rgba(255, 255, 255, 0.2)', boxShadow: '0 8px 24px rgba(220, 38, 38, 0.3)', background: 'linear-gradient(170deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%), rgba(220, 38, 38, 0.85)', textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}
-                    >
-                      <Trash2 className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                      <span className="truncate">TÜMÜNÜ SİL</span>
-                    </button>
-                  </div>
-                  
-                  {/* Convert Button */}
-                  <button
-                    onClick={convertAll}
-                    disabled={isProcessing}
-                    className="w-full flex items-center justify-center gap-3 font-bold transition-all hover:scale-105 px-4 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-white text-sm sm:text-base"
-                    style={{
-                      backdropFilter: 'blur(25px)',
-                      backgroundColor: isProcessing ? 'rgba(148, 163, 184, 0.7)' : 'rgba(34, 197, 94, 0.85)',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      boxShadow: '0 8px 24px rgba(34, 197, 94, 0.3)',
-                      background: `linear-gradient(170deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%), ${isProcessing ? 'rgba(148, 163, 184, 0.7)' : 'rgba(34, 197, 94, 0.85)'}`,
-                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-                      opacity: isProcessing ? 0.8 : 1
-                    }}
-                  >
-                    {isProcessing ? 'İŞLENİYOR...' : 'ŞİMDİ DÖNÜŞTÜR'}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </main>
-      <Footer />
-      
-      {/* Limit Toast Notification */}
-      <LimitToast
-        message={toastMessage}
-        isVisible={showLimitToast}
-        onClose={() => setShowLimitToast(false)}
-      />
-    </div>
+        ))}
+      </section>
+    </>
   );
 }
