@@ -3,14 +3,15 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Crop, House, Menu, Minimize2, RefreshCw, X } from 'lucide-react';
 import Logo from './Logo';
 import { cn } from '@/lib/utils';
 
 const NAV = [
-  { href: '/donustur', label: 'Dönüştür' },
-  { href: '/sikistir', label: 'Sıkıştır' },
-  { href: '/kirp', label: 'Kırp' },
+  { href: '/', label: 'Ana sayfa', icon: House },
+  { href: '/donustur', label: 'Dönüştür', icon: RefreshCw },
+  { href: '/sikistir', label: 'Sıkıştır', icon: Minimize2 },
+  { href: '/kirp', label: 'Kırp', icon: Crop },
 ];
 
 export default function Header() {
@@ -19,21 +20,22 @@ export default function Header() {
   const open = openFor === pathname;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+    <header className="sticky top-0 z-40 border-b border-line bg-white/95 shadow-[0_1px_6px_rgb(60_64_67/0.08)] backdrop-blur">
+      <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-4 sm:px-6">
         <Logo />
-        <nav className="hidden items-center gap-1 sm:flex" aria-label="Ana menü">
+        <nav className="hidden items-center gap-1 rounded-full bg-surface-2 p-1 md:flex" aria-label="Ana menü">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                'rounded-full px-4 py-2 text-sm font-medium transition-colors',
+                'inline-flex items-center gap-2 rounded-full px-4 py-2 text-[15px] font-medium transition-all',
                 pathname === item.href
-                  ? 'bg-primary-container text-on-primary-container'
-                  : 'text-fg-2 hover:bg-surface-2 hover:text-fg'
+                  ? 'bg-white text-primary shadow-[0_1px_3px_rgb(60_64_67/0.2)]'
+                  : 'text-fg hover:bg-white/70'
               )}
             >
+              <item.icon className="h-4 w-4" />
               {item.label}
             </Link>
           ))}
@@ -41,13 +43,13 @@ export default function Header() {
         <div className="flex items-center gap-1">
           <Link
             href="/donustur"
-            className="hidden h-9 items-center rounded-full bg-primary px-4 text-sm font-medium text-on-primary transition-all hover:bg-primary-hover hover:shadow-card sm:inline-flex"
+            className="hidden h-9 items-center rounded-full bg-primary px-4 text-sm font-medium text-on-primary transition-all hover:bg-primary-hover hover:shadow-card md:inline-flex"
           >
             Hemen başla
           </Link>
           <button
             type="button"
-            className="grid h-10 w-10 place-items-center rounded-full text-fg-2 hover:bg-surface-2 sm:hidden"
+            className="grid h-10 w-10 place-items-center rounded-full text-fg-2 hover:bg-surface-2 md:hidden"
             onClick={() => setOpenFor(open ? null : pathname)}
             aria-label="Menü"
             aria-expanded={open}
@@ -57,16 +59,17 @@ export default function Header() {
         </div>
       </div>
       {open && (
-        <nav className="border-t border-line px-4 py-2 sm:hidden" aria-label="Mobil menü">
+        <nav className="border-t border-line px-4 py-2 md:hidden" aria-label="Mobil menü">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                'block rounded-full px-4 py-2.5 text-sm font-medium',
+                'flex items-center gap-3 rounded-full px-4 py-2.5 text-[15px] font-medium',
                 pathname === item.href ? 'bg-primary-container text-on-primary-container' : 'text-fg'
               )}
             >
+              <item.icon className="h-4 w-4" />
               {item.label}
             </Link>
           ))}

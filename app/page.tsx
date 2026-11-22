@@ -16,6 +16,7 @@ import {
   Upload,
   Zap,
 } from 'lucide-react';
+import { CompressArt, ConvertArt, CropArt, HeroIllustration } from '@/components/Illustrations';
 
 const TOOLS = [
   {
@@ -24,6 +25,9 @@ const TOOLS = [
     title: 'Dönüştür',
     text: 'Görüntü, ses, video ve belgeleri 40’tan fazla biçime çevirin.',
     tone: 'bg-[#e8f0fe] text-[#1a73e8]',
+    art: ConvertArt,
+    bg: 'from-[#e8f0fe] to-[#f3e8fd]',
+    points: ['Toplu dönüştürme', 'ZIP olarak indir', 'Video → MP3 / GIF'],
   },
   {
     href: '/sikistir',
@@ -31,6 +35,9 @@ const TOOLS = [
     title: 'Sıkıştır',
     text: 'Görüntü, PDF, ses ve video boyutunu kaliteyi koruyarak küçültün.',
     tone: 'bg-[#e6f4ea] text-[#188038]',
+    art: CompressArt,
+    bg: 'from-[#e6f4ea] to-[#e8f0fe]',
+    points: ['3 sıkıştırma seviyesi', 'Boyut karşılaştırması', 'Büyürse orijinal korunur'],
   },
   {
     href: '/kirp',
@@ -38,14 +45,17 @@ const TOOLS = [
     title: 'Kırp',
     text: 'Hazır oranlarla kırpın, döndürün ve çevirin.',
     tone: 'bg-[#fef7e0] text-[#e37400]',
+    art: CropArt,
+    bg: 'from-[#fef7e0] to-[#fce8e6]',
+    points: ['1:1, 16:9, 9:16 ve daha fazlası', 'Döndür ve çevir', 'PNG, JPG, WEBP çıktı'],
   },
 ];
 
 const FORMATS = [
-  { icon: ImageIcon, title: 'Görüntü', items: ['JPG', 'PNG', 'WEBP', 'AVIF', 'GIF', 'BMP', 'ICO', 'SVG'], tone: 'text-[#1a73e8]' },
-  { icon: Music, title: 'Ses', items: ['MP3', 'WAV', 'OGG', 'FLAC', 'M4A', 'AAC', 'OPUS'], tone: 'text-[#d93025]' },
-  { icon: Film, title: 'Video', items: ['MP4', 'WEBM', 'MOV', 'MKV', 'AVI', 'GIF'], tone: 'text-[#e37400]' },
-  { icon: FileText, title: 'Belge', items: ['PDF', 'DOCX', 'TXT', 'HTML', 'CSV', 'JSON'], tone: 'text-[#188038]' },
+  { icon: ImageIcon, title: 'Görüntü', items: ['JPG', 'PNG', 'WEBP', 'AVIF', 'GIF', 'BMP', 'ICO', 'SVG'], tone: 'text-[#1a73e8]', grad: 'from-[#6ea8fe] to-[#1a73e8]' },
+  { icon: Music, title: 'Ses', items: ['MP3', 'WAV', 'OGG', 'FLAC', 'M4A', 'AAC', 'OPUS'], tone: 'text-[#d93025]', grad: 'from-[#ff8a80] to-[#d93025]' },
+  { icon: Film, title: 'Video', items: ['MP4', 'WEBM', 'MOV', 'MKV', 'AVI', 'GIF'], tone: 'text-[#e37400]', grad: 'from-[#fdd663] to-[#e37400]' },
+  { icon: FileText, title: 'Belge', items: ['PDF', 'DOCX', 'TXT', 'HTML', 'CSV', 'JSON'], tone: 'text-[#188038]', grad: 'from-[#81c995] to-[#188038]' },
 ];
 
 const POPULAR = ['PNG → JPG', 'JPG → PDF', 'WEBP → PNG', 'MP4 → MP3', 'MOV → MP4', 'WAV → MP3', 'PDF → JPG', 'DOCX → PDF', 'Video → GIF', 'CSV → JSON'];
@@ -81,50 +91,6 @@ const FAQ = [
   },
 ];
 
-function HeroVisual() {
-  const rows = [
-    { name: 'tatil-fotografi.png', to: 'WEBP', size: '2,4 MB → 380 KB', icon: ImageIcon, tone: 'bg-[#e8f0fe] text-[#1a73e8]' },
-    { name: 'sunum-kaydi.mov', to: 'MP4', size: '48 MB → 12 MB', icon: Film, tone: 'bg-[#fef7e0] text-[#e37400]' },
-    { name: 'podcast-bolum-3.wav', to: 'MP3', size: '62 MB → 6,1 MB', icon: Music, tone: 'bg-[#fce8e6] text-[#d93025]' },
-    { name: 'sozlesme.docx', to: 'PDF', size: '86 KB → 112 KB', icon: FileText, tone: 'bg-[#e6f4ea] text-[#188038]' },
-  ];
-  return (
-    <div className="relative mx-auto w-full max-w-md">
-      <div className="absolute -inset-6 -z-10 rounded-[40px] bg-gradient-to-br from-[#e8f0fe] via-white to-[#e6f4ea] blur-2xl" />
-      <div className="overflow-hidden rounded-3xl border border-line bg-white shadow-[0_8px_32px_rgb(60_64_67/0.12)]">
-        <div className="flex items-center justify-between border-b border-line bg-surface px-4 py-3 text-xs text-fg-2">
-          <span>4 dosya</span>
-          <span className="inline-flex items-center gap-1 text-success">
-            <Check className="h-3.5 w-3.5" /> Tamamlandı
-          </span>
-        </div>
-        <ul className="divide-y divide-line">
-          {rows.map((r) => (
-            <li key={r.name} className="flex items-center gap-3 px-4 py-3">
-              <div className={`grid h-9 w-9 shrink-0 place-items-center rounded-full ${r.tone}`}>
-                <r.icon className="h-4 w-4" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm text-fg">{r.name}</p>
-                <p className="text-xs text-fg-2">{r.size}</p>
-              </div>
-              <span className="rounded-full border border-line px-2.5 py-1 text-xs font-medium text-fg-2">{r.to}</span>
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-primary-container text-on-primary-container">
-                <Download className="h-4 w-4" />
-              </span>
-            </li>
-          ))}
-        </ul>
-        <div className="flex justify-end border-t border-line px-4 py-3">
-          <span className="inline-flex h-8 items-center gap-1.5 rounded-full bg-primary px-4 text-xs font-medium text-on-primary">
-            <Download className="h-3.5 w-3.5" /> Tümünü indir (ZIP)
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Home() {
   return (
     <>
@@ -134,10 +100,10 @@ export default function Home() {
             <Lock className="h-3.5 w-3.5 text-primary" />
             Dosyalarınız cihazınızdan çıkmaz
           </span>
-          <h1 className="mt-5 text-4xl leading-[1.15] font-normal tracking-tight text-fg sm:text-5xl">
+          <h1 className="mt-5 text-4xl leading-[1.12] font-medium tracking-tight text-fg sm:text-[52px]">
             Her dosya için <span className="bg-gradient-to-r from-[#1a73e8] to-[#0b57d0] bg-clip-text text-transparent">tek bir araç</span>
           </h1>
-          <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-fg-2 lg:mx-0">
+          <p className="mx-auto mt-5 max-w-lg text-[17px] leading-relaxed text-fg-2 lg:mx-0">
             Görüntü, ses, video ve belgelerinizi saniyeler içinde dönüştürün, sıkıştırın ve kırpın. Ücretsiz, kayıtsız ve tamamen gizli.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
@@ -164,30 +130,43 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <HeroVisual />
+        <HeroIllustration className="mx-auto w-full max-w-[520px] drop-shadow-sm" />
       </section>
 
       <section id="araclar" className="scroll-mt-24 pt-20">
         <div className="text-center">
-          <h2 className="text-2xl font-normal tracking-tight text-fg sm:text-3xl">İhtiyacınız olan her şey</h2>
-          <p className="mt-2 text-sm text-fg-2">Bir araç seçin ve hemen başlayın.</p>
+          <h2 className="text-[28px] font-medium tracking-tight text-fg sm:text-[34px]">İhtiyacınız olan her şey</h2>
+          <p className="mt-2 text-[15px] text-fg-2">Bir araç seçin ve hemen başlayın.</p>
         </div>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           {TOOLS.map((t) => (
             <Link
               key={t.href}
               href={t.href}
-              className="group flex flex-col rounded-3xl border border-line bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-transparent hover:shadow-[0_4px_24px_rgb(60_64_67/0.15)]"
+              className="group flex flex-col overflow-hidden rounded-[28px] border border-line bg-white transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:shadow-[0_12px_40px_rgb(60_64_67/0.18)]"
             >
-              <div className={`grid h-12 w-12 place-items-center rounded-2xl ${t.tone}`}>
-                <t.icon className="h-5 w-5" />
+              <div className={`relative grid h-44 place-items-center bg-gradient-to-br ${t.bg}`}>
+                <t.art className="h-36 w-auto transition-transform duration-300 group-hover:scale-105" />
+                <div className={`absolute top-4 left-4 grid h-10 w-10 place-items-center rounded-xl bg-white shadow-sm ${t.tone.split(' ')[1]}`}>
+                  <t.icon className="h-5 w-5" />
+                </div>
               </div>
-              <p className="mt-5 text-lg font-medium text-fg">{t.title}</p>
-              <p className="mt-1 flex-1 text-sm leading-relaxed text-fg-2">{t.text}</p>
-              <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                Aç
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </span>
+              <div className="flex flex-1 flex-col p-6">
+                <p className="text-xl font-medium text-fg">{t.title}</p>
+                <p className="mt-1.5 text-[15px] leading-relaxed text-fg-2">{t.text}</p>
+                <ul className="mt-4 flex-1 space-y-2">
+                  {t.points.map((pt) => (
+                    <li key={pt} className="flex items-center gap-2 text-sm text-fg">
+                      <Check className="h-4 w-4 shrink-0 text-success" />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+                <span className="mt-6 inline-flex h-10 items-center justify-center gap-2 rounded-full bg-primary-container text-sm font-medium text-on-primary-container transition-colors group-hover:bg-primary group-hover:text-on-primary">
+                  {t.title} aracını aç
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
             </Link>
           ))}
         </div>
@@ -195,19 +174,24 @@ export default function Home() {
 
       <section className="pt-24">
         <div className="text-center">
-          <h2 className="text-2xl font-normal tracking-tight text-fg sm:text-3xl">Desteklenen biçimler</h2>
-          <p className="mt-2 text-sm text-fg-2">Görüntüden videoya, belgeden sese kadar.</p>
+          <h2 className="text-[28px] font-medium tracking-tight text-fg sm:text-[34px]">Desteklenen biçimler</h2>
+          <p className="mt-2 text-[15px] text-fg-2">Görüntüden videoya, belgeden sese kadar.</p>
         </div>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {FORMATS.map((f) => (
-            <div key={f.title} className="rounded-3xl bg-surface p-6">
-              <div className="flex items-center gap-2">
-                <f.icon className={`h-5 w-5 ${f.tone}`} />
-                <span className="font-medium text-fg">{f.title}</span>
+            <div key={f.title} className="rounded-3xl border border-line bg-white p-6 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgb(60_64_67/0.14)]">
+              <div className="flex items-center gap-3">
+                <span className={`grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br ${f.grad} text-white shadow-[inset_0_-4px_0_rgb(0_0_0/0.18),inset_0_2px_0_rgb(255_255_255/0.35),0_6px_14px_rgb(60_64_67/0.22)]`}>
+                  <f.icon className="h-6 w-6 drop-shadow" />
+                </span>
+                <div>
+                  <p className="text-[17px] font-medium text-fg">{f.title}</p>
+                  <p className="text-xs text-fg-2">{f.items.length} biçim</p>
+                </div>
               </div>
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {f.items.map((i) => (
-                  <span key={i} className="rounded-full bg-white px-2.5 py-1 text-xs font-medium text-fg-2 ring-1 ring-line">
+                  <span key={i} className="rounded-full bg-surface px-2.5 py-1 text-xs font-medium text-fg ring-1 ring-line">
                     {i}
                   </span>
                 ))}
@@ -230,8 +214,8 @@ export default function Home() {
 
       <section className="pt-24">
         <div className="text-center">
-          <h2 className="text-2xl font-normal tracking-tight text-fg sm:text-3xl">Üç adımda hazır</h2>
-          <p className="mt-2 text-sm text-fg-2">Kurulum yok, hesap yok.</p>
+          <h2 className="text-[28px] font-medium tracking-tight text-fg sm:text-[34px]">Üç adımda hazır</h2>
+          <p className="mt-2 text-[15px] text-fg-2">Kurulum yok, hesap yok.</p>
         </div>
         <ol className="mt-10 grid gap-4 md:grid-cols-3">
           {STEPS.map((s, i) => (
@@ -241,7 +225,7 @@ export default function Home() {
                 <s.icon className="h-5 w-5 text-fg-2" />
               </div>
               <p className="mt-5 font-medium text-fg">{s.title}</p>
-              <p className="mt-1 text-sm leading-relaxed text-fg-2">{s.text}</p>
+              <p className="mt-1.5 text-[15px] leading-relaxed text-fg-2">{s.text}</p>
             </li>
           ))}
         </ol>
@@ -255,22 +239,22 @@ export default function Home() {
                 <f.icon className="h-5 w-5" />
               </div>
               <p className="mt-4 font-medium text-fg">{f.title}</p>
-              <p className="mt-1 text-sm leading-relaxed text-fg-2">{f.text}</p>
+              <p className="mt-1.5 text-[15px] leading-relaxed text-fg-2">{f.text}</p>
             </div>
           ))}
         </div>
       </section>
 
       <section className="mx-auto max-w-3xl pt-24">
-        <h2 className="text-center text-2xl font-normal tracking-tight text-fg sm:text-3xl">Sık sorulan sorular</h2>
+        <h2 className="text-center text-[28px] font-medium tracking-tight text-fg sm:text-[34px]">Sık sorulan sorular</h2>
         <div className="mt-8 divide-y divide-line rounded-3xl border border-line">
           {FAQ.map((f) => (
             <details key={f.q} className="group px-6 py-4 [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-fg">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-medium text-fg">
                 {f.q}
                 <ChevronDown className="h-4 w-4 shrink-0 text-fg-2 transition-transform group-open:rotate-180" />
               </summary>
-              <p className="mt-2 text-sm leading-relaxed text-fg-2">{f.a}</p>
+              <p className="mt-2 text-[15px] leading-relaxed text-fg-2">{f.a}</p>
             </details>
           ))}
         </div>

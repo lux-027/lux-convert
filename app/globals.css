@@ -6,7 +6,7 @@
   --surface-2: #f1f3f4;
   --border: #dadce0;
   --text: #1f1f1f;
-  --text-2: #5f6368;
+  --text-2: #444746;
   --primary: #1a73e8;
   --primary-hover: #1765cc;
   --on-primary: #ffffff;
@@ -49,6 +49,8 @@ body {
 
 body {
   font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
